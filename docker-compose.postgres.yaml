@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:11-alpine
+    environment:
+      POSTGRES_USER: ${JWDJ_POSTGRES_USER:?}
+      POSTGRES_PASSWORD: ${JWDJ_POSTGRES_PASSWORD:?}
+      POSTGRES_DB: ${JWDJ_POSTGRES_NAME:?}
+    volumes:
+      - ./db:/var/lib/postgresql/data/
+    logging:
+      driver: 'none'
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN
+      - DAC_READ_SEARCH
+      - FOWNER
+      - SETGID
+      - SETUID
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: .
+      target: backend
+    expose:
+      - 8000
+    env_file:
+      - .env
+    restart: unless-stopped
+    depends_on:
+      - postgres
+
+  nginx:
+    build:
+      context: .
+      target: nginx
+    ports:
+      - 1337:80
+    depends_on:
+      - backend
+    restart: unless-stopped

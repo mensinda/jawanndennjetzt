@@ -1,0 +1,165 @@
+<template>
+  <ModalErrorMessage ref="errorModal" />
+  <ModalConfirm ref="confirmModal" @confirmedDeletion="deletePoll()" />
+  <div v-if="pollstatus == 'loading'">
+    <div class="root-display-container text-center">
+      <h1 class="display-1 text-muted">JaWannDennJetzt</h1>
+      <h3 class="mb-5 text-muted">When's it gonna be?</h3>
+      <h1 class="mb-5">Loading poll...</h1>
+      <small class="text-muted">{ ID = {{ $route.params.id }} }</small>
+    </div>
+  </div>
+  <NotFoundComp
+    v-if="pollstatus == '404'"
+    desc="The requested poll was not found"
+    :info="`{ ID = ${$route.params.id} }`"
+  />
+  <div v-if="pollstatus == 'ready'" class="container">
+    <div class="d-flex flex-row align-items-center">
+      <h1 class="flex-grow-1 text-center">Edit poll</h1>
+      <button
+        class="btn btn-info"
+        type="button"
+        @click="$router.push({ name: 'poll', params: { id: $route.params.id } })"
+      >
+        <h4 style="margin: 0">Return to poll ↲</h4>
+      </button>
+    </div>
+    <EditorComp submitMsg="↻ Update Poll ↻" ref="editComp" :canEditOptions="false" @submit="updatePoll" />
+    <div class="d-flex flex-row">
+      <button @click="confirmModal?.doShow()" class="btn btn-lg btn-danger col" type="button">🔥 Delete Poll 🔥</button>
+    </div>
+    <hr class="mt-4 mb-4" />
+    <div class="card">
+      <div class="card-header">Preview</div>
+      <div class="card-body">
+        <PollComp mode="preview" />
+        <hr v-if="store.description.trim()" />
+        <PollDescription v-if="store.description.trim()" />
+      </div>
+    </div>
+  </div>
+  <div class="mb-5" />
+</template>
+
+<script lang="ts">
+import PollComp from "@/components/PollComp.vue"; // @ is an alias to /src
+import EditorComp from "@/components/EditorComp.vue";
+import ModalErrorMessage from "@/components/ModalErrorMessage.vue";
+import ModalConfirm from "@/components/ModalConfirm.vue";
+import NotFoundComp from "@/components/NotFoundComp.vue";
+import axios from "axios";
+import { defineComponent, ref } from "vue";
+import { pollStore } from "@/store";
+import { endpointUrl, setStoreFromResponse } from "@/util";
+import PollDescription from "@/components/PollDescription.vue";
+import router from "@/router";
+
+export default defineComponent({
+  components: {
+    ModalErrorMessage,
+    ModalConfirm,
+    EditorComp,
+    PollDescription,
+    PollComp,
+    NotFoundComp,
+  },
+
+  data() {
+    return {
+      pollstatus: "loading",
+    };
+  },
+
+  setup() {
+    const store = pollStore();
+    const errorModal = ref<typeof ModalErrorMessage | null>(null);
+    const confirmModal = ref<typeof ModalConfirm | null>(null);
+    const editComp = ref<typeof EditorComp | null>(null);
+
+    return { store, errorModal, confirmModal, editComp };
+  },
+
+  mounted() {
+    this.pollstatus = "loading";
+    this.reload();
+  },
+
+  beforeUnmount() {
+    this.store.footerInfo = "";
+  },
+
+  methods: {
+    reload() {
+      if (this.editComp) {
+        this.editComp.hasChanges = false;
+      }
+      axios({
+        url: endpointUrl("api/poll/" + this.$route.params.id),
+        method: "get",
+      })
+        .then((x) => {
+          setStoreFromResponse(x.data);
+          this.pollstatus = "ready";
+        })
+        .catch((x) => {
+          if (x.response.data.code == "POLL_NOT_FOUND") {
+            this.pollstatus = "404";
+            return;
+          }
+          if (this.errorModal == null) {
+            return;
+          }
+          this.errorModal.doShow();
+          this.errorModal.data = x.response.data;
+        });
+    },
+
+    deletePoll() {
+      axios({
+        url: endpointUrl("api/poll/" + this.$route.params.id + "/delete"),
+        method: "post",
+        data: {},
+      })
+        .then((_) => {
+          router.replace("/");
+        })
+        .catch((x) => {
+          if (this.errorModal == null) {
+            return;
+          }
+          this.errorModal.doShow();
+          this.errorModal.data = x.response.data;
+        });
+    },
+
+    updatePoll() {
+      this.pollstatus = "updating";
+
+      axios({
+        url: endpointUrl("api/poll/" + this.$route.params.id + "/update"),
+        method: "post",
+        data: {
+          name: this.store.name,
+          description: this.store.description,
+          allow_not_voted: this.store.allowNotVoted,
+        },
+      })
+        .then((_) => {
+          this.reload();
+          if (this.editComp) {
+            this.editComp.hasChanges = false;
+          }
+        })
+        .catch((x) => {
+          if (this.errorModal == null) {
+            return;
+          }
+          this.errorModal.doShow();
+          this.errorModal.data = x.response.data;
+          this.reload();
+        });
+    },
+  },
+});
+</script>

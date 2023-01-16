@@ -1,0 +1,4 @@
+**/.vscode
+**/dist
+**/node_modules
+**/__pycache__
