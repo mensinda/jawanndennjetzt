@@ -1,5 +1,7 @@
 # JaWannDennJetzt
 
+![SC1](img/sc1.png)
+
 This project aims to address one of mankinds toughest challenges to date: **Scheduling a date for a group of people.**
 
 Taking inspiration from the similarly named project **_JaWannDenn_** (German for _'So, when is it gonna be?'_), we started from scratch and built **_JaWannDennJetzt_** (German for _'So, when is it **finally** gonna be?!'_).
