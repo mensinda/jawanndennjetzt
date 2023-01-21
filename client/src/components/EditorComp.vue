@@ -1,5 +1,5 @@
 <template>
-  <ModalDateRange ref="rangeModal" format-str="'**'dd.MM'**<br>'yyyy" @rangeSelected="insertDateRange" />
+  <ModalDateRange ref="rangeModal" format-str="EEEEEE'<br>**'dd.MM'**<br>'yyyy" @rangeSelected="insertDateRange" />
   <!-- Name, description, and settings -->
   <div class="card mb-3">
     <label class="card-header">General settings</label>
