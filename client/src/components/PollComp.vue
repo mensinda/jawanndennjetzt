@@ -179,7 +179,11 @@ export default defineComponent({
     },
 
     vueDisplayBallots(): Ballot[] {
-      if ((this.mode == "normal" && !this.store.isClosed) || this.store.myBallot == null) {
+      if (
+        (this.mode == "normal" && !this.store.isClosed) ||
+        (this.store.isClosed && !this.store.alreadyVoted) ||
+        this.store.myBallot == null
+      ) {
         return this.store.ballots;
       }
       let res = [...this.store.ballots];
