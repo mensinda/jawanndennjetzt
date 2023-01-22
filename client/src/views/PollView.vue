@@ -32,37 +32,52 @@
     </div>
     <!--  - Submit button -->
     <div class="mb-3">
-      <div class="d-flex flex-row">
-        <button @click="doSubmit" :class="submitBtnCls" type="button">
-          {{ submitMsg }}
-        </button>
-        <button
-          v-if="store.isOwner"
-          @click="$router.push({ name: 'edit', params: { id: $route.params.id } })"
-          class="btn btn-info control-btn ms-2 flex-shrink-2"
-          :class="{ disabled: pollstatus == 'updating' || store.isClosed }"
-          type="button"
-        >
-          🛠 Edit poll
-        </button>
-        <button
-          v-if="store.isOwner && !store.isClosed"
-          @click="closeModal?.doShow()"
-          class="btn btn-danger control-btn ms-2 flex-shrink-2"
-          :class="{ disabled: pollstatus == 'updating' || (store.ballots.length == 0 && !store.alreadyVoted) }"
-          type="button"
-        >
-          🔒 Close poll
-        </button>
-        <button
-          v-if="store.isOwner && store.isClosed"
-          @click="doPollReopen"
-          class="btn btn-success control-btn ms-2 flex-shrink-2"
-          :class="{ disabled: pollstatus == 'updating' }"
-          type="button"
-        >
-          🔓 Reopen poll
-        </button>
+      <div class="vote-button-container">
+        <div class="submit-container">
+          <button @click="doSubmit" class="btn" :class="submitBtnCls" type="button">
+            {{ submitMsg }}
+          </button>
+        </div>
+        <div class="control-container">
+          <button
+            v-if="store.isOwner"
+            @click="$router.push({ name: 'edit', params: { id: $route.params.id } })"
+            class="btn btn-info"
+            :class="{ disabled: pollstatus == 'updating' || store.isClosed }"
+            type="button"
+          >
+            🛠 Edit poll
+          </button>
+          <button
+            v-if="store.isOwner && !store.isClosed"
+            @click="closeModal?.doShow()"
+            class="btn btn-danger"
+            :class="{ disabled: pollstatus == 'updating' || (store.ballots.length == 0 && !store.alreadyVoted) }"
+            type="button"
+          >
+            🔒 Close poll
+          </button>
+          <button
+            v-if="store.isOwner && store.isClosed"
+            @click="doPollReopen"
+            class="btn btn-success"
+            :class="{ disabled: pollstatus == 'updating' }"
+            type="button"
+          >
+            🔓 Reopen poll
+          </button>
+          <button @click="doCopyLink" class="btn btn-info" :class="{ disabled: hasJustCopied }" type="button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+              <path
+                d="M4.715 6.542 3.343 7.914a3 3 0 1 0 4.243 4.243l1.828-1.829A3 3 0 0 0 8.586 5.5L8 6.086a1.002 1.002 0 0 0-.154.199 2 2 0 0 1 .861 3.337L6.88 11.45a2 2 0 1 1-2.83-2.83l.793-.792a4.018 4.018 0 0 1-.128-1.287z"
+              />
+              <path
+                d="M6.586 4.672A3 3 0 0 0 7.414 9.5l.775-.776a2 2 0 0 1-.896-3.346L9.12 3.55a2 2 0 1 1 2.83 2.83l-.793.792c.112.42.155.855.128 1.287l1.372-1.372a3 3 0 1 0-4.243-4.243L6.586 4.672z"
+              />
+            </svg>
+            {{ hasJustCopied ? "Link copied!" : "Copy link" }}
+          </button>
+        </div>
       </div>
     </div>
 
@@ -101,11 +116,13 @@ export default defineComponent({
     return {
       pollstatus: "loading",
       hasChanges: false,
+      hasJustCopied: false,
     };
   },
 
   mounted() {
     this.pollstatus = "loading";
+    this.hasJustCopied = false;
     this.store.reset();
     this.reload();
   },
@@ -132,12 +149,9 @@ export default defineComponent({
 
     submitBtnCls(): { [key: string]: boolean } {
       return {
-        btn: true,
         "btn-success": this.canSubmit,
         "btn-secondary": !this.canSubmit,
         disabled: !this.canSubmit || this.pollstatus == "updating" || !this.hasChanges,
-        "control-btn": true,
-        col: true,
       };
     },
 
@@ -262,6 +276,60 @@ export default defineComponent({
           this.reload();
         });
     },
+
+    async doCopyLink() {
+      if (this.hasJustCopied) {
+        return;
+      }
+      try {
+        await navigator.clipboard.writeText(location.origin + this.$route.fullPath);
+        this.hasJustCopied = true;
+        setTimeout(() => {
+          this.hasJustCopied = false;
+        }, 5000);
+      } catch (_) {
+        this.hasJustCopied = false;
+      }
+    },
   },
 });
 </script>
+
+<style lang="scss">
+.vote-button-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  //grid-template-columns: 1fr max-content;
+  gap: 10px;
+
+  .submit-container {
+    flex-grow: 16;
+    display: flex;
+    gap: 10px;
+
+    @media (min-width: 280px) {
+      min-width: 256px;
+    }
+
+    button {
+      flex-grow: 1;
+    }
+  }
+
+  .control-container {
+    flex-grow: 1;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+
+    button {
+      flex-grow: 1;
+      min-width: 128px;
+      @media (min-width: 256px) {
+        width: 128px;
+      }
+    }
+  }
+}
+</style>
