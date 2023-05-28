@@ -15,9 +15,9 @@
           placeholder="New poll name..."
           @input="hasChanges = true"
         />
-        <small class="form-text text-muted user-select-none"
-          >The name of the poll to create. Markdown syntax is supported.</small
-        >
+        <small class="form-text text-muted user-select-none">
+          The name of the poll to create. Markdown syntax is supported.
+        </small>
       </div>
       <div class="form-check mb-3">
         <input

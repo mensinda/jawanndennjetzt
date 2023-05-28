@@ -171,7 +171,7 @@ export default defineComponent({
         return false;
       }
       let numVoted = 0;
-      for (let vote of this.store.myBallot.votes) {
+      for (const vote of this.store.myBallot.votes) {
         if (vote.status != "-") {
           numVoted++;
         }

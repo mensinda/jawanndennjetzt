@@ -186,7 +186,7 @@ export default defineComponent({
       ) {
         return this.store.ballots;
       }
-      let res = [...this.store.ballots];
+      const res = [...this.store.ballots];
       res.push(this.store.myBallot);
       return res;
     },
