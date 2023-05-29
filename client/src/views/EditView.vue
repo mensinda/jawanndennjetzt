@@ -15,9 +15,9 @@
     :info="`{ ID = ${$route.params.id} }`"
   />
   <div v-if="pollstatus == 'ready'" class="container">
-    <div class="d-flex flex-row align-items-center">
-      <h1 class="flex-grow-1 text-center">Edit poll</h1>
-      <button
+    <div class="edit-head-grid-helper">
+      <h1 class="text-center">Edit poll</h1>
+        <button
         class="btn btn-info"
         type="button"
         @click="$router.push({ name: 'poll', params: { id: $route.params.id } })"
@@ -163,3 +163,22 @@ export default defineComponent({
   },
 });
 </script>
+
+<style lang="scss">
+.edit-head-grid-helper {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+}
+
+.edit-head-grid-helper h1 {
+  grid-row: 1 / span 1;
+  grid-column: 1 / span 2;
+}
+
+.edit-head-grid-helper button {
+  grid-row: 1/ span 1;
+  grid-column: 2 / span 1;
+  align-self: center;
+  justify-self: end;
+}
+</style>
