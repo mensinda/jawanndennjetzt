@@ -22,7 +22,7 @@ from .serializers import NewPollSerializer, SubmitVoteSerializer, UpdatePollSeri
 from .errors import *
 from .cleanup import do_poll_cleanup
 
-def handleException(f):
+def handle_exception(f):
     @wraps(f)
     def wrapper(*args, **kwargs):
         try:
@@ -41,21 +41,27 @@ def handleException(f):
 
     return wrapper
 
-@require_GET
-@handleException
-def session_setup(request):
-    if not request.session or not request.session.session_key:
-        request.session.save()
-    token = django.middleware.csrf.get_token(request)
+def refresh_session(f):
+    @wraps(f)
+    def wrapper(request, *args, **kwargs):
+        try:
+            request.session.save()
+            request.session.modified = True
+        except Exception as e:
+            traceback.print_exc()
+            return JsonResponse({
+                'status': 'error',
+                'msg': str(e),
+                'code': 'UNKNOWN_ERROR',
+            }, status=500)
+        return f(request, *args, **kwargs)
 
-    return JsonResponse({'session': request.session.session_key, 'token': token})
+    return wrapper
 
 @require_POST
-@handleException
+@handle_exception
+@refresh_session
 def new_poll(request):
-    if not request.session or not request.session.session_key:
-        raise NoSession()
-
     ser = NewPollSerializer(data=JSONParser().parse(io.BytesIO(request.body)))
     if not ser.is_valid():
         raise InvalidDataError(json.dumps(ser.errors, indent=2))
@@ -85,11 +91,9 @@ def new_poll(request):
     return JsonResponse({'status': 'OK', 'id': poll.id})
 
 @require_GET
-@handleException
+@handle_exception
+@refresh_session
 def get_poll_exists(request, poll_id: str) -> HttpResponse:
-    if not request.session or not request.session.session_key:
-        raise NoSession()
-
     if not poll_id or not isinstance(poll_id, str):
         raise InvalidDataError(f'ID "{poll_id}" is not a string or empty')
 
@@ -107,11 +111,9 @@ def get_poll_exists(request, poll_id: str) -> HttpResponse:
             raise InvalidInternalState(f'Internal Error: Found {n_found} entries for "{poll_id}"')
 
 @require_GET
-@handleException
+@handle_exception
+@refresh_session
 def get_poll(request, poll_id: str) -> HttpResponse:
-    if not request.session or not request.session.session_key:
-        raise NoSession()
-
     if not poll_id or not isinstance(poll_id, str):
         raise InvalidDataError(f'ID "{poll_id}" is not a string or empty')
 
@@ -152,11 +154,9 @@ def get_poll(request, poll_id: str) -> HttpResponse:
     })
 
 @require_POST
-@handleException
+@handle_exception
+@refresh_session
 def do_vote(request, poll_id: str) -> HttpResponse:
-    if not request.session or not request.session.session_key:
-        raise NoSession()
-
     if not poll_id or not isinstance(poll_id, str):
         raise InvalidDataError(f'ID "{poll_id}" is not a string or empty')
 
@@ -196,11 +196,9 @@ def do_vote(request, poll_id: str) -> HttpResponse:
     return JsonResponse({'status': 'OK', 'id': poll.id})
 
 @require_POST
-@handleException
+@handle_exception
+@refresh_session
 def do_update(request, poll_id: str) -> HttpResponse:
-    if not request.session or not request.session.session_key:
-        raise NoSession()
-
     if not poll_id or not isinstance(poll_id, str):
         raise InvalidDataError(f'ID "{poll_id}" is not a string or empty')
 
@@ -228,11 +226,9 @@ def do_update(request, poll_id: str) -> HttpResponse:
     return JsonResponse({'status': 'OK', 'id': poll.id})
 
 @require_POST
-@handleException
+@handle_exception
+@refresh_session
 def do_close(request, poll_id: str) -> HttpResponse:
-    if not request.session or not request.session.session_key:
-        raise NoSession()
-
     if not poll_id or not isinstance(poll_id, str):
         raise InvalidDataError(f'ID "{poll_id}" is not a string or empty')
 
@@ -259,11 +255,9 @@ def do_close(request, poll_id: str) -> HttpResponse:
     return JsonResponse({'status': 'OK', 'id': poll_id})
 
 @require_POST
-@handleException
+@handle_exception
+@refresh_session
 def do_reopen(request, poll_id: str) -> HttpResponse:
-    if not request.session or not request.session.session_key:
-        raise NoSession()
-
     if not poll_id or not isinstance(poll_id, str):
         raise InvalidDataError(f'ID "{poll_id}" is not a string or empty')
 
@@ -285,11 +279,9 @@ def do_reopen(request, poll_id: str) -> HttpResponse:
     return JsonResponse({'status': 'OK', 'id': poll.id})
 
 @require_POST
-@handleException
+@handle_exception
+@refresh_session
 def do_delete(request, poll_id: str) -> HttpResponse:
-    if not request.session or not request.session.session_key:
-        raise NoSession()
-
     if not poll_id or not isinstance(poll_id, str):
         raise InvalidDataError(f'ID "{poll_id}" is not a string or empty')
 
@@ -309,11 +301,9 @@ def do_delete(request, poll_id: str) -> HttpResponse:
     return JsonResponse({'status': 'OK', 'id': poll.id})
 
 @require_GET
-@handleException
+@handle_exception
+@refresh_session
 def my_polls(request) -> HttpResponse:
-    if not request.session or not request.session.session_key:
-        raise NoSession()
-
     with transaction.atomic():
         created_by_me = Poll.objects.filter(owner=request.session.session_key).order_by('created')
         voted_in = Ballot.objects.filter(owner=request.session.session_key).order_by('created')

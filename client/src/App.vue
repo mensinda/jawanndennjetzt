@@ -57,25 +57,12 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { endpointUrl } from "@/util";
 import { pollStore } from "@/store";
-import axios from "axios";
 
 export default defineComponent({
   setup() {
     const store = pollStore();
     document.title = "JaWannDennJetzt";
-
-    axios({
-      url: endpointUrl("api/session"),
-      method: "get",
-    })
-      .then((_) => {
-        // nothing to do
-      })
-      .catch((_) => {
-        // nothing to do
-      });
 
     return { store };
   },
