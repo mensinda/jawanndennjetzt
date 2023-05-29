@@ -1,6 +1,8 @@
 import { Ballot, Option, Vote, votesFromStr } from "./model";
 import { pollStore } from "./store";
 import { JWDJ_SUBPATH } from "@/config";
+import { marked } from "marked";
+import { sanitize } from "dompurify";
 
 function endpointUrl(url: string): string {
   return JWDJ_SUBPATH + url;
@@ -62,4 +64,8 @@ function sumVotesData() {
   };
 }
 
-export { endpointUrl, sumVotesData, setStoreFromResponse };
+function markdown(raw: string): string {
+  return sanitize(marked.parse(raw, { gfm: true, mangle: false, headerIds: false }), { USE_PROFILES: { html: true } });
+}
+
+export { endpointUrl, sumVotesData, setStoreFromResponse, markdown };

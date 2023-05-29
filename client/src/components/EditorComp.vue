@@ -184,13 +184,12 @@
 
 <script lang="ts">
 import draggable from "vuedraggable";
-import { marked } from "marked";
-import { sanitize } from "dompurify";
 import { defineComponent, ref } from "vue";
 import { pollStore } from "@/store";
 import { Option } from "@/model";
 import { RandomPoll } from "@/randomPoll";
 import { LIMITS } from "@/limits";
+import { markdown } from "@/util";
 import ModalDateRange from "./ModalDateRange.vue";
 
 export default defineComponent({
@@ -232,9 +231,7 @@ export default defineComponent({
   },
 
   methods: {
-    markdown(raw: string): string {
-      return sanitize(marked.parse(raw, { gfm: true }), { USE_PROFILES: { html: true } });
-    },
+    markdown,
 
     newOptAfter(opt: Option) {
       this.newOpt(opt.index + 1);

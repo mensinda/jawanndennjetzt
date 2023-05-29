@@ -106,13 +106,11 @@
 
 <script lang="ts">
 import { pollStore } from "@/store";
-import { marked } from "marked";
 import { defineComponent } from "vue";
-import { sanitize } from "dompurify";
 import VoteComp from "./VoteComp.vue";
 import { Ballot } from "@/model";
 import { LIMITS } from "@/limits";
-import { sumVotesData } from "@/util";
+import { sumVotesData, markdown } from "@/util";
 
 export default defineComponent({
   components: {
@@ -139,9 +137,7 @@ export default defineComponent({
   },
 
   methods: {
-    markdown(raw: string): string {
-      return sanitize(marked.parse(raw, { gfm: true }), { USE_PROFILES: { html: true } });
-    },
+    markdown,
     isBestOption(optIdx: number): boolean {
       return this.sumData.maxYes == this.sumData.yes[optIdx] && this.sumData.yes[optIdx] > 0;
     },

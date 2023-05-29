@@ -101,9 +101,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { pollStore } from "@/store";
-import { sumVotesData } from "@/util";
-import { sanitize } from "dompurify";
-import { marked } from "marked";
+import { sumVotesData, markdown } from "@/util";
 
 export default defineComponent({
   emits: ["optionPicked"],
@@ -159,9 +157,7 @@ export default defineComponent({
       return this.sumData.maxMaybe == this.sumData.maybe[optIdx] && this.sumData.maybe[optIdx] > 0;
     },
 
-    markdown(raw: string): string {
-      return sanitize(marked.parse(raw, { gfm: true }), { USE_PROFILES: { html: true } });
-    },
+    markdown,
 
     handleConfirm() {
       this.$emit("optionPicked", this.selectedIdx);

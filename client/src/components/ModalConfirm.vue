@@ -28,8 +28,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { sanitize } from "dompurify";
-import { marked } from "marked";
+import { markdown } from "@/util";
 
 export default defineComponent({
   emits: ["confirmedDeletion"],
@@ -45,9 +44,7 @@ export default defineComponent({
       this.show = true;
     },
 
-    markdown(raw: string): string {
-      return sanitize(marked.parse(raw, { gfm: true }), { USE_PROFILES: { html: true } });
-    },
+    markdown,
 
     handleConfirm() {
       this.$emit("confirmedDeletion");

@@ -32,9 +32,7 @@
 <script lang="ts">
 import axios from "axios";
 import { defineComponent, ref } from "vue";
-import { marked } from "marked";
-import { sanitize } from "dompurify";
-import { endpointUrl } from "@/util";
+import { endpointUrl, markdown } from "@/util";
 import ModalErrorMessage from "@/components/ModalErrorMessage.vue";
 
 export default defineComponent({
@@ -65,9 +63,7 @@ export default defineComponent({
   },
 
   methods: {
-    markdown(raw: string): string {
-      return sanitize(marked.parse(raw, { gfm: true }), { USE_PROFILES: { html: true } });
-    },
+    markdown,
 
     reload() {
       this.loading = true;
