@@ -26,6 +26,10 @@
                   format="dd.MM.yyyy"
                 />
               </div>
+              <div class="form-check mt-3">
+                <input class="form-check-input" type="checkbox" id="yearCheckBox" v-model="includeYear" />
+                <label class="form-check-label" for="yearCheckBox">Include the year in the generated options</label>
+              </div>
             </div>
             <div class="modal-footer">
               <button
@@ -62,19 +66,30 @@ export default defineComponent({
     formatStr: {
       default: "dd.MM.yyyy",
     },
+    formatStrNoYear: {
+      default: "dd.MM",
+    },
   },
 
   data() {
     return {
       show: false,
       dateRange: ref(),
+      includeYear: true,
     };
+  },
+
+  computed: {
+    realFormatStr() {
+      return this.includeYear ? this.formatStr : this.formatStrNoYear;
+    },
   },
 
   methods: {
     doShow() {
       this.show = true;
       this.dateRange = null;
+      this.includeYear = true;
     },
 
     handleConfirm() {
@@ -82,7 +97,7 @@ export default defineComponent({
         return;
       }
       const res = eachDayOfInterval({ start: this.dateRange[0], end: this.dateRange[1] });
-      const resStr = res.map((x) => format(x, this.formatStr));
+      const resStr = res.map((x) => format(x, this.realFormatStr));
       this.$emit("rangeSelected", resStr);
       this.show = false;
     },

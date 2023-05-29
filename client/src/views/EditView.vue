@@ -17,7 +17,7 @@
   <div v-if="pollstatus == 'ready'" class="container">
     <div class="edit-head-grid-helper">
       <h1 class="text-center">Edit poll</h1>
-        <button
+      <button
         class="btn btn-info"
         type="button"
         @click="$router.push({ name: 'poll', params: { id: $route.params.id } })"
@@ -176,7 +176,7 @@ export default defineComponent({
 }
 
 .edit-head-grid-helper button {
-  grid-row: 1/ span 1;
+  grid-row: 1 / span 1;
   grid-column: 2 / span 1;
   align-self: center;
   justify-self: end;
