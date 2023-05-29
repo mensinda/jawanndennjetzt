@@ -17,6 +17,7 @@
                   v-model="dateRange"
                   range
                   inline
+                  style="width: auto !important"
                   :partial-range="false"
                   :max-range="64"
                   :hide-navigation="['time']"
