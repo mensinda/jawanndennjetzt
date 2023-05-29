@@ -86,6 +86,28 @@ def new_poll(request):
 
 @require_GET
 @handleException
+def get_poll_exists(request, poll_id: str) -> HttpResponse:
+    if not request.session or not request.session.session_key:
+        raise NoSession()
+
+    if not poll_id or not isinstance(poll_id, str):
+        raise InvalidDataError(f'ID "{poll_id}" is not a string or empty')
+
+    with transaction.atomic():
+        n_found = Poll.objects.filter(pk=poll_id).count()
+        if n_found == 0:
+            return JsonResponse({
+                'found': False
+            })
+        elif n_found == 1:
+            return JsonResponse({
+                'found': True
+            })
+        else:
+            raise InvalidInternalState(f'Internal Error: Found {n_found} entries for "{poll_id}"')
+
+@require_GET
+@handleException
 def get_poll(request, poll_id: str) -> HttpResponse:
     if not request.session or not request.session.session_key:
         raise NoSession()

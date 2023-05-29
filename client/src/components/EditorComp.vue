@@ -227,7 +227,12 @@ export default defineComponent({
   },
 
   mounted() {
-    this.counter = 1;
+    this.counter = this.store.options.length + 1;
+
+    // Fixup for copying data from existing polls
+    if (this.store.options.length > 0) {
+      this.optionChangeFixup();
+    }
   },
 
   methods: {

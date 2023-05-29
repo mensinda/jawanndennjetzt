@@ -29,6 +29,7 @@ urlpatterns = [
     path(f'{_prefix}api/new', views.new_poll),
     path(f'{_prefix}api/my-polls', views.my_polls),
     path(f'{_prefix}api/poll/<str:poll_id>', views.get_poll),
+    path(f'{_prefix}api/poll/<str:poll_id>/exists', views.get_poll_exists),
     path(f'{_prefix}api/poll/<str:poll_id>/vote', views.do_vote),
     path(f'{_prefix}api/poll/<str:poll_id>/update', views.do_update),
     path(f'{_prefix}api/poll/<str:poll_id>/close', views.do_close),
