@@ -5,7 +5,7 @@ from django.http.response import JsonResponse, HttpResponse
 from django.db import transaction
 from django.conf import settings
 from rest_framework.parsers import JSONParser
-import django.middleware.csrf
+from django.views.decorators.csrf import ensure_csrf_cookie
 import json
 import base64
 import uuid
@@ -44,9 +44,18 @@ def handle_exception(f):
 def refresh_session(f):
     @wraps(f)
     def wrapper(request, *args, **kwargs):
+        if not request.session.session_key:
+            request.session.save()
         request.session.modified = True
         return f(request, *args, **kwargs)
     return wrapper
+
+@require_GET
+@handle_exception
+@refresh_session
+@ensure_csrf_cookie
+def session_setup(request):
+    return JsonResponse({'status': 'ok'})
 
 @require_POST
 @handle_exception
@@ -83,6 +92,7 @@ def new_poll(request):
 @require_GET
 @handle_exception
 @refresh_session
+@ensure_csrf_cookie
 def get_poll_exists(request, poll_id: str) -> HttpResponse:
     if not poll_id or not isinstance(poll_id, str):
         raise InvalidDataError(f'ID "{poll_id}" is not a string or empty')
@@ -103,6 +113,7 @@ def get_poll_exists(request, poll_id: str) -> HttpResponse:
 @require_GET
 @handle_exception
 @refresh_session
+@ensure_csrf_cookie
 def get_poll(request, poll_id: str) -> HttpResponse:
     if not poll_id or not isinstance(poll_id, str):
         raise InvalidDataError(f'ID "{poll_id}" is not a string or empty')
@@ -293,6 +304,7 @@ def do_delete(request, poll_id: str) -> HttpResponse:
 @require_GET
 @handle_exception
 @refresh_session
+@ensure_csrf_cookie
 def my_polls(request) -> HttpResponse:
     with transaction.atomic():
         created_by_me = Poll.objects.filter(owner=request.session.session_key).order_by('created')
