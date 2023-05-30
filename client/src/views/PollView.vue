@@ -149,14 +149,18 @@ export default defineComponent({
 
     submitBtnCls(): { [key: string]: boolean } {
       return {
-        "btn-success": this.canSubmit,
-        "btn-secondary": !this.canSubmit,
-        disabled: !this.canSubmit || this.pollstatus == "updating" || !this.hasChanges,
+        "btn-success": !this.submitDisabled,
+        "btn-secondary": this.submitDisabled,
+        disabled: this.submitDisabled,
       };
     },
 
     canSubmit(): boolean {
       return this.hasUserName && this.hasVoted && !this.store.isClosed;
+    },
+
+    submitDisabled() {
+      return !this.canSubmit || this.pollstatus == "updating" || !this.hasChanges;
     },
 
     hasUserName(): boolean {
