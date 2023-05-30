@@ -44,18 +44,8 @@ def handle_exception(f):
 def refresh_session(f):
     @wraps(f)
     def wrapper(request, *args, **kwargs):
-        try:
-            request.session.save()
-            request.session.modified = True
-        except Exception as e:
-            traceback.print_exc()
-            return JsonResponse({
-                'status': 'error',
-                'msg': str(e),
-                'code': 'UNKNOWN_ERROR',
-            }, status=500)
+        request.session.modified = True
         return f(request, *args, **kwargs)
-
     return wrapper
 
 @require_POST
