@@ -65,6 +65,16 @@ function sumVotesData() {
 }
 
 function markdown(raw: string): string {
+  raw = raw.replaceAll("<m>", "<span class=\"text-muted\">");
+  raw = raw.replaceAll("<w>", "<span class=\"text-warning\">");
+  raw = raw.replaceAll("<d>", "<span class=\"text-danger\">");
+  raw = raw.replaceAll("<s>", "<span class=\"text-success\">");
+  raw = raw.replaceAll("<i>", "<span class=\"text-info\">");
+  raw = raw.replaceAll("</m>", "</span>");
+  raw = raw.replaceAll("</w>", "</span>");
+  raw = raw.replaceAll("</d>", "</span>");
+  raw = raw.replaceAll("</s>", "</span>");
+  raw = raw.replaceAll("</i>", "</span>");
   return sanitize(marked.parse(raw, { gfm: true, mangle: false, headerIds: false }), { USE_PROFILES: { html: true } });
 }
 

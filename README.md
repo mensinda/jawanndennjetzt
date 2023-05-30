@@ -99,3 +99,16 @@ yarn serve
 ```
 
 The development app should then be availiable at [http://127.0.0.1:8080/](http://127.0.0.1:8080/).
+
+# Markdown extension
+
+Currently, all text fields support the Markdown syntax. Additionally, JaWannDennJetzt adds support for colorizing
+text with the following new HTML tags:
+
+- `<m>` for muted text
+- `<w>` for warning text
+- `<d>` for error text
+- `<s>` for success text
+- `<i>` for info text
+
+The actual colors will depend on the bootstrap theme of the client.
