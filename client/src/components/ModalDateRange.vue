@@ -54,7 +54,7 @@
                     <button
                       @click="
                         times = [];
-                        counter = 8;
+                        counter = 6;
                       "
                       type="button"
                       class="control-btn col btn btn-danger"
@@ -196,7 +196,7 @@ export default defineComponent({
       includeYear: true,
 
       drag: false,
-      counter: 8,
+      counter: 6,
       times: [] as Option[],
     };
   },
@@ -216,7 +216,7 @@ export default defineComponent({
       this.show = true;
       this.dateRange = null;
       this.includeYear = true;
-      this.counter = 8;
+      this.counter = 6;
       this.times = [];
     },
 
@@ -248,7 +248,7 @@ export default defineComponent({
     },
 
     newOpt(idx: number) {
-      this.times.splice(idx, 0, new Option("*" + this.counter++ + ":00*", -1));
+      this.times.splice(idx, 0, new Option("*" + (this.counter++ % 24) + ":00*", -1));
       this.optionChangeFixup();
     },
 
