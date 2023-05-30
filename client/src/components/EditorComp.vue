@@ -232,12 +232,7 @@ export default defineComponent({
   },
 
   mounted() {
-    this.counter = this.store.options.length + 1;
-
-    // Fixup for copying data from existing polls
-    if (this.store.options.length > 0) {
-      this.optionChangeFixup();
-    }
+    this.counter = 1;
   },
 
   methods: {
@@ -320,6 +315,14 @@ export default defineComponent({
       this.store.idx_autofix();
       this.store.ballots = this.randomPoll.ballots(this.store.options.length);
       this.hasChanges = true;
+    },
+
+    optionsImported() {
+      this.counter = this.store.options.length + 1;
+
+      if (this.store.options.length > 0) {
+        this.optionChangeFixup();
+      }
     },
   },
 

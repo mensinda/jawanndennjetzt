@@ -56,6 +56,10 @@ export default defineComponent({
     doShow(): void {
       this.show = true;
     },
+
+    updateData(data: { msg: string; code: string }) {
+      this.data = data;
+    },
   },
 
   computed: {},

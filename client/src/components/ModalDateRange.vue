@@ -16,14 +16,17 @@
               <!-- Tab view -->
               <ul class="nav nav-tabs" role="tablist">
                 <li class="nav-item" role="presentation">
-                  <a class="nav-link active" data-bs-toggle="tab" href="#date" aria-selected="true" role="tab">Date range</a>
+                  <a class="nav-link active" data-bs-toggle="tab" href="#date" aria-selected="true" role="tab"
+                    >Date range</a
+                  >
                 </li>
                 <li class="nav-item" role="presentation">
-                  <a class="nav-link" data-bs-toggle="tab" href="#time" aria-selected="false" role="tab" tabindex="-1">Times for each day</a>
+                  <a class="nav-link" data-bs-toggle="tab" href="#time" aria-selected="false" role="tab" tabindex="-1"
+                    >Times for each day</a
+                  >
                 </li>
               </ul>
               <div id="myTabContent" class="tab-content">
-
                 <!-- Date range tab -->
                 <div class="tab-pane fade active show mt-2" id="date" role="tabpanel">
                   <div class="picker-parent">
@@ -45,7 +48,9 @@
                 <!-- Time for each day -->
                 <div class="tab-pane fade mt-2" id="time" role="tabpanel">
                   <div class="d-flex flex-row">
-                    <button @click="newOpt(numOpts)" type="button" class="control-btn col btn btn-success">✚ New Time</button>
+                    <button @click="newOpt(numOpts)" type="button" class="control-btn col btn btn-success">
+                      ✚ New Time
+                    </button>
                     <button
                       @click="
                         times = [];
@@ -102,15 +107,27 @@
                             <td>
                               <div class="btn-group-container">
                                 <div class="btn-group control-btn" role="group" aria-label="Basic example">
-                                  <button @click="moveOptAbs(element, 0)" type="button" :class="clsBtnUp(element)">⇈</button>
-                                  <button @click="moveOptRel(element, -1)" type="button" :class="clsBtnUp(element)">↿</button>
-                                  <button @click="moveOptRel(element, 1)" type="button" :class="clsBtnDown(element)">⇂</button>
-                                  <button @click="moveOptAbs(element, numOpts - 1)" type="button" :class="clsBtnDown(element)">
+                                  <button @click="moveOptAbs(element, 0)" type="button" :class="clsBtnUp(element)">
+                                    ⇈
+                                  </button>
+                                  <button @click="moveOptRel(element, -1)" type="button" :class="clsBtnUp(element)">
+                                    ↿
+                                  </button>
+                                  <button @click="moveOptRel(element, 1)" type="button" :class="clsBtnDown(element)">
+                                    ⇂
+                                  </button>
+                                  <button
+                                    @click="moveOptAbs(element, numOpts - 1)"
+                                    type="button"
+                                    :class="clsBtnDown(element)"
+                                  >
                                     ⇊
                                   </button>
                                 </div>
                                 <div class="btn-group control-btn" role="group" aria-label="Basic example">
-                                  <button @click="newOptAfter(element)" type="button" :class="clsBtn('success')">✚</button>
+                                  <button @click="newOptAfter(element)" type="button" :class="clsBtn('success')">
+                                    ✚
+                                  </button>
                                   <button @click="delOpt(element)" type="button" :class="clsBtn('danger')">🗑</button>
                                 </div>
                               </div>
@@ -219,13 +236,12 @@ export default defineComponent({
         const brOnlyStr = "<m>" + dateStr + "</m>";
         for (let idx = 0; idx < this.times.length; ++idx) {
           const t = this.times[idx];
-          resStr.push((idx == 0 ? dateStr : brOnlyStr) + '<br>' + t.name);
+          resStr.push((idx == 0 ? dateStr : brOnlyStr) + "<br>" + t.name);
         }
       }
       this.$emit("rangeSelected", resStr);
       this.show = false;
     },
-
 
     newOptAfter(opt: Option) {
       this.newOpt(opt.index + 1);

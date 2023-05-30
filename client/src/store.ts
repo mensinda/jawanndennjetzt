@@ -15,6 +15,10 @@ export const pollStore = defineStore("poll", {
       isClosed: false,
       closedOptionIndex: -1,
       footerInfo: "",
+      lastError: {
+        msg: "",
+        code: "",
+      },
     };
   },
 
@@ -30,6 +34,10 @@ export const pollStore = defineStore("poll", {
       this.isOwner = false;
       this.isClosed = false;
       this.closedOptionIndex = -1;
+      this.lastError = {
+        msg: "",
+        code: "",
+      };
     },
 
     idx_autofix() {
