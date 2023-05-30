@@ -169,9 +169,9 @@
 
   <!-- Submitting -->
   <div class="mb-3">
-    <div v-if="!canSubmit && hasChanges" class="card text-white mb-2">
-      <label class="card-header bg-danger">Unable to submit because:</label>
-      <div class="card-body bg-danger" style="--bs-bg-opacity: 0.9">
+    <div v-if="!canSubmit && hasChanges" class="card mb-2">
+      <label class="card-header text-white bg-danger">Unable to submit because:</label>
+      <div class="card-body bg-danger" style="--bs-bg-opacity: 0.15">
         <ul class="mb-0">
           <li v-if="store.name.length <= 0">The poll does not have a name!</li>
           <li v-if="store.options.length <= 0">There are no poll options!</li>

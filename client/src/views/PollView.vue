@@ -20,9 +20,9 @@
     <!-- Main poll area done: Now description / notes and buttons -->
 
     <!-- First of all, any potential errors -->
-    <div v-if="!canSubmit && !store.isClosed && hasChanges" class="card text-white mt-3 mb-2">
-      <div class="card-header bg-danger">Unable to submit because:</div>
-      <div class="card-body bg-danger" style="--bs-bg-opacity: 0.9">
+    <div v-if="!canSubmit && !store.isClosed && hasChanges" class="card mt-3 mb-2">
+      <div class="card-header bg-danger text-white">Unable to submit because:</div>
+      <div class="card-body bg-danger" style="--bs-bg-opacity: 0.15">
         <ul class="mb-0">
           <li v-if="!hasUserName">No user name was entered!</li>
           <li v-if="!hasVoted && store.allowNotVoted">At least one choice needs to be voted on!</li>
