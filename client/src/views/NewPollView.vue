@@ -132,7 +132,10 @@ export default defineComponent({
 
 .new-poll-head-grid-helper {
   display: grid;
-  grid-template-columns: 3fr 1fr;
+  grid-template-columns: 3fr 2fr;
+  @media screen and (max-width: 800px) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .new-poll-head-grid-helper h1 {
@@ -141,9 +144,14 @@ export default defineComponent({
 }
 
 .new-poll-head-grid-helper button {
-  grid-row: 1 / span 1;
-  grid-column: 2 / span 1;
-  align-self: center;
-  justify-self: end;
+  @media screen and (min-width: 800px) {
+    grid-row: 1 / span 1;
+    grid-column: 2 / span 1;
+    align-self: center;
+    justify-self: end;
+  }
+  @media screen and (max-width: 800px) {
+    margin-bottom: 1rem;
+  }
 }
 </style>

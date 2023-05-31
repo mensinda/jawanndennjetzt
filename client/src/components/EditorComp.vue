@@ -81,11 +81,9 @@
     <!--  - Options buttons -->
     <div class="card-body">
       <div class="mb-3">
-        <div class="d-flex flex-row">
-          <button @click="newOpt(numOpts)" type="button" class="control-btn col btn btn-success">✚ New option</button>
-          <button @click="dateRange()" type="button" class="control-btn col btn btn-primary">
-            📅 Insert date range
-          </button>
+        <div class="editor-button-row">
+          <button @click="newOpt(numOpts)" type="button" class="control-btn btn btn-success">✚ New option</button>
+          <button @click="dateRange()" type="button" class="control-btn btn btn-primary">📅 Insert date range</button>
           <button
             @click="
               store.options = [];
@@ -94,7 +92,7 @@
               hasChanges = true;
             "
             type="button"
-            class="control-btn col btn btn-danger"
+            class="control-btn btn btn-danger"
           >
             🗑 Clear all options
           </button>
@@ -145,7 +143,7 @@
 
                 <td>
                   <div class="btn-group-container">
-                    <div class="btn-group control-btn" role="group" aria-label="Basic example">
+                    <div class="btn-group control-btn edit-move-btns" role="group" aria-label="Basic example">
                       <button @click="moveOptAbs(element, 0)" type="button" :class="clsBtnUp(element)">⇈</button>
                       <button @click="moveOptRel(element, -1)" type="button" :class="clsBtnUp(element)">↿</button>
                       <button @click="moveOptRel(element, 1)" type="button" :class="clsBtnDown(element)">⇂</button>
@@ -390,5 +388,25 @@ export default defineComponent({
   font-size: x-large;
   text-align: center;
   vertical-align: middle;
+}
+
+.editor-button-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.5rem;
+  @media screen and (max-width: 800px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.editor-button-row button {
+  margin: 0;
+}
+
+.edit-move-btns {
+  @media screen and (max-width: 800px) {
+    display: none;
+    margin: 0;
+  }
 }
 </style>
