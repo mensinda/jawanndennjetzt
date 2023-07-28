@@ -3300,10 +3300,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bootswatch@npm:^5.2.3":
-  version: 5.2.3
-  resolution: "bootswatch@npm:5.2.3"
-  checksum: 4f0319a3326a9123fda250813fec42c99a87ad4eaf5dca980de277b6228dc44473223ce602646249ee5570cc63e61ecb24a1a9adfaec5c48a13a0998c7fde9e9
+"bootswatch@npm:^5.3.1":
+  version: 5.3.1
+  resolution: "bootswatch@npm:5.3.1"
+  checksum: b34af4ffb8e3ba3b7f82e7a56c1b2aff61a75ee560e6a9c1b001afe25e2665803858211e4c8b1574ecebed278f09e95a11a3d992bb68addece7e29ed91910cd3
   languageName: node
   linkType: hard
 
@@ -3620,7 +3620,7 @@ __metadata:
     "@vuepic/vue-datepicker": ^5.1.2
     axios: ^1.4.0
     bootstrap: ^5.2.3
-    bootswatch: ^5.2.3
+    bootswatch: ^5.3.1
     date-fns: ^2.30.0
     dompurify: ^3.0.3
     eslint: ^8.41.0
