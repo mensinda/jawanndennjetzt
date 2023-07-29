@@ -27,7 +27,7 @@ function setStoreFromResponse(data: any) {
     store.myBallot = new Ballot(
       "",
       store.options.map((_: any) => new Vote("-")),
-      null
+      null,
     );
   }
   store.footerInfo = `Poll valid until: ${data.valid_until}`;
