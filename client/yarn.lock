@@ -3811,7 +3811,7 @@ __metadata:
     eslint-plugin-prettier: ^5.0.0
     eslint-plugin-vue: ^9.16.1
     lodash.debounce: ^4.0.8
-    marked: ^5.1.2
+    marked: ^7.0.5
     pinia: ^2.1.6
     prettier: ^3.0.1
     sass: ^1.64.2
@@ -6628,12 +6628,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"marked@npm:^5.1.2":
-  version: 5.1.2
-  resolution: "marked@npm:5.1.2"
+"marked@npm:^7.0.5":
+  version: 7.0.5
+  resolution: "marked@npm:7.0.5"
   bin:
     marked: bin/marked.js
-  checksum: fff8741a1dc7313f32bea221079a3d6ff55cd485170fade8841b77b48c89ad5b96676e645636e73e50f4b5b6d65cf9d8821072afb16173822505949df2407ffe
+  checksum: e136ab58cffae78e9e661136e8ba51c221aed1a4b7e60dcb9ae7d7241e87869e972b3d352ca3b9b7f56dba85709f848414d33060c4d0e88b3b80e01a3509e2ed
   languageName: node
   linkType: hard
 
