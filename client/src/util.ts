@@ -2,7 +2,10 @@ import { Ballot, Option, Vote, votesFromStr } from "./model";
 import { pollStore } from "./store";
 import { JWDJ_SUBPATH } from "@/config";
 import { marked } from "marked";
+import { gfmHeadingId } from "marked-gfm-heading-id";
 import { sanitize } from "dompurify";
+
+marked.use(gfmHeadingId());
 
 function endpointUrl(url: string): string {
   return JWDJ_SUBPATH + url;
@@ -75,7 +78,7 @@ function markdown(raw: string): string {
   raw = raw.replaceAll("</d>", "</span>");
   raw = raw.replaceAll("</s>", "</span>");
   raw = raw.replaceAll("</i>", "</span>");
-  return sanitize(marked.parse(raw, { gfm: true, mangle: false, headerIds: false }), { USE_PROFILES: { html: true } });
+  return sanitize(marked.parse(raw, { gfm: true }), { USE_PROFILES: { html: true } });
 }
 
 export { endpointUrl, sumVotesData, setStoreFromResponse, markdown };

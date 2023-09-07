@@ -3856,6 +3856,7 @@ __metadata:
     eslint-plugin-vue: ^9.16.1
     lodash.debounce: ^4.0.8
     marked: ^8.0.1
+    marked-gfm-heading-id: ^3.0.7
     pinia: ^2.1.6
     prettier: ^3.0.1
     sass: ^1.66.1
@@ -5510,6 +5511,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"github-slugger@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "github-slugger@npm:2.0.0"
+  checksum: 250375cde2058f21454872c2c79f72c4637340c30c51ff158ca4ec71cbc478f33d54477d787a662f9207aeb095a2060f155bc01f15329ba8a5fb6698e0fc81f8
+  languageName: node
+  linkType: hard
+
 "glob-parent@npm:^5.1.2, glob-parent@npm:~5.1.2":
   version: 5.1.2
   resolution: "glob-parent@npm:5.1.2"
@@ -6669,6 +6677,17 @@ __metadata:
     socks-proxy-agent: ^7.0.0
     ssri: ^10.0.0
   checksum: 7268bf274a0f6dcf0343829489a4506603ff34bd0649c12058753900b0eb29191dce5dba12680719a5d0a983d3e57810f594a12f3c18494e93a1fbc6348a4540
+  languageName: node
+  linkType: hard
+
+"marked-gfm-heading-id@npm:^3.0.7":
+  version: 3.0.7
+  resolution: "marked-gfm-heading-id@npm:3.0.7"
+  dependencies:
+    github-slugger: ^2.0.0
+  peerDependencies:
+    marked: ">=4 <9"
+  checksum: ed5154061dde95977697ced066d8120d3b617cce325110d96cf8ed5fc3daff150f1db19b718d86fcab35eb914d6a77bb1610f1dc1dddcc66591b9ce70c611f4f
   languageName: node
   linkType: hard
 
