@@ -3856,7 +3856,7 @@ __metadata:
     eslint-plugin-vue: ^9.16.1
     lodash.debounce: ^4.0.8
     marked: ^8.0.1
-    marked-gfm-heading-id: ^3.0.7
+    marked-gfm-heading-id: ^3.0.8
     pinia: ^2.1.6
     prettier: ^3.0.1
     sass: ^1.66.1
@@ -6680,14 +6680,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"marked-gfm-heading-id@npm:^3.0.7":
-  version: 3.0.7
-  resolution: "marked-gfm-heading-id@npm:3.0.7"
+"marked-gfm-heading-id@npm:^3.0.8":
+  version: 3.0.8
+  resolution: "marked-gfm-heading-id@npm:3.0.8"
   dependencies:
     github-slugger: ^2.0.0
   peerDependencies:
-    marked: ">=4 <9"
-  checksum: ed5154061dde95977697ced066d8120d3b617cce325110d96cf8ed5fc3daff150f1db19b718d86fcab35eb914d6a77bb1610f1dc1dddcc66591b9ce70c611f4f
+    marked: ">=4 <10"
+  checksum: e3b489cf158da4b4afc8b0a7d91a20eaef0f852d252babae5da2e182ac7477c7c56454a2c517e88493656cedd1a16efaaa0950ecaf0593f71d86e17f22e55157
   languageName: node
   linkType: hard
 
