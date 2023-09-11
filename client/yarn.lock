@@ -2813,15 +2813,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vuepic/vue-datepicker@npm:^5.1.2":
-  version: 5.4.0
-  resolution: "@vuepic/vue-datepicker@npm:5.4.0"
+"@vuepic/vue-datepicker@npm:^6.1.0":
+  version: 6.1.0
+  resolution: "@vuepic/vue-datepicker@npm:6.1.0"
   dependencies:
     date-fns: ^2.30.0
     date-fns-tz: ^1.3.7
   peerDependencies:
     vue: ">=3.2.0"
-  checksum: 7f4d7bee02567c91c6f538f09e3816f99b945442cf1b850ca0d697f5c4599284fca0ab6a9d1cea902822be9a711554c55220d3b5a82193afda23cf546d04fc73
+  checksum: ecc1c272b177f677b67126538a04d8a5a30b7821d738d61cca711cebf2426e8120585edda8c065f18cd842feb48beb62453a24b4fbb7002e3c2d78a56fb5f817
   languageName: node
   linkType: hard
 
@@ -3819,7 +3819,7 @@ __metadata:
     "@vue/cli-plugin-typescript": ^5.0.8
     "@vue/cli-service": ^5.0.8
     "@vue/eslint-config-typescript": ^11.0.3
-    "@vuepic/vue-datepicker": ^5.1.2
+    "@vuepic/vue-datepicker": ^6.1.0
     axios: ^1.5.0
     bootstrap: ^5.3.1
     bootswatch: ^5.3.1
