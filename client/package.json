@@ -24,7 +24,7 @@
     "vuedraggable": "^4.1.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.22.9",
+    "@babel/core": "^7.22.20",
     "@babel/helper-compilation-targets": "^7.22.15",
     "@babel/plugin-transform-private-methods": "^7.22.5",
     "@types/dompurify": "^3.0.2",
