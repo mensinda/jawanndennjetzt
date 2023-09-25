@@ -1,5 +1,5 @@
 # Client
-FROM node:18.17 AS builder
+FROM node:20.2.0 AS builder
 
 WORKDIR /app
 ADD client .env /app/
