@@ -1,9 +1,11 @@
 from functools import wraps
+from datetime import datetime, timedelta
 
 from django.views.decorators.http import require_GET, require_POST
 from django.http.response import JsonResponse, HttpResponse
 from django.db import transaction
 from django.conf import settings
+from django.core.management import call_command
 from rest_framework.parsers import JSONParser
 from django.views.decorators.csrf import ensure_csrf_cookie
 import json
@@ -11,7 +13,6 @@ import base64
 import uuid
 import traceback
 import io
-import datetime
 
 from importlib import import_module
 SessionStore = import_module(settings.SESSION_ENGINE).SessionStore
@@ -41,9 +42,18 @@ def handle_exception(f):
 
     return wrapper
 
+last_db_clean: datetime | None = None
+
 def refresh_session(f):
     @wraps(f)
     def wrapper(request, *args, **kwargs):
+        if settings.JWDJ_SESSION_CLEAN_INTERVAL > 0:
+            global last_db_clean
+            delta = timedelta(days=settings.JWDJ_SESSION_CLEAN_INTERVAL)
+            now = datetime.now()
+            if last_db_clean is None or now - last_db_clean > delta:
+                call_command('clearsessions')
+                last_db_clean = now
         if not request.session.session_key:
             request.session.save()
         request.session.modified = True
@@ -249,7 +259,7 @@ def do_close(request, poll_id: str) -> HttpResponse:
         if poll.owner != request.session.session_key:
             raise PermissionDenied('Only the creator can close polls!')
 
-        poll.closed = datetime.datetime.now()
+        poll.closed = datetime.now()
         poll.closed_option_idx = data['option_idx']
         poll.save()
 

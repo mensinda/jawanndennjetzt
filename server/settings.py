@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+from datetime import timedelta
 import os
 import environ
 from . import limits
@@ -56,6 +57,8 @@ JWDJ_DAYS_TO_KEEP = env.int('JWDJ_DAYS_TO_KEEP', default=32)
 JWDJ_MAX_POLL_COUNT    = env.int('JWDJ_MAX_POLL_COUNT',    default=4096)
 JWDJ_MAX_OPTIONS_COUNT = env.int('JWDJ_MAX_OPTIONS_COUNT', default=64)
 JWDJ_MAX_BALLOT_COUNT  = env.int('JWDJ_MAX_BALLOT_COUNT',  default=256)
+
+JWDJ_SESSION_CLEAN_INTERVAL = env.int('JWDJ_SESSION_CLEAN_INTERVAL', default=1)
 
 if JWDJ_MAX_OPTIONS_COUNT >= limits.MAX_VOTES:
     raise RuntimeError(f'Only a maximum of {limits.MAX_VOTES} options are supported per poll ({JWDJ_MAX_OPTIONS_COUNT} where requestd)')
