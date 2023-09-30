@@ -3,21 +3,12 @@
 cd "$(dirname "$(realpath "$0")")"
 
 # Check for .env
-if [ -f ../.env ]; then
-    source ../.env
-fi
+[ -f ../.env ] && source ../.env
+[ -f .env    ] && source .env
 
-if [ -f .env ]; then
-    source .env
-fi
-
-if [ -z "$JWDJ_THEME" ]; then
-    JWDJ_THEME="flatly"
-fi
-
-if [ -z "$JWDJ_WEB_FONTS" ]; then
-    JWDJ_WEB_FONTS=0
-fi
+# Default variables
+[ -z "$JWDJ_THEME"     ] && JWDJ_THEME="flatly"
+[ -z "$JWDJ_WEB_FONTS" ] && JWDJ_WEB_FONTS=0
 
 [ -e src/theme.scss ] && rm src/theme.scss
 
@@ -36,12 +27,16 @@ cat <<EOF >> src/theme.scss
 @import "~bootswatch/dist/${JWDJ_THEME}/bootswatch";
 EOF
 
-if [ -z "$JWDJ_SUBPATH" ]; then
-    JWDJ_SUBPATH="/"
-fi
+[ -z "$JWDJ_SUBPATH"     ] && JWDJ_SUBPATH="/"
+[ -z "$JWDJ_LOGO_WIDTH"  ] && JWDJ_LOGO_WIDTH="30px"
+[ -z "$JWDJ_LOGO_HEIGHT" ] && JWDJ_LOGO_HEIGHT="30px"
 
 cat <<EOF > src/config.ts
 const JWDJ_SUBPATH = "${JWDJ_SUBPATH}";
+const JWDJ_LOGO = "${JWDJ_LOGO}";
+const JWDJ_LOGO_WIDTH = "${JWDJ_LOGO_WIDTH}";
+const JWDJ_LOGO_HEIGHT = "${JWDJ_LOGO_HEIGHT}";
+const JWDJ_LOGO_VERTICAL_MARGIN = "${JWDJ_LOGO_VERTICAL_MARGIN}";
 
-export { JWDJ_SUBPATH };
+export { JWDJ_SUBPATH, JWDJ_LOGO, JWDJ_LOGO_WIDTH, JWDJ_LOGO_HEIGHT, JWDJ_LOGO_VERTICAL_MARGIN };
 EOF

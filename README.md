@@ -40,6 +40,10 @@ JaWannDennJetzt supports the following configuration options:
 | `JWDJ_SUBPATH`                | Prefix from which the app should be served (default is "/"). A common use-case for such a setup is serving multiple applications on the same domain. |  `B`  |
 | `JWDJ_THEME`                  | Which theme from [Bootswatch](https://bootswatch.com) to use                                                                                         |  `B`  |
 | `JWDJ_WEB_FONTS`              | Whether to include external fonts or not. If this option is disabled, no external assets and services will be used.                                  |  `B`  |
+| `JWDJ_LOGO`                   | The logo to display in the navbar. Set this variable to an empty string to disable showing the logo                                                  |  `B`  |
+| `JWDJ_LOGO_WIDTH`             | Width of the logo in the navbar                                                                                                                      |  `B`  |
+| `JWDJ_LOGO_HEIGHT`            | Height of the logo in the navbar                                                                                                                     |  `B`  |
+| `JWDJ_LOGO_VERTICAL_MARGIN`   | Advanced option to set the top and bottom margin. The main use-case is to set a negative margin for large logos. Must be a valid CSS margin value.   |  `B`  |
 | `JWDJ_SERVE_STATIC_FILES`     | Whether the static client HTML / CSS / JS should be served via the django backend (by default, static files are served via Nginx).                   |  `R`  |
 | `JWDJ_CLIENT_DIST`            | Where the static files are located if `JWDJ_SERVE_STATIC_FILES` is enabled                                                                           |  `R`  |
 | `JWDJ_DAYS_TO_KEEP`           | Number of days polls are kept                                                                                                                        |  `R`  |

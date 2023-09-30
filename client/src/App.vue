@@ -1,8 +1,11 @@
 <template>
   <div class="app-root d-flex flex-column min-vh-100">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
+    <nav class="navbar navbar-expand-md navbar-dark bg-primary mb-4">
       <div class="container-fluid">
-        <router-link class="navbar-brand" to="/">JaWannDennJetzt</router-link>
+        <router-link class="navbar-brand d-flex flex-rows align-items-center" to="/">
+          <img v-if="hasIcon" :src="logoPath" :style="logoStyle" />
+          <div :class="{ 'ms-2': hasIcon }">JaWannDennJetzt</div>
+        </router-link>
         <button
           class="navbar-toggler collapsed"
           type="button"
@@ -59,6 +62,7 @@
 import { defineComponent } from "vue";
 import { pollStore } from "@/store";
 import { endpointUrl } from "@/util";
+import { JWDJ_LOGO, JWDJ_LOGO_WIDTH, JWDJ_LOGO_HEIGHT, JWDJ_LOGO_VERTICAL_MARGIN } from "@/config";
 import axios from "axios";
 
 export default defineComponent({
@@ -83,6 +87,20 @@ export default defineComponent({
   computed: {
     currRoute() {
       return this.$route.name;
+    },
+    hasIcon() {
+      return JWDJ_LOGO.trim().length > 0;
+    },
+    logoPath() {
+      return JWDJ_LOGO;
+    },
+    logoStyle() {
+      return {
+        width: JWDJ_LOGO_WIDTH,
+        height: JWDJ_LOGO_HEIGHT,
+        'margin-top': JWDJ_LOGO_VERTICAL_MARGIN,
+        'margin-bottom': JWDJ_LOGO_VERTICAL_MARGIN,
+      };
     },
   },
 
