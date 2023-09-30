@@ -32,29 +32,32 @@ docker compose up --build
 
 JaWannDennJetzt supports the following configuration options:
 
-| Option                    | Description                                                                                                                                          |
-| ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `SECRET_KEY`              | The [Django secret key](https://docs.djangoproject.com/en/4.1/ref/settings/#secret-key). This value **MUST** be changed!                             |
-| `DEBUG`                   | Whether to run in debug mode. **DO NOT ENABLE THIS FOR PRODUCTION**                                                                                  |
-| `NODE_ENV`                | Should be set to `production` when running in a production environment                                                                               |
-| `JWDJ_SUBPATH`            | Prefix from which the app should be served (default is "/"). A common use-case for such a setup is serving multiple applications on the same domain. |
-| `JWDJ_THEME`              | Which theme from [Bootswatch](https://bootswatch.com) to                                                                                             |
-| `JWDJ_SERVE_STATIC_FILES` | Whether the static client HTML / CSS / JS should be served via the django backend (by default, static files are served via Nginx).                   |
-| `JWDJ_CLIENT_DIST`        | Where the static files are located if `JWDJ_SERVE_STATIC_FILES` is enabled                                                                           |
-| `JWDJ_DAYS_TO_KEEP`       | Number of days polls are kept                                                                                                                        |
-| `JWDJ_MAX_POLL_COUNT`     | The total maximum number of polls that are allowed (primitive DOS protection)                                                                        |
-| `JWDJ_MAX_OPTIONS_COUNT`  | The maximum number of options / days for each poll (primitive DOS protection)                                                                        |
-| `JWDJ_MAX_BALLOT_COUNT`   | The maximum number of users that can vote on a poll (primitive DOS protection)                                                                       |
-| `JWDJ_SESSION_CLEAN_INTERVAL` | The interval in days for cleaning expired sessions (use values <= 0 to disable)                                                                  |
-| `SESSION_COOKIE_AGE`      | How long the [Django session cookie](https://docs.djangoproject.com/en/4.1/ref/settings/#session-cookie-age) is valid (defaults to 4 weeks)          |
-| `ALLOWED_HOSTS`           | List of allowed host names (just the hostname without the subpath)                                                                                   |
-| `JWDJ_DATABASE_TYPE`      | Which database engine to use. Valid values are `sqlite3` and `postgresql`                                                                            |
-| `JWDJ_SQLITE_FILE`        | Path to the SQLite3 DB                                                                                                                               |
-| `JWDJ_POSTGRES_NAME`      | Name of the PostgreSQL DB                                                                                                                            |
-| `JWDJ_POSTGRES_USER`      | Username used for the PostgreSQL DB                                                                                                                  |
-| `JWDJ_POSTGRES_PASSWORD`  | The password for the PostgreSQL DB. **NOTE**: The value of this variable should be changed!                                                          |
-| `JWDJ_POSTGRES_HOST`      | Hostname where the PostgreSQL DB is hosted                                                                                                           |
-| `JWDJ_POSTGRES_PORT`      | Port of the PostgreSQL DB                                                                                                                            |
+| Option                        | Description                                                                                                                                          | Type  |
+|-------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|:-----:|
+| `SECRET_KEY`                  | The [Django secret key](https://docs.djangoproject.com/en/4.1/ref/settings/#secret-key). This value **MUST** be changed!                             |  `R`  |
+| `DEBUG`                       | Whether to run in debug mode. **DO NOT ENABLE THIS FOR PRODUCTION**                                                                                  | `B,R` |
+| `NODE_ENV`                    | Should be set to `production` when running in a production environment                                                                               |  `B`  |
+| `JWDJ_SUBPATH`                | Prefix from which the app should be served (default is "/"). A common use-case for such a setup is serving multiple applications on the same domain. |  `B`  |
+| `JWDJ_THEME`                  | Which theme from [Bootswatch](https://bootswatch.com) to use                                                                                         |  `B`  |
+| `JWDJ_WEB_FONTS`              | Whether to include external fonts or not. If this option is disabled, no external assets and services will be used.                                  |  `B`  |
+| `JWDJ_SERVE_STATIC_FILES`     | Whether the static client HTML / CSS / JS should be served via the django backend (by default, static files are served via Nginx).                   |  `R`  |
+| `JWDJ_CLIENT_DIST`            | Where the static files are located if `JWDJ_SERVE_STATIC_FILES` is enabled                                                                           |  `R`  |
+| `JWDJ_DAYS_TO_KEEP`           | Number of days polls are kept                                                                                                                        |  `R`  |
+| `JWDJ_MAX_POLL_COUNT`         | The total maximum number of polls that are allowed (primitive DOS protection)                                                                        |  `R`  |
+| `JWDJ_MAX_OPTIONS_COUNT`      | The maximum number of options / days for each poll (primitive DOS protection)                                                                        |  `R`  |
+| `JWDJ_MAX_BALLOT_COUNT`       | The maximum number of users that can vote on a poll (primitive DOS protection)                                                                       |  `R`  |
+| `JWDJ_SESSION_CLEAN_INTERVAL` | The interval in days for cleaning expired sessions (use values <= 0 to disable)                                                                      |  `R`  |
+| `SESSION_COOKIE_AGE`          | How long the [Django session cookie](https://docs.djangoproject.com/en/4.1/ref/settings/#session-cookie-age) is valid (defaults to 4 weeks)          |  `R`  |
+| `ALLOWED_HOSTS`               | Comma seperated list of allowed host names (just the hostname without the subpath)                                                                   |  `R`  |
+| `JWDJ_DATABASE_TYPE`          | Which database engine to use. Valid values are `sqlite3` and `postgresql`                                                                            |  `R`  |
+| `JWDJ_SQLITE_FILE`            | Path to the SQLite3 DB                                                                                                                               |  `R`  |
+| `JWDJ_POSTGRES_NAME`          | Name of the PostgreSQL DB                                                                                                                            |  `R`  |
+| `JWDJ_POSTGRES_USER`          | Username used for the PostgreSQL DB                                                                                                                  |  `R`  |
+| `JWDJ_POSTGRES_PASSWORD`      | The password for the PostgreSQL DB. **NOTE**: The value of this variable should be changed!                                                          |  `R`  |
+| `JWDJ_POSTGRES_HOST`          | Hostname where the PostgreSQL DB is hosted                                                                                                           |  `R`  |
+| `JWDJ_POSTGRES_PORT`          | Port of the PostgreSQL DB                                                                                                                            |  `R`  |
+
+The `Type` column in the table indicates whether the variable is evaluated at runtime (`R`) or at build time (`B`). Changes to buildtime variables have no effect on already built images and only take effect when the image is rebuilt! Variables that are used both at build and runtime are marked with `B,R` and **should** be treated as build time variables.
 
 # Development setup
 
