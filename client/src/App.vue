@@ -98,8 +98,8 @@ export default defineComponent({
       return {
         width: JWDJ_LOGO_WIDTH,
         height: JWDJ_LOGO_HEIGHT,
-        'margin-top': JWDJ_LOGO_VERTICAL_MARGIN,
-        'margin-bottom': JWDJ_LOGO_VERTICAL_MARGIN,
+        "margin-top": JWDJ_LOGO_VERTICAL_MARGIN,
+        "margin-bottom": JWDJ_LOGO_VERTICAL_MARGIN,
       };
     },
   },
