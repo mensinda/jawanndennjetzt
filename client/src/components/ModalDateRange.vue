@@ -97,7 +97,7 @@
                               type="text"
                               class="form-control"
                               :class="{ 'is-invalid': element.name.length <= 0 }"
-                              :maxlength="8"
+                              :maxlength="24"
                               style="z-index: 1000000"
                               placeholder="Time..."
                             />
