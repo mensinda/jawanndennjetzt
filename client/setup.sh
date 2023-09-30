@@ -25,6 +25,10 @@ if [[ "$JWDJ_WEB_FONTS" == "0" || "$JWDJ_WEB_FONTS" == "false" ]]; then
     echo "\$web-font-path: false;" >> src/theme.scss
 fi
 
+if [ -f variables.scss ]; then
+    cat variables.scss >> src/theme.scss
+fi
+
 cat <<EOF >> src/theme.scss
 
 @import "~bootswatch/dist/${JWDJ_THEME}/variables";

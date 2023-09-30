@@ -59,6 +59,17 @@ JaWannDennJetzt supports the following configuration options:
 
 The `Type` column in the table indicates whether the variable is evaluated at runtime (`R`) or at build time (`B`). Changes to buildtime variables have no effect on already built images and only take effect when the image is rebuilt! Variables that are used both at build and runtime are marked with `B,R` and **should** be treated as build time variables.
 
+### Theme customization
+
+Any available Bootswatch theme can be used to style the application, which can further be customized to tweak the appearance even more precisely.
+
+This is done by overriding the default values of the `_variables.scss` file provided by the selected Bootswatch theme. The default variables for each theme can be inspected on the [Bootswatch GitHub](https://github.com/thomaspark/bootswatch) under `dist/<theme>/_variables.scss`.
+
+To get started on such a custom theme modification, copy the `example.variables.scss` in the `client` directory to `variables.scss` and alter any variables within to better suit your desired appearance.
+The `variables.scss` file will then be automatically detected by the setup script.
+
+NOTE: The final `variables.scss` **MUST** be in the `client` directory!
+
 # Development setup
 
 To run JaWannDennJetzt locally for development the following `.env` file is recommended:

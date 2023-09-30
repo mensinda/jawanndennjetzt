@@ -1,0 +1,22 @@
+/*
+ * Example theme customization file for Bootswatch themes.
+ *
+ * Any available Bootswatch theme can be used to style the application, which
+ * can further be customized to tweak the appearance even more precisely.
+ *
+ * This is done by overriding the default values of the `_variables.scss` file
+ * provided by the selected Bootswatch theme. The default variables for each
+ * theme can be inspected on the [Bootswatch GitHub](https://github.com/thomaspark/bootswatch)
+ * under `dist/<theme>/_variables.scss`.
+ *
+ * To get started on such a custom theme modification, copy this file to a
+ * new `variables.scss` and alter any variables within to better suit your
+ * desired appearance.
+ *
+ * The `variables.scss` file will then be automatically detected by the setup script.
+ *
+ * NOTE: The final `variables.scss` **MUST** be in the `client` directory!
+ */
+
+// Set a custom primary color
+$primary: #7b992f;
