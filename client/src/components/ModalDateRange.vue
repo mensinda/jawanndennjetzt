@@ -34,6 +34,7 @@
                     range
                     inline
                     style="width: auto !important"
+                    :dark="darkDatePicker"
                     :partial-range="false"
                     :max-range="64"
                     :hide-navigation="['time']"
@@ -169,6 +170,7 @@ import { defineComponent, ref } from "vue";
 import Datepicker from "@vuepic/vue-datepicker";
 import { eachDayOfInterval, format } from "date-fns";
 import { Option } from "@/model";
+import { JWDJ_DARK_DATE_PICKER } from "@/config";
 
 export default defineComponent({
   components: {
@@ -206,6 +208,10 @@ export default defineComponent({
 
     numOpts() {
       return this.times.length;
+    },
+
+    darkDatePicker() {
+      return JWDJ_DARK_DATE_PICKER;
     },
   },
 

@@ -39,6 +39,7 @@ JaWannDennJetzt supports the following configuration options:
 | `NODE_ENV`                    | Should be set to `production` when running in a production environment                                                                               |  `B`  |
 | `JWDJ_SUBPATH`                | Prefix from which the app should be served (default is "/"). A common use-case for such a setup is serving multiple applications on the same domain. |  `B`  |
 | `JWDJ_THEME`                  | Which theme from [Bootswatch](https://bootswatch.com) to use                                                                                         |  `B`  |
+| `JWDJ_DARK_DATE_PICKER`       | Enables the dark theme for the date picker.                                                                                                          |  `B`  |
 | `JWDJ_WEB_FONTS`              | Whether to include external fonts or not. If this option is disabled, no external assets and services will be used.                                  |  `B`  |
 | `JWDJ_LOGO`                   | The logo to display in the navbar. Set this variable to an empty string to disable showing the logo                                                  |  `B`  |
 | `JWDJ_LOGO_WIDTH`             | Width of the logo in the navbar                                                                                                                      |  `B`  |
