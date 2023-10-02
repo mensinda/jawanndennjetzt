@@ -1925,12 +1925,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/dompurify@npm:^3.0.2":
-  version: 3.0.2
-  resolution: "@types/dompurify@npm:3.0.2"
+"@types/dompurify@npm:^3.0.3":
+  version: 3.0.3
+  resolution: "@types/dompurify@npm:3.0.3"
   dependencies:
     "@types/trusted-types": "*"
-  checksum: dc017e16a46bcc77086af7d4dc5d2bf4102f16bf1a11b2937e90380da50e77716a2a608ff52990b1293250fefc2ad7593a1378fe07e3a7e21f200d702f0a7878
+  checksum: ff629277db4d19d836b0d878e93efb27d876d1073db81507c39d44d509b30ee3bcdc9e951dbbf9574b1fc6c52e1eaa95abf4279fa45aca281868717f8a7298da
   languageName: node
   linkType: hard
 
@@ -4007,7 +4007,7 @@ __metadata:
     "@babel/helper-compilation-targets": ^7.22.15
     "@babel/plugin-transform-private-methods": ^7.22.5
     "@popperjs/core": ^2.11.8
-    "@types/dompurify": ^3.0.2
+    "@types/dompurify": ^3.0.3
     "@types/lodash.debounce": ^4.0.7
     "@types/marked": ^5.0.0
     "@typescript-eslint/eslint-plugin": ^6.7.2
@@ -4023,7 +4023,7 @@ __metadata:
     bootstrap: ^5.3.1
     bootswatch: ^5.3.1
     date-fns: ^2.30.0
-    dompurify: ^3.0.5
+    dompurify: ^3.0.6
     eslint: ^8.46.0
     eslint-config-prettier: ^9.0.0
     eslint-plugin-prettier: ^5.0.0
@@ -4779,10 +4779,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dompurify@npm:^3.0.5":
-  version: 3.0.5
-  resolution: "dompurify@npm:3.0.5"
-  checksum: 2d9421570c833ce26ce7022955241749b646d41e8bf453f42ede9f22d0e98af482cedb7dfbf8129419eb48b351c1d677a08fc9f1cd91836ce7f6c1807a0676b2
+"dompurify@npm:^3.0.6":
+  version: 3.0.6
+  resolution: "dompurify@npm:3.0.6"
+  checksum: e5c6cdc5fe972a9d0859d939f1d86320de275be00bbef7bd5591c80b1e538935f6ce236624459a1b0c84ecd7c6a1e248684aa4637512659fccc0ce7c353828a6
   languageName: node
   linkType: hard
 
