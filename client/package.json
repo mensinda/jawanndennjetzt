@@ -17,7 +17,7 @@
     "dompurify": "^3.0.6",
     "lodash.debounce": "^4.0.8",
     "marked": "^9.0.3",
-    "marked-gfm-heading-id": "^3.0.8",
+    "marked-gfm-heading-id": "^3.1.0",
     "pinia": "^2.1.6",
     "vue": "^3.3.4",
     "vue-router": "^4.2.4",
