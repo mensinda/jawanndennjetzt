@@ -92,7 +92,7 @@ export default defineComponent({
       return JWDJ_LOGO.trim().length > 0;
     },
     logoPath() {
-      return JWDJ_LOGO;
+      return JWDJ_LOGO.startsWith("/") ? JWDJ_LOGO : "/" + JWDJ_LOGO;
     },
     logoStyle() {
       return {
