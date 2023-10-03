@@ -17,7 +17,7 @@ RUN ./patchNginxConf.sh
 
 
 # JaWannDennJetzt
-FROM python:3-slim as backend
+FROM python:3.11-slim as backend
 WORKDIR /app
 
 ADD manage.py entrypoint.sh requirements.txt dockerBuild.sh .env external/wait-for-it.sh /app/
