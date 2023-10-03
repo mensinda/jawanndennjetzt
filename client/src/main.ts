@@ -1,7 +1,8 @@
 import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
-import "bootstrap";
+import "bootstrap/js/dist/collapse";
+import "bootstrap/js/dist/tab";
 import { createPinia } from "pinia";
 import axios from "axios";
 
