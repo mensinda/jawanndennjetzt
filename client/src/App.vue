@@ -1,10 +1,10 @@
 <template>
   <div class="app-root d-flex flex-column min-vh-100">
-    <nav class="navbar navbar-expand-md navbar-dark bg-primary mb-4">
+    <nav class="navbar navbar-expand-md navbar-dark bg-primary mb-4" data-bs-theme="dark">
       <div class="container-fluid">
         <router-link class="navbar-brand d-flex flex-rows align-items-center" to="/">
           <img v-if="hasIcon" :src="logoPath" :style="logoStyle" />
-          <div :class="{ 'ms-2': hasIcon }">JaWannDennJetzt</div>
+          <div :class="{ 'ms-2': hasIcon }">{{ $t("main.title") }}</div>
         </router-link>
         <button
           class="navbar-toggler collapsed"
@@ -20,18 +20,27 @@
         <div class="navbar-collapse collapse" id="navbar" style="">
           <ul class="navbar-nav me-auto">
             <li class="nav-item">
-              <router-link class="nav-link" :class="{ active: currRoute == 'home' }" to="/">Home</router-link>
+              <router-link class="nav-link" :class="{ active: currRoute == 'home' }" to="/">{{
+                $t("root.home")
+              }}</router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" :class="{ active: currRoute == 'new' }" to="/new">Create Poll</router-link>
+              <router-link class="nav-link" :class="{ active: currRoute == 'new' }" to="/new">{{
+                $t("root.create-poll")
+              }}</router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" :class="{ active: currRoute == 'my-polls' }" to="/my-polls"
-                >My Polls</router-link
-              >
+              <router-link class="nav-link" :class="{ active: currRoute == 'my-polls' }" to="/my-polls">{{
+                $t("root.my-polls")
+              }}</router-link>
             </li>
           </ul>
           <ul class="navbar-nav">
+            <li class="nav-item me-3 d-flex">
+              <select class="form-select" :value="$i18n.locale" @change="(ev) => switchLocale(ev.target?.value)">
+                <option v-for="(v, k) in locales" :key="k" :value="k">{{ v.name }}</option>
+              </select>
+            </li>
             <li class="nav-item" style="cursor: pointer" @click="openGitHub">
               <div class="nav-link d-flex flex-rows">
                 <svg viewBox="0 0 98 96" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
@@ -63,6 +72,7 @@ import { defineComponent } from "vue";
 import { pollStore } from "@/store";
 import { endpointUrl } from "@/util";
 import { JWDJ_LOGO, JWDJ_LOGO_WIDTH, JWDJ_LOGO_HEIGHT, JWDJ_LOGO_VERTICAL_MARGIN } from "@/config";
+import { ALL_LOCALES, updateLocale } from "@/locales";
 import axios from "axios";
 
 export default defineComponent({
@@ -102,11 +112,20 @@ export default defineComponent({
         "margin-bottom": JWDJ_LOGO_VERTICAL_MARGIN,
       };
     },
+    locales() {
+      return ALL_LOCALES;
+    },
   },
 
   methods: {
     openGitHub() {
       window.open("https://github.com/mensinda/jawanndennjetzt", "_blank", "noreferrer");
+    },
+
+    switchLocale(locale: string | null) {
+      if (locale != null) {
+        updateLocale(locale);
+      }
     },
   },
 });

@@ -2065,6 +2065,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/js-cookie@npm:^3.0.4":
+  version: 3.0.4
+  resolution: "@types/js-cookie@npm:3.0.4"
+  checksum: 46ac93974776a256f3cedadf60b45ded4d905a5e69986882d8c17baa351cb2e81a691864a1f19c3ca90eaa2cb3eeb7cb5426416b487a7d54cf5ff278d39d7870
+  languageName: node
+  linkType: hard
+
 "@types/json-schema@npm:*, @types/json-schema@npm:^7.0.12, @types/json-schema@npm:^7.0.4, @types/json-schema@npm:^7.0.5, @types/json-schema@npm:^7.0.8, @types/json-schema@npm:^7.0.9":
   version: 7.0.12
   resolution: "@types/json-schema@npm:7.0.12"
@@ -3899,6 +3906,7 @@ __metadata:
     "@babel/plugin-transform-private-methods": ^7.22.5
     "@popperjs/core": ^2.11.8
     "@types/dompurify": ^3.0.3
+    "@types/js-cookie": ^3.0.4
     "@types/lodash.debounce": ^4.0.7
     "@types/marked": ^5.0.2
     "@typescript-eslint/eslint-plugin": ^6.7.4
@@ -3919,6 +3927,7 @@ __metadata:
     eslint-config-prettier: ^9.0.0
     eslint-plugin-prettier: ^5.0.0
     eslint-plugin-vue: ^9.17.0
+    js-cookie: ^3.0.5
     lodash.debounce: ^4.0.8
     marked: ^9.0.3
     marked-gfm-heading-id: ^3.1.0
@@ -6381,6 +6390,13 @@ __metadata:
     "@sideway/formula": ^3.0.1
     "@sideway/pinpoint": ^2.0.0
   checksum: 8c3709849293411c524e5a679dba7b42598a29a663478941767b8d5b06288611dece58803c468a2c7320cc2429a3e71e3d94337fe47aefcf6c22174dbd90b601
+  languageName: node
+  linkType: hard
+
+"js-cookie@npm:^3.0.5":
+  version: 3.0.5
+  resolution: "js-cookie@npm:3.0.5"
+  checksum: 2dbd2809c6180fbcf060c6957cb82dbb47edae0ead6bd71cbeedf448aa6b6923115003b995f7d3e3077bfe2cb76295ea6b584eb7196cca8ba0a09f389f64967a
   languageName: node
   linkType: hard
 

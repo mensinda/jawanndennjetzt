@@ -5,7 +5,7 @@
   "scripts": {
     "serve": "./setup.sh && DISABLE_ANALYZER=true vue-cli-service serve",
     "build": "./setup.sh && vue-cli-service build",
-    "lint": "./setup.sh && vue-cli-service lint --fix"
+    "lint": "vue-cli-service lint --fix"
   },
   "dependencies": {
     "@popperjs/core": "^2.11.8",
@@ -15,6 +15,7 @@
     "bootswatch": "^5.3.2",
     "date-fns": "^2.30.0",
     "dompurify": "^3.0.6",
+    "js-cookie": "^3.0.5",
     "lodash.debounce": "^4.0.8",
     "marked": "^9.0.3",
     "marked-gfm-heading-id": "^3.1.0",
@@ -29,6 +30,7 @@
     "@babel/helper-compilation-targets": "^7.22.15",
     "@babel/plugin-transform-private-methods": "^7.22.5",
     "@types/dompurify": "^3.0.3",
+    "@types/js-cookie": "^3.0.4",
     "@types/lodash.debounce": "^4.0.7",
     "@types/marked": "^5.0.2",
     "@typescript-eslint/eslint-plugin": "^6.7.4",

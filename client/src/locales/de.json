@@ -1,0 +1,13 @@
+{
+  "main": {
+    "title": "JaWannDennJetzt",
+    "create-a-new-poll": "Neue Umfrage erstellen",
+    "subtitle": "Terminplanung leicht gemacht!"
+  },
+  "root": {
+    "create-poll": "Neue Umfrage",
+    "home": "Start",
+    "my-polls": "Meine Umfragen",
+    "toggle-navigation": "Navigation umschalten"
+  }
+}

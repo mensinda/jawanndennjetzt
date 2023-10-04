@@ -3,7 +3,7 @@
   <ModalImportPoll ref="importModal" :onImportError="handleImportError" :onImportDone="editorComp?.optionsImported()" />
   <div class="container">
     <div class="new-poll-head-grid-helper">
-      <h1 class="text-center">Create a new poll</h1>
+      <h1 class="text-center">{{ $t("main.create-a-new-poll") }}</h1>
       <button class="btn btn-info" type="button" @click="importModal?.doShow()">♻ Import existing poll</button>
     </div>
 

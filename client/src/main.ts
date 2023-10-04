@@ -1,21 +1,29 @@
 import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
-import "bootstrap/js/dist/collapse";
-import "bootstrap/js/dist/tab";
+import { i18n, updateLocale } from "./locales";
 import { createPinia } from "pinia";
 import axios from "axios";
+
+// Load only the required bootstrap JS code
+import "bootstrap/js/dist/collapse";
+import "bootstrap/js/dist/tab";
 
 axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
 axios.defaults.xsrfCookieName = "csrftoken";
 
-const app = createApp(App);
-app.use(router);
+// Load the current locale as soon as possible
+const updateLocalePromise = updateLocale(i18n.global.locale);
 
 // Pinia
 const pinia = createPinia();
+
+const app = createApp(App);
 app.use(pinia);
+app.use(router);
 
-app.mount("#app");
-
-export { app };
+// Finish setup after locale has loaded
+updateLocalePromise.then(() => {
+  app.use(i18n);
+  app.mount("#app");
+});

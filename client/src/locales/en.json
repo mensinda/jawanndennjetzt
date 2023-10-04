@@ -1,0 +1,13 @@
+{
+  "main": {
+    "title": "JaWannDennJetzt",
+    "subtitle": "When's it gonna be?",
+    "create-a-new-poll": "Create a new poll"
+  },
+  "root": {
+    "toggle-navigation": "Toggle navigation",
+    "home": "Home",
+    "create-poll": "Create Poll",
+    "my-polls": "My Polls"
+  }
+}
