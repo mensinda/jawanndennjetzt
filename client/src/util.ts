@@ -11,14 +11,39 @@ function endpointUrl(url: string): string {
   return JWDJ_SUBPATH + url;
 }
 
-function setStoreFromResponse(data: any) {
+interface PollDataOption {
+  id: string;
+  index: number;
+  name: string;
+}
+
+interface PollDataBallot {
+  name: string;
+  votes: string;
+  note: string | null;
+}
+
+interface PollData {
+  name: string;
+  description: string;
+  allow_not_voted: boolean;
+  is_owner: boolean;
+  closed: string | null;
+  valid_until: string;
+  closed_option_idx: number;
+  options: PollDataOption[];
+  ballots: PollDataBallot[];
+  my_ballot: PollDataBallot | null;
+}
+
+function setStoreFromResponse(data: PollData) {
   const store = pollStore();
   store.name = data.name;
   store.description = data.description;
   store.allowNotVoted = data.allow_not_voted;
   store.isOwner = data.is_owner;
-  store.options = data.options.map((x: any) => new Option(x.name, x.index, x.id));
-  store.ballots = data.ballots.map((y: any) => new Ballot(y.name, votesFromStr(y.votes), y.note));
+  store.options = data.options.map((x) => new Option(x.name, x.index, x.id));
+  store.ballots = data.ballots.map((y) => new Ballot(y.name, votesFromStr(y.votes), y.note));
   store.isClosed = data.closed != null;
   store.closedOptionIndex = data.closed_option_idx;
   if (data.my_ballot != null) {
@@ -29,7 +54,7 @@ function setStoreFromResponse(data: any) {
     store.alreadyVoted = false;
     store.myBallot = new Ballot(
       "",
-      store.options.map((_: any) => new Vote("-")),
+      store.options.map((_) => new Vote("-")),
       null,
     );
   }
@@ -81,4 +106,4 @@ function markdown(raw: string): string {
   return sanitize(marked.parse(raw, { gfm: true }), { USE_PROFILES: { html: true } });
 }
 
-export { endpointUrl, sumVotesData, setStoreFromResponse, markdown };
+export { PollData, endpointUrl, sumVotesData, setStoreFromResponse, markdown };

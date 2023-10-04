@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "./setup.sh && vue-cli-service serve",
+    "serve": "./setup.sh && DISABLE_ANALYZER=true vue-cli-service serve",
     "build": "./setup.sh && vue-cli-service build",
     "lint": "./setup.sh && vue-cli-service lint --fix"
   },

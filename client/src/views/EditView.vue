@@ -51,7 +51,7 @@ import NotFoundComp from "@/components/NotFoundComp.vue";
 import axios from "axios";
 import { defineComponent, ref } from "vue";
 import { pollStore } from "@/store";
-import { endpointUrl, setStoreFromResponse } from "@/util";
+import { endpointUrl, setStoreFromResponse, PollData } from "@/util";
 import PollDescription from "@/components/PollDescription.vue";
 import router from "@/router";
 
@@ -94,7 +94,7 @@ export default defineComponent({
       if (this.editComp) {
         this.editComp.hasChanges = false;
       }
-      axios({
+      axios<PollData>({
         url: endpointUrl("api/poll/" + this.$route.params.id),
         method: "get",
       })

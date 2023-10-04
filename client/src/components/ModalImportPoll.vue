@@ -113,21 +113,20 @@ export default defineComponent({
       this.checkPollId(pId);
     },
 
-    checkPollId: debounce(function (this: any, pId: string) {
+    checkPollId(pId: string) {
+      debounce(() => this.checkPollId(pId));
+    },
+
+    checkPollIdReal(pId: string) {
       axios({ url: endpointUrl("api/poll/" + pId + "/exists"), method: "get" })
         .then((x) => {
           this.isValidPoll = x.data.found;
           this.isChecking = false;
         })
-        .catch((x) => {
-          if (this.errorModal == null) {
-            return;
-          }
-          this.errorModal.doShow();
-          this.errorModal.data = x.response.data;
+        .catch((_x) => {
           this.isChecking = false;
         });
-    }, 250),
+    },
 
     importPoll() {
       this.show = false;

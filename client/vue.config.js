@@ -1,5 +1,5 @@
 const { defineConfig } = require("@vue/cli-service");
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 
 function toBool(raw, def) {
   if (raw == null) {
@@ -18,7 +18,8 @@ module.exports = defineConfig({
   configureWebpack: {
     plugins: [
       new BundleAnalyzerPlugin({
-        analyzerMode: toBool(process.env.DEBUG, true) ? 'static' : 'disabled',
+        analyzerMode:
+          toBool(process.env.DEBUG, true) && !toBool(process.env.DISABLE_ANALYZER, false) ? "static" : "disabled",
         openAnalyzer: false,
       }),
     ],

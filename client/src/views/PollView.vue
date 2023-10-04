@@ -99,7 +99,7 @@ import PollNotes from "@/components/PollNotes.vue";
 import NotFoundComp from "@/components/NotFoundComp.vue";
 import { pollStore } from "@/store";
 import { defineComponent, ref } from "vue";
-import { endpointUrl, setStoreFromResponse } from "@/util";
+import { endpointUrl, setStoreFromResponse, PollData } from "@/util";
 import axios from "axios";
 
 export default defineComponent({
@@ -189,7 +189,7 @@ export default defineComponent({
 
   methods: {
     reload() {
-      axios({
+      axios<PollData>({
         url: endpointUrl("api/poll/" + this.$route.params.id),
         method: "get",
       })
