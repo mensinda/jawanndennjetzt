@@ -37,6 +37,16 @@ else
     JWDJ_DARK_DATE_PICKER="true"
 fi
 
+case "$JWDJ_DARK_MODE_TOGGLE" in
+    fancy)   DARK_MODE_IMPORT="ToggleFancy.vue"   ;;
+    minimal) DARK_MODE_IMPORT="ToggleMinimal.vue" ;;
+    off)     DARK_MODE_IMPORT="ToggleDummy.vue"   ;;
+    *)
+        echo "Invalid JWDJ_DARK_MODE_TOGGLE: '$JWDJ_DARK_MODE_TOGGLE'"
+        exit 1;
+        ;;
+esac
+
 cat <<EOF > src/config.ts
 const JWDJ_SUBPATH = "${JWDJ_SUBPATH}";
 const JWDJ_LOGO = "${JWDJ_LOGO}";
@@ -45,5 +55,15 @@ const JWDJ_LOGO_HEIGHT = "${JWDJ_LOGO_HEIGHT}";
 const JWDJ_LOGO_VERTICAL_MARGIN = "${JWDJ_LOGO_VERTICAL_MARGIN}";
 const JWDJ_DARK_DATE_PICKER = $JWDJ_DARK_DATE_PICKER;
 
-export { JWDJ_SUBPATH, JWDJ_LOGO, JWDJ_LOGO_WIDTH, JWDJ_LOGO_HEIGHT, JWDJ_LOGO_VERTICAL_MARGIN, JWDJ_DARK_DATE_PICKER };
+import DarkModeToggle from "@/components/darkmode/$DARK_MODE_IMPORT";
+
+export {
+  JWDJ_SUBPATH,
+  JWDJ_LOGO,
+  JWDJ_LOGO_WIDTH,
+  JWDJ_LOGO_HEIGHT,
+  JWDJ_LOGO_VERTICAL_MARGIN,
+  JWDJ_DARK_DATE_PICKER,
+  DarkModeToggle,
+};
 EOF

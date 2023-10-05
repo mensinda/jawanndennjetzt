@@ -45,6 +45,7 @@ JaWannDennJetzt supports the following configuration options:
 | `JWDJ_LOGO_WIDTH`             | Width of the logo in the navbar                                                                                                                      |  `B`  |
 | `JWDJ_LOGO_HEIGHT`            | Height of the logo in the navbar                                                                                                                     |  `B`  |
 | `JWDJ_LOGO_VERTICAL_MARGIN`   | Advanced option to set the top and bottom margin. The main use-case is to set a negative margin for large logos. Must be a valid CSS margin value.   |  `B`  |
+| `JWDJ_DARK_MODE_TOGGLE`       | Which dark mode toggle to use (suported values: [`fancy`, `minimal`, `off`])                                                                         |  `B`  |
 | `JWDJ_SERVE_STATIC_FILES`     | Whether the static client HTML / CSS / JS should be served via the django backend (by default, static files are served via Nginx).                   |  `R`  |
 | `JWDJ_CLIENT_DIST`            | Where the static files are located if `JWDJ_SERVE_STATIC_FILES` is enabled                                                                           |  `R`  |
 | `JWDJ_DAYS_TO_KEEP`           | Number of days polls are kept                                                                                                                        |  `R`  |

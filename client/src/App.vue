@@ -1,6 +1,6 @@
 <template>
   <div class="app-root d-flex flex-column min-vh-100">
-    <nav class="navbar navbar-expand-md navbar-dark bg-primary mb-4" data-bs-theme="dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4" data-bs-theme="dark">
       <div class="container-fluid">
         <router-link class="navbar-brand d-flex flex-rows align-items-center" to="/">
           <img v-if="hasIcon" :src="logoPath" :style="logoStyle" />
@@ -36,6 +36,9 @@
             </li>
           </ul>
           <ul class="navbar-nav">
+            <li class="nav-item me-3 d-flex align-items-center">
+              <DarkModeToggle />
+            </li>
             <li class="nav-item me-3 d-flex">
               <select class="form-select" :value="$i18n.locale" @change="(ev) => switchLocale(ev.target?.value)">
                 <option v-for="(v, k) in locales" :key="k" :value="k">{{ v.name }}</option>
@@ -71,11 +74,15 @@
 import { defineComponent } from "vue";
 import { pollStore } from "@/store";
 import { endpointUrl } from "@/util";
-import { JWDJ_LOGO, JWDJ_LOGO_WIDTH, JWDJ_LOGO_HEIGHT, JWDJ_LOGO_VERTICAL_MARGIN } from "@/config";
+import { JWDJ_LOGO, JWDJ_LOGO_WIDTH, JWDJ_LOGO_HEIGHT, JWDJ_LOGO_VERTICAL_MARGIN, DarkModeToggle } from "@/config";
 import { ALL_LOCALES, updateLocale } from "@/locales";
 import axios from "axios";
 
 export default defineComponent({
+  components: {
+    DarkModeToggle,
+  },
+
   setup() {
     const store = pollStore();
     document.title = "JaWannDennJetzt";
