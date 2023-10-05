@@ -3,9 +3,9 @@
   <ModalConfirm ref="confirmModal" @confirmedDeletion="deletePoll()" />
   <div v-if="pollstatus == 'loading'">
     <div class="root-display-container text-center">
-      <h1 class="display-1 text-muted">JaWannDennJetzt</h1>
-      <h3 class="mb-5 text-muted">When's it gonna be?</h3>
-      <h1 class="mb-5">Loading poll...</h1>
+      <h1 class="display-1 text-muted">{{ $t("main.title") }}</h1>
+      <h3 class="mb-5 text-muted">{{ $t("main.subtitle") }}</h3>
+      <h1 class="mb-5">{{ $t("main.loading-poll") }}</h1>
       <small class="text-muted">{ ID = {{ $route.params.id }} }</small>
     </div>
   </div>
@@ -16,22 +16,24 @@
   />
   <div v-if="pollstatus == 'ready'" class="container">
     <div class="edit-head-grid-helper">
-      <h1 class="text-center">Edit poll</h1>
+      <h1 class="text-center">{{ $t("edit.edit-poll") }}</h1>
       <button
         class="btn btn-info"
         type="button"
         @click="$router.push({ name: 'poll', params: { id: $route.params.id } })"
       >
-        <h4 style="margin: 0">Return to poll ↲</h4>
+        <h4 style="margin: 0">{{ $t("edit.return-to-poll") }}</h4>
       </button>
     </div>
     <EditorComp submitMsg="↻ Update Poll ↻" ref="editComp" :canEditOptions="false" @submit="updatePoll" />
     <div class="d-flex flex-row">
-      <button @click="confirmModal?.doShow()" class="btn btn-lg btn-danger col" type="button">🔥 Delete Poll 🔥</button>
+      <button @click="confirmModal?.doShow()" class="btn btn-lg btn-danger col" type="button">
+        {{ $t("edit.delete-poll") }}
+      </button>
     </div>
     <hr class="mt-4 mb-4" />
     <div class="card">
-      <div class="card-header">Preview</div>
+      <div class="card-header">{{ $t("edit.preview") }}</div>
       <div class="card-body">
         <PollComp mode="preview" />
         <hr v-if="store.description.trim()" />

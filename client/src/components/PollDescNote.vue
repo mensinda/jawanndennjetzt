@@ -3,12 +3,12 @@
     <ul class="nav nav-tabs" role="tablist">
       <li class="nav-item" role="presentation">
         <a class="nav-link active" data-bs-toggle="tab" href="#poll-description" aria-selected="true" role="tab">
-          Description
+          {{ $t("poll-desc.description") }}
         </a>
       </li>
       <li class="nav-item" role="presentation">
         <a class="nav-link" data-bs-toggle="tab" href="#poll-notes" aria-selected="false" role="tab">
-          Notes ({{ numNotes }})
+          {{ $t("poll-desc.notes") }} ({{ numNotes }})
         </a>
       </li>
     </ul>

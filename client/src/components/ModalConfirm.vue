@@ -5,18 +5,25 @@
         <div @click.stop="stop" class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header bg-danger fw-bold text-white">
-              <h5 class="modal-title user-select-none">Delete poll</h5>
+              <h5 class="modal-title user-select-none">{{ $t("modal.delete.title") }}</h5>
               <button @click="show = false" type="button" class="btn-close text-white" aria-label="Close">
                 <span aria-hidden="true"></span>
               </button>
             </div>
             <div class="modal-body">
-              <span>Are you sure you want to <strong>PERMANENTLY</strong> delete this poll?</span>
+              <span>
+                {{ $t("modal.delete.main-pre") }} <strong>{{ $t("modal.delete.main-center") }}</strong>
+                {{ $t("modal.delete.main-post") }}
+              </span>
             </div>
 
             <div class="modal-footer">
-              <button @click="handleConfirm()" type="button" class="btn btn-danger">Confirm Deletion</button>
-              <button @click="show = false" type="button" class="btn btn-info" data-dismiss="modal">Abort</button>
+              <button @click="handleConfirm()" type="button" class="btn btn-danger">
+                {{ $t("modal.delete.confirm") }}
+              </button>
+              <button @click="show = false" type="button" class="btn btn-info" data-dismiss="modal">
+                {{ $t("modal.delete.abort") }}
+              </button>
             </div>
           </div>
         </div>

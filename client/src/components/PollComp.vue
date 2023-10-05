@@ -1,12 +1,14 @@
 <template>
   <h1 class="display-3 text-center mb-5" v-html="markdown(store.name)" />
   <div class="card mb-2">
-    <div class="card-header remove-last-margin">Voting overview</div>
+    <div class="card-header remove-last-margin">{{ $t("poll-comp.voting-overview") }}</div>
     <div class="card-body">
       <div class="poll-root mb-2">
         <div class="poll-container mt-3" :style="gridTemplate">
           <!-- Header -->
-          <span class="user-select-none"><b>User</b></span>
+          <span class="user-select-none">
+            <b>{{ $t("poll-comp.user") }}</b>
+          </span>
           <span
             v-for="opt in store.options"
             :key="opt.vid"
@@ -44,7 +46,7 @@
                 class="form-control"
                 :class="{ 'is-invalid': hasChanges && vueMyBallot.name.length <= 0 }"
                 :maxlength="limits.NAME_LENGTH"
-                placeholder="Your name..."
+                :placeholder="$t('poll-comp.your-name')"
                 @input="
                   $emit('userInputChanged');
                   hasChanges = true;
@@ -63,7 +65,9 @@
 
           <!-- Sum section -->
           <div style="display: contents">
-            <span class="mt-3 user-select-none"><b>Total Votes</b></span>
+            <span class="mt-3 user-select-none">
+              <b>{{ $t("common.total-votes") }}</b>
+            </span>
             <div class="text-center d-flex flex-column mt-3" v-for="(opt, optIdx) in store.options" :key="opt.vid">
               <span
                 class="user-select-none"
@@ -93,8 +97,9 @@
                 v-if="store.isClosed"
                 class="fs-2 user-select-none"
                 :class="{ 'text-invisible': !shouldHaveArrow(optIdx) }"
-                >👑</span
               >
+                👑
+              </span>
             </div>
             <span class="mt-3" />
           </div>
@@ -165,7 +170,7 @@ export default defineComponent({
       const repeatRows = this.numBallots > 0 ? `repeat(${this.numBallots}, minmax(50px, min-content))` : "";
       const inputRow = this.mode == "normal" && !this.store.isClosed ? "min-content" : "";
       return {
-        "grid-template-columns": `minmax(150px, min-content) ${repeatCols} minmax(125px, min-content)`,
+        "grid-template-columns": `minmax(150px, min-content) ${repeatCols} minmax(150px, min-content)`,
         "grid-template-rows": `min-content ${repeatRows} ${inputRow} min-content`,
       };
     },

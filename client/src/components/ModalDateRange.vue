@@ -4,25 +4,25 @@
       <div @click.stop="stop" class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header bg-info fw-bold text-white">
-            <h5 class="modal-title">Date range inserter</h5>
+            <h5 class="modal-title">{{ $t("modal.date.title") }}</h5>
             <button @click="show = false" type="button" class="btn-close" aria-label="Close">
               <span aria-hidden="true"></span>
             </button>
           </div>
           <div class="modal-body">
-            <p>Please select the date range to append to the options</p>
+            <p>{{ $t("modal.date.desc") }}</p>
 
             <!-- Tab view -->
             <ul class="nav nav-tabs" role="tablist">
               <li class="nav-item" role="presentation">
-                <a class="nav-link active" data-bs-toggle="tab" href="#date" aria-selected="true" role="tab"
-                  >Date range</a
-                >
+                <a class="nav-link active" data-bs-toggle="tab" href="#date" aria-selected="true" role="tab">
+                  {{ $t("modal.date.tab-date") }}
+                </a>
               </li>
               <li class="nav-item" role="presentation">
-                <a class="nav-link" data-bs-toggle="tab" href="#time" aria-selected="false" role="tab" tabindex="-1"
-                  >Times for each day</a
-                >
+                <a class="nav-link" data-bs-toggle="tab" href="#time" aria-selected="false" role="tab" tabindex="-1">
+                  {{ $t("modal.date.tab-time") }}
+                </a>
               </li>
             </ul>
             <div id="myTabContent" class="tab-content">
@@ -49,7 +49,7 @@
               <div class="tab-pane fade mt-2" id="time" role="tabpanel">
                 <div class="d-flex flex-row">
                   <button @click="newOpt(numOpts)" type="button" class="control-btn col btn btn-success">
-                    ✚ New Time
+                    {{ $t("modal.date.new-time") }}
                   </button>
                   <button
                     @click="
@@ -59,7 +59,7 @@
                     type="button"
                     class="control-btn col btn btn-danger"
                   >
-                    🗑 Clear all times
+                    {{ $t("modal.date.clear-all-times") }}
                   </button>
                 </div>
 
@@ -70,14 +70,16 @@
                       <tr>
                         <!--<th scope="col">#</th>-->
                         <th />
-                        <th scope="col" class="user-select-none" style="width: 100%">Time</th>
-                        <th scope="col" class="user-select-none" style="text-align: right">Controls</th>
+                        <th scope="col" class="user-select-none" style="width: 100%">{{ $t("modal.date.time") }}</th>
+                        <th scope="col" class="user-select-none" style="text-align: right">
+                          {{ $t("modal.date.controls") }}
+                        </th>
                       </tr>
                     </thead>
                     <tr v-if="numOpts == 0">
                       <td class="user-select-none text-invisible fs-4">---</td>
                       <td>
-                        <span class="user-select-none text-muted">No times yet...</span>
+                        <span class="user-select-none text-muted">{{ $t("modal.date.no-times-yet") }}</span>
                       </td>
                     </tr>
                     <draggable
@@ -143,7 +145,7 @@
             <!-- Misc. options -->
             <div class="form-check mt-3">
               <input class="form-check-input" type="checkbox" id="yearCheckBox" v-model="includeYear" />
-              <label class="form-check-label" for="yearCheckBox">Include the year in the generated options</label>
+              <label class="form-check-label" for="yearCheckBox">{{ $t("modal.date.include-year") }}</label>
             </div>
           </div>
           <div class="modal-footer">
@@ -153,9 +155,11 @@
               class="btn btn-primary"
               :class="{ disabled: dateRange == null }"
             >
-              Save changes
+              {{ $t("modal.date.save-changes") }}
             </button>
-            <button @click="show = false" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button @click="show = false" type="button" class="btn btn-secondary" data-dismiss="modal">
+              {{ $t("common.close") }}
+            </button>
           </div>
         </div>
       </div>

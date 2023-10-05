@@ -7,10 +7,10 @@
   />
   <!-- Name, description, and settings -->
   <div class="card mb-3">
-    <label class="card-header">General settings</label>
+    <label class="card-header">{{ $t("editor.general-settings") }}</label>
     <div class="card-body">
       <div class="mb-2">
-        <label class="fw-bold user-select-none">Poll name</label>
+        <label class="fw-bold user-select-none">{{ $t("editor.poll-name") }}</label>
         <input
           v-model="store.name"
           type="text"
@@ -21,7 +21,7 @@
           @input="hasChanges = true"
         />
         <small class="form-text text-muted user-select-none">
-          The name of the poll to create. Markdown syntax is supported.
+          {{ $t("editor.poll-name-placeholder") }}
         </small>
       </div>
       <div class="form-check mb-3">
@@ -32,18 +32,22 @@
           type="checkbox"
           id="allowCbId"
         />
-        <label class="form-check-label user-select-none" for="allowCbId"> Allow leaving options unanswered</label>
+        <label class="form-check-label user-select-none" for="allowCbId"> {{ $t("editor.allow-unansered") }}</label>
       </div>
 
       <hr />
 
-      <label class="fw-bold mb-2 user-select-none">Poll description</label>
+      <label class="fw-bold mb-2 user-select-none">{{ $t("editor.poll-description") }}</label>
       <ul class="nav nav-tabs" role="tablist">
         <li class="nav-item" role="presentation">
-          <a class="nav-link active" data-bs-toggle="tab" href="#note-edit" aria-selected="true" role="tab"> Edit </a>
+          <a class="nav-link active" data-bs-toggle="tab" href="#note-edit" aria-selected="true" role="tab">
+            {{ $t("editor.edit") }}
+          </a>
         </li>
         <li class="nav-item" role="presentation">
-          <a class="nav-link" data-bs-toggle="tab" href="#note-preview" aria-selected="false" role="tab">Preview</a>
+          <a class="nav-link" data-bs-toggle="tab" href="#note-preview" aria-selected="false" role="tab">{{
+            $t("editor.preview")
+          }}</a>
         </li>
       </ul>
       <div id="noteIdContainer" class="tab-content">
@@ -52,12 +56,12 @@
             v-model="store.description"
             rows="4"
             class="form-control mt-1"
-            placeholder="An optional descriptive text..."
+            :placeholder="$t('editor.desc-placeholder-2')"
             @input="hasChanges = true"
           />
-          <small class="form-text text-muted user-select-none"
-            >Optional description. Markdown syntax is supported.</small
-          >
+          <small class="form-text text-muted user-select-none">
+            {{ $t("editor.desc-placeholder") }}
+          </small>
         </div>
         <div class="tab-pane fade card mt-1 mb-2" id="note-preview" role="tabpanel">
           <div class="card-body">
@@ -66,7 +70,7 @@
               :class="{
                 'text-muted user-select-none': !store.description.trim(),
               }"
-              v-html="markdown(store.description.trim() ? store.description : '*Nothing to preview*')"
+              v-html="markdown(store.description.trim() ? store.description : $t('editor.nothing-to-preview'))"
             />
           </div>
         </div>
@@ -76,14 +80,18 @@
 
   <!-- Options card -->
   <div class="card mb-3" v-if="canEditOptions">
-    <label class="card-header">Options</label>
+    <label class="card-header">{{ $t("editor.options") }}</label>
 
     <!--  - Options buttons -->
     <div class="card-body">
       <div class="mb-3">
         <div class="editor-button-row">
-          <button @click="newOpt(numOpts)" type="button" class="control-btn btn btn-success">✚ New option</button>
-          <button @click="dateRange()" type="button" class="control-btn btn btn-primary">📅 Insert date range</button>
+          <button @click="newOpt(numOpts)" type="button" class="control-btn btn btn-success">
+            {{ $t("editor.new-option") }}
+          </button>
+          <button @click="dateRange()" type="button" class="control-btn btn btn-primary">
+            {{ $t("editor.insert-date-range") }}
+          </button>
           <button
             @click="
               store.options = [];
@@ -94,7 +102,7 @@
             type="button"
             class="control-btn btn btn-danger"
           >
-            🗑 Clear all options
+            {{ $t("editor.clear-all-options") }}
           </button>
         </div>
       </div>
@@ -106,14 +114,14 @@
             <tr>
               <!--<th scope="col">#</th>-->
               <th />
-              <th scope="col" class="user-select-none" style="width: 100%">Option name</th>
-              <th scope="col" class="user-select-none" style="text-align: right">Controls</th>
+              <th scope="col" class="user-select-none" style="width: 100%">{{ $t("editor.option-name") }}</th>
+              <th scope="col" class="user-select-none" style="text-align: right">{{ $t("editor.controls") }}</th>
             </tr>
           </thead>
           <tr v-if="numOpts == 0">
             <td class="user-select-none text-invisible fs-4">---</td>
             <td>
-              <span class="user-select-none text-muted">No options yet...</span>
+              <span class="user-select-none text-muted">{{ $t("editor.no-options-yet") }}</span>
             </td>
           </tr>
           <draggable
@@ -168,12 +176,12 @@
   <!-- Submitting -->
   <div class="mb-3">
     <div v-if="!canSubmit && hasChanges" class="card mb-2">
-      <label class="card-header text-white bg-danger">Unable to submit because:</label>
+      <label class="card-header text-white bg-danger">{{ $t("editor.unable-to-submit") }}</label>
       <div class="card-body bg-danger" style="--bs-bg-opacity: 0.15">
         <ul class="mb-0">
-          <li v-if="store.name.length <= 0">The poll does not have a name!</li>
-          <li v-if="store.options.length <= 0">There are no poll options!</li>
-          <li v-if="hasEmptyOption">At least one option has no name!</li>
+          <li v-if="store.name.length <= 0">{{ $t("editor.poll-no-name") }}</li>
+          <li v-if="store.options.length <= 0">{{ $t("editor.poll-no-options") }}</li>
+          <li v-if="hasEmptyOption">{{ $t("editor.poll-empty-option") }}</li>
         </ul>
       </div>
     </div>

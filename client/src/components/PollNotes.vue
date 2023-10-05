@@ -1,17 +1,17 @@
 <template>
   <!-- My note editor -- simpler with "real" preview directly below -->
   <div v-if="!store.isClosed">
-    <h4 class="user-select-none">My note:</h4>
+    <h4 class="user-select-none">{{ $t("notes.my-note") }}</h4>
     <textarea
       v-model="vueMyBallot.note"
       rows="4"
       class="form-control mt-1"
       :maxlength="limits.DESCRIPTION_LENGTH"
-      placeholder="Optional note to attach to your vote..."
+      :placeholder="$t('notes.note-placeholder')"
       @input="$emit('userInputChanged')"
     />
     <small class="form-text text-muted user-select-none">
-      Optional note. Markdown syntax is supported. Notes are automatically updated when the vote is submitted / updated.
+      {{ $t("notes.help-text") }}
     </small>
   </div>
 

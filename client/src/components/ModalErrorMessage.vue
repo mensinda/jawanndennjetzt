@@ -5,20 +5,24 @@
         <div @click.stop="stop" class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header bg-danger fw-bold text-white">
-              <h5 class="modal-title"><b>An error occurred!</b></h5>
+              <h5 class="modal-title">
+                <b>{{ $t("modal.error.title") }}</b>
+              </h5>
               <button @click="show = false" type="button" class="btn-close" aria-label="Close">
                 <span aria-hidden="true"></span>
               </button>
             </div>
             <div class="modal-body d-flex flex-column">
               <p>
-                Error code: <b>{{ data.code }}</b>
+                {{ $t("modal.error.error-code") }} <b>{{ data.code }}</b>
               </p>
               <code class="mb-3">{{ data.msg }}</code>
-              <span class="text-center w-100">Please contact the site administrator</span>
+              <span class="text-center w-100">{{ $t("modal.error.contact-admin") }}</span>
             </div>
             <div class="modal-footer">
-              <button @click="show = false" type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+              <button @click="show = false" type="button" class="btn btn-danger" data-dismiss="modal">
+                {{ $t("common.close") }}
+              </button>
             </div>
           </div>
         </div>

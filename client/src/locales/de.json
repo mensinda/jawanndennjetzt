@@ -1,8 +1,133 @@
 {
+  "404": {
+    "back": "↲ Zurück zur Startseite",
+    "page-not-found": "Die angeforderte Seite konnte nicht gefunden werden"
+  },
+  "common": {
+    "close": "Schließen",
+    "total-votes": "Gesamtstimmen"
+  },
+  "edit": {
+    "delete-poll": "🔥Umfrage löschen 🔥",
+    "edit-poll": "Umfrage bearbeiten",
+    "preview": "Vorschau",
+    "return-to-poll": "Zurück zur Umfrage ↲"
+  },
+  "editor": {
+    "allow-unansered": "Zulassen dass Optionen unbeantwortet bleiben",
+    "clear-all-options": "🗑 Alle Optionen löschen",
+    "controls": "Steuerung",
+    "desc-placeholder": "Optionale Beschreibung. Markdown-Syntax wird unterstützt.",
+    "desc-placeholder-2": "Ein optionaler beschreibender Text...",
+    "edit": "Bearbeiten",
+    "general-settings": "Allgemeine Einstellungen",
+    "insert-date-range": "📅 Datumsbereich einfügen",
+    "new-option": "✚ Neue Option",
+    "no-options-yet": "Noch keine Optionen vorhanden...",
+    "nothing-to-preview": "*Die Vorschau is leer, da es noch keine Beschreibung gibt*",
+    "option-name": "Optionsname",
+    "options": "Optionen",
+    "poll-description": "Beschreibung der Umfrage",
+    "poll-empty-option": "Mindestens eine Option hat keinen Namen!",
+    "poll-name": "Umfragename",
+    "poll-name-placeholder": "Der Name der zu erstellenden Umfrage. Markdown-Syntax wird unterstützt.",
+    "poll-no-name": "Die Umfrage hat keinen Namen!",
+    "poll-no-options": "Es gibt keine Umfrageoptionen!",
+    "preview": "Vorschau",
+    "unable-to-submit": "Abschicken nicht möglich, weil:"
+  },
   "main": {
-    "title": "JaWannDennJetzt",
     "create-a-new-poll": "Neue Umfrage erstellen",
-    "subtitle": "Terminplanung leicht gemacht!"
+    "loading-poll": "Umfrage wird geladen...",
+    "subtitle": "Terminplanung leicht gemacht!",
+    "title": "JaWannDennJetzt"
+  },
+  "modal": {
+    "close": {
+      "cancel": "Abbrechen",
+      "clear-selection": "✗ Auswahl aufheben",
+      "close-poll": "Umfrage schließen",
+      "close-the-poll": "🔒 Schließen Sie die Umfrage",
+      "final-choice": "Bitte treffen Sie Ihre endgültige Entscheidung für diese Umfrage:",
+      "note-can-be-reopened": "Geschlossene Umfragen können vom Autor jederzeit wieder geöffnet werden.",
+      "option": "Möglichkeit",
+      "select-option": "Option Wählen"
+    },
+    "date": {
+      "clear-all-times": "🗑 Alle Zeiten löschen",
+      "controls": "Steuerung",
+      "desc": "Bitte wählen Sie den Datumsbereich aus, der den Optionen hinzugefügt werden soll",
+      "include-year": "Das Jahr in den generierten Optionen mit einfügen",
+      "new-time": "✚ Neue Zeit",
+      "no-times-yet": "Noch keine Zeiten hinzugefügt...",
+      "save-changes": "Änderungen übernehmen",
+      "tab-date": "Datumsbereich",
+      "tab-time": "Zeiten für jeden Tag",
+      "time": "Zeit",
+      "title": "Datumsbereich einfügen"
+    },
+    "delete": {
+      "abort": "Abbrechen",
+      "confirm": "Löschung bestätigen",
+      "main-center": "FÜR IMMER",
+      "main-post": "löschen wollen?",
+      "main-pre": "Sind Sie sicher das Sie die Umfrage",
+      "title": "Umfrage löschen"
+    },
+    "error": {
+      "contact-admin": "Bitte wenden Sie sich an den Webseiten-Administrator",
+      "error-code": "Fehlercode:",
+      "title": "Ein Fehler ist aufgetreten!"
+    },
+    "import": {
+      "input-placeholder": "Vorhandene Umfrage-ID oder URL...",
+      "not-found": "Die Umfrage mit der ID konnte nicht gefunden werden",
+      "title": "Vorhandene Umfrage importieren",
+      "waning-body": "Beim Importieren einer Umfrage werden alle aktuellen Einstellungen überschrieben!",
+      "warning": "Warnung:"
+    }
+  },
+  "my": {
+    "loading": "Wird geladen...",
+    "my-polls": "Meine Umfragen",
+    "no-created-polls": "Sie haben noch keine Umfragen erstellt...",
+    "no-polls-voted": "Sie haben noch an keiner Umfrage teilgenommen...",
+    "polls-created-by-me": "Von mir erstellte Umfragen",
+    "polls-voted-in": "Umfragen, an denen ich teilgenommen habe"
+  },
+  "new": {
+    "add-option-for-preview": "Fügen Sie eine Option hinzu, um eine Vorschau Ihrer Umfrage anzuzeigen ...",
+    "import-existing": "♻ Vorhandene Umfrage importieren",
+    "preview": "Vorschau",
+    "publish-poll": "🚀 Umfrage veröffentlichen 🚀"
+  },
+  "notes": {
+    "help-text": "Optionaler Hinweis. Markdown-Syntax wird unterstützt. Notizen werden automatisch aktualisiert, wenn die Abstimmung abgegeben/aktualisiert wird.",
+    "my-note": "Meine Anmerkung:",
+    "note-placeholder": "Optionaler Hinweis, den Sie Ihrer Abstimmung beifügen können..."
+  },
+  "poll": {
+    "all-choices-required": "Nicht für alle Optionen abgestimmt wurde!",
+    "at-least-one-choice-required": "Für mindestens eine Option abgestimmt werden muss!",
+    "cast-vote": "🗳 Stimme abgeben",
+    "close-poll": "🔒 Schließen",
+    "closed": "Die Umfrage ist geschlossen",
+    "copy-link": "Link kopieren",
+    "edit-poll": "🛠 Bearbeiten",
+    "link-copied": "Link kopiert!",
+    "no-user-name": "Kein Name angegeben wurde!",
+    "reopen-poll": "🔓 Wiedereröffnen",
+    "unable-to-submit": "Stimmzettel kann nicht abgeschickt werden weil:",
+    "update-vote": "↻ Stimabgabe aktualisieren"
+  },
+  "poll-comp": {
+    "user": "Benutzer",
+    "voting-overview": "Abstimmungsübersicht",
+    "your-name": "Ihr Name..."
+  },
+  "poll-desc": {
+    "description": "Beschreibung",
+    "notes": "Anmerkungen"
   },
   "root": {
     "create-poll": "Neue Umfrage",

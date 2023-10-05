@@ -3,9 +3,9 @@
   <ModalClose ref="closeModal" @option-picked="(x) => doPollClose(x)" />
   <div v-if="pollstatus == 'loading'">
     <div class="root-display-container text-center">
-      <h1 class="display-1 text-muted">JaWannDennJetzt</h1>
-      <h3 class="mb-5 text-muted">When's it gonna be?</h3>
-      <h1 class="mb-5">Loading poll...</h1>
+      <h1 class="display-1 text-muted">{{ $t("main.title") }}</h1>
+      <h3 class="mb-5 text-muted">{{ $t("main.subtitle") }}</h3>
+      <h1 class="mb-5">{{ $t("main.loading-poll") }}</h1>
       <small class="text-muted">{ ID = {{ $route.params.id }} }</small>
     </div>
   </div>
@@ -21,12 +21,12 @@
 
     <!-- First of all, any potential errors -->
     <div v-if="!canSubmit && !store.isClosed && hasChanges" class="card mt-3 mb-2">
-      <div class="card-header bg-danger text-white">Unable to submit because:</div>
+      <div class="card-header bg-danger text-white">{{ $t("poll.unable-to-submit") }}</div>
       <div class="card-body bg-danger" style="--bs-bg-opacity: 0.15">
         <ul class="mb-0">
-          <li v-if="!hasUserName">No user name was entered!</li>
-          <li v-if="!hasVoted && store.allowNotVoted">At least one choice needs to be voted on!</li>
-          <li v-if="!hasVoted && !store.allowNotVoted">Not all choices have been voted on!</li>
+          <li v-if="!hasUserName">{{ $t("poll.no-user-name") }}</li>
+          <li v-if="!hasVoted && store.allowNotVoted">{{ $t("poll.at-least-one-choice-required") }}</li>
+          <li v-if="!hasVoted && !store.allowNotVoted">{{ $t("poll.all-choices-required") }}</li>
         </ul>
       </div>
     </div>
@@ -46,7 +46,7 @@
             :class="{ disabled: pollstatus == 'updating' || store.isClosed }"
             type="button"
           >
-            🛠 Edit poll
+            {{ $t("poll.edit-poll") }}
           </button>
           <button
             v-if="store.isOwner && !store.isClosed"
@@ -55,7 +55,7 @@
             :class="{ disabled: pollstatus == 'updating' || (store.ballots.length == 0 && !store.alreadyVoted) }"
             type="button"
           >
-            🔒 Close poll
+            {{ $t("poll.close-poll") }}
           </button>
           <button
             v-if="store.isOwner && store.isClosed"
@@ -64,7 +64,7 @@
             :class="{ disabled: pollstatus == 'updating' }"
             type="button"
           >
-            🔓 Reopen poll
+            {{ $t("poll.reopen-poll") }}
           </button>
           <button @click="doCopyLink" class="btn btn-info" :class="{ disabled: hasJustCopied }" type="button">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
@@ -75,7 +75,7 @@
                 d="M6.586 4.672A3 3 0 0 0 7.414 9.5l.775-.776a2 2 0 0 1-.896-3.346L9.12 3.55a2 2 0 1 1 2.83 2.83l-.793.792c.112.42.155.855.128 1.287l1.372-1.372a3 3 0 1 0-4.243-4.243L6.586 4.672z"
               />
             </svg>
-            {{ hasJustCopied ? "Link copied!" : "Copy link" }}
+            {{ hasJustCopied ? $t("poll.link-copied") : $t("poll.copy-link") }}
           </button>
         </div>
       </div>
@@ -142,9 +142,9 @@ export default defineComponent({
   computed: {
     submitMsg(): string {
       if (this.store.isClosed) {
-        return "The poll is closed";
+        return this.$t("poll.closed");
       }
-      return this.store.alreadyVoted ? "↻ Update vote" : "🗳 Cast vote";
+      return this.store.alreadyVoted ? this.$t("poll.update-vote") : this.$t("poll.cast-vote");
     },
 
     submitBtnCls(): { [key: string]: boolean } {
@@ -329,9 +329,9 @@ export default defineComponent({
 
     button {
       flex-grow: 1;
-      min-width: 128px;
+      min-width: 150px;
       @media (min-width: 256px) {
-        width: 128px;
+        width: 150px;
       }
     }
   }

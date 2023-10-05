@@ -4,17 +4,17 @@
   <div class="container">
     <div class="new-poll-head-grid-helper">
       <h1 class="text-center">{{ $t("main.create-a-new-poll") }}</h1>
-      <button class="btn btn-info" type="button" @click="importModal?.doShow()">♻ Import existing poll</button>
+      <button class="btn btn-info" type="button" @click="importModal?.doShow()">{{ $t("new.import-existing") }}</button>
     </div>
 
     <!-- Main editor -->
-    <EditorComp ref="editorComp" submitMsg="🚀 Publish Poll 🚀" :canEditOptions="true" @submit="createPoll" />
+    <EditorComp ref="editorComp" :submitMsg="$t('new.publish-poll')" :canEditOptions="true" @submit="createPoll" />
     <hr class="mt-4 mb-4" />
     <div class="card mb-5">
-      <div class="card-header">Preview</div>
+      <div class="card-header">{{ $t("new.preview") }}</div>
       <div class="card-body">
         <span v-if="store.options.length == 0" class="text-muted user-select-none">
-          Add an option to see a preview of your poll...
+          {{ $t("new.add-option-for-preview") }}
         </span>
         <div v-if="store.options.length > 0">
           <PollComp mode="preview" />

@@ -6,7 +6,7 @@
       <div class="home-btn-container mb-5">
         <div />
         <button @click="$router.push('/')" class="btn btn-lg btn-success text-nowrap user-select-none">
-          ↲ Back to the homepage
+          {{ $t("404.back") }}
         </button>
         <div />
       </div>
@@ -16,6 +16,7 @@
 </template>
 
 <script lang="ts">
+import { i18n } from "@/locales";
 import { defineComponent } from "vue";
 
 export default defineComponent({
@@ -26,7 +27,7 @@ export default defineComponent({
     },
     desc: {
       type: String,
-      default: "The requested page was not found",
+      default: i18n.global.t("404.page-not-found"),
     },
     info: {
       type: String,

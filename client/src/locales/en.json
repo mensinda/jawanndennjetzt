@@ -1,13 +1,138 @@
 {
+  "404": {
+    "back": "↲ Back to the homepage",
+    "page-not-found": "The requested page was not found"
+  },
+  "common": {
+    "close": "Close",
+    "total-votes": "Total Votes"
+  },
+  "edit": {
+    "delete-poll": "🔥 Delete Poll 🔥",
+    "edit-poll": "Edit poll",
+    "preview": "Preview",
+    "return-to-poll": "Return to poll ↲"
+  },
+  "editor": {
+    "allow-unansered": "Allow leaving options unanswered",
+    "clear-all-options": "🗑 Clear all options",
+    "controls": "Controls",
+    "desc-placeholder": "Optional description. Markdown syntax is supported.",
+    "desc-placeholder-2": "An optional descriptive text...",
+    "edit": "Edit",
+    "general-settings": "General settings",
+    "insert-date-range": "📅 Insert date range",
+    "new-option": "✚ New option",
+    "no-options-yet": "No options yet...",
+    "nothing-to-preview": "*Nothing to preview*",
+    "option-name": "Option name",
+    "options": "Options",
+    "poll-description": "Poll description",
+    "poll-empty-option": "At least one option has no name!",
+    "poll-name": "Poll name",
+    "poll-name-placeholder": "The name of the poll to create. Markdown syntax is supported.",
+    "poll-no-name": "The poll does not have a name!",
+    "poll-no-options": "There are no poll options!",
+    "preview": "Preview",
+    "unable-to-submit": "Unable to submit because:"
+  },
   "main": {
-    "title": "JaWannDennJetzt",
+    "create-a-new-poll": "Create a new poll",
+    "loading-poll": "Loading poll...",
     "subtitle": "When's it gonna be?",
-    "create-a-new-poll": "Create a new poll"
+    "title": "JaWannDennJetzt"
+  },
+  "modal": {
+    "close": {
+      "cancel": "Cancel",
+      "clear-selection": "✗ Clear selection",
+      "close-poll": "Close poll",
+      "close-the-poll": "🔒 Close the poll",
+      "final-choice": "Please select your final choice for this poll:",
+      "note-can-be-reopened": "Closed polls can be reopened at any time by their creator.",
+      "option": "Option",
+      "select-option": "Select option"
+    },
+    "date": {
+      "clear-all-times": "🗑 Clear all times",
+      "controls": "Controls",
+      "desc": "Please select the date range to append to the options",
+      "include-year": "Include the year in the generated options",
+      "new-time": "✚ New Time",
+      "no-times-yet": "No times yet...",
+      "save-changes": "Save changes",
+      "tab-date": "Date range",
+      "tab-time": "Times for each day",
+      "time": "Time",
+      "title": "Date range inserter"
+    },
+    "delete": {
+      "abort": "Abort",
+      "confirm": "Confirm Deletion",
+      "main-center": "PERMANENTLY",
+      "main-post": "delete this poll?",
+      "main-pre": "Are you sure you want to",
+      "title": "Delete poll"
+    },
+    "error": {
+      "contact-admin": "Please contact the site administrator",
+      "error-code": "Error code:",
+      "title": "An error occurred!"
+    },
+    "import": {
+      "input-placeholder": "Existing Poll ID or URL...",
+      "not-found": "Unable to find the poll with the ID",
+      "title": "Import existing poll",
+      "waning-body": "Importing a poll will overwrite all current settings!",
+      "warning": "Warning:"
+    }
+  },
+  "my": {
+    "loading": "Loading...",
+    "my-polls": "My polls",
+    "no-created-polls": "You have not created any polls yet...",
+    "no-polls-voted": "You have not voted on any polls yet...",
+    "polls-created-by-me": "Polls created by me",
+    "polls-voted-in": "Polls I have voted in"
+  },
+  "new": {
+    "add-option-for-preview": "Add an option to see a preview of your poll...",
+    "import-existing": "♻ Import existing poll",
+    "preview": "Preview",
+    "publish-poll": "🚀 Publish Poll 🚀"
+  },
+  "notes": {
+    "help-text": "Optional note. Markdown syntax is supported. Notes are automatically updated when the vote is submitted / updated.",
+    "my-note": "My note:",
+    "note-placeholder": "Optional note to attach to your vote..."
+  },
+  "poll": {
+    "all-choices-required": "Not all choices have been voted on!",
+    "at-least-one-choice-required": "At least one choice needs to be voted on!",
+    "cast-vote": "🗳 Cast vote",
+    "close-poll": "🔒 Close poll",
+    "closed": "The poll is closed",
+    "copy-link": "Copy link",
+    "edit-poll": "🛠 Edit poll",
+    "link-copied": "Link copied!",
+    "no-user-name": "No user name was entered!",
+    "reopen-poll": "🔓 Reopen poll",
+    "unable-to-submit": "Unable to submit because:",
+    "update-vote": "↻ Update vote"
+  },
+  "poll-comp": {
+    "user": "User",
+    "voting-overview": "Voting overview",
+    "your-name": "Your name..."
+  },
+  "poll-desc": {
+    "description": "Description",
+    "notes": "Notes"
   },
   "root": {
-    "toggle-navigation": "Toggle navigation",
-    "home": "Home",
     "create-poll": "Create Poll",
-    "my-polls": "My Polls"
+    "home": "Home",
+    "my-polls": "My Polls",
+    "toggle-navigation": "Toggle navigation"
   }
 }

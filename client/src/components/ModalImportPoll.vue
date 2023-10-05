@@ -5,7 +5,7 @@
         <div @click.stop="stop" class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header bg-info fw-bold text-white">
-              <h5 class="modal-title user-select-none">Import existing poll</h5>
+              <h5 class="modal-title user-select-none">{{ $t("modal.import.title") }}</h5>
               <button @click="show = false" type="button" class="btn-close text-white" aria-label="Close">
                 <span aria-hidden="true"></span>
               </button>
@@ -16,17 +16,18 @@
                   v-model="pollInput"
                   type="input"
                   :class="{ 'is-invalid': invalidId, 'form-control': true }"
-                  placeholder="Existing Poll ID or URL..."
+                  :placeholder="$t('modal.import.input-placeholder')"
                   @input="pollInputChanged"
                 />
                 <div class="text-danger small mt-1" :style="{ visibility: invalidId ? 'visible' : 'hidden' }">
-                  Unable to find the poll with the ID "{{ pollIdFromInput }}"
+                  {{ $t("modal.import.not-found") }} "{{ pollIdFromInput }}"
                 </div>
               </div>
 
               <!-- Warning -->
               <div class="mt-3">
-                <span class="text-warning fw-bold">Warning:</span> Importing a poll will overwrite all current settings!
+                <span class="text-warning fw-bold">{{ $t("modal.import.warning") }}</span>
+                {{ $t("modal.import.waning-body") }}
               </div>
             </div>
 
@@ -39,7 +40,9 @@
               >
                 {{ isChecking ? "Checking..." : "Import poll settings" }}
               </button>
-              <button @click="show = false" type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+              <button @click="show = false" type="button" class="btn btn-primary" data-dismiss="modal">
+                {{ $t("common.close") }}
+              </button>
             </div>
           </div>
         </div>

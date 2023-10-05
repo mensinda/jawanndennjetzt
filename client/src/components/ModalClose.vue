@@ -5,19 +5,21 @@
         <div @click.stop="stop" class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header bg-info fw-bold text-white">
-              <h5 class="modal-title user-select-none">Close poll</h5>
+              <h5 class="modal-title user-select-none">{{ $t("modal.close.close-poll") }}</h5>
               <button @click="show = false" type="button" class="btn-close text-white" aria-label="Close">
                 <span aria-hidden="true"></span>
               </button>
             </div>
             <div class="modal-body">
-              <h5 class="mb-4 user-select-none">Please select your final choice for this poll:</h5>
+              <h5 class="mb-4 user-select-none">{{ $t("modal.close.final-choice") }}</h5>
 
               <!-- Main area where the magic happens -->
               <div class="poll-root mb-4">
                 <div class="poll-container" :style="gridTemplate">
                   <!-- Options row -->
-                  <span><b>Option</b></span>
+                  <span>
+                    <b>{{ $t("modal.close.option") }}</b>
+                  </span>
                   <span
                     v-for="opt in store.options"
                     :key="opt.vid"
@@ -27,7 +29,11 @@
                   />
 
                   <!-- Sum row -->
-                  <span class="mt-3 user-select-none"><b>Total Votes</b></span>
+                  <span class="mt-3 user-select-none">
+                    <b>
+                      {{ $t("common.total-votes") }}
+                    </b>
+                  </span>
                   <div
                     class="text-center d-flex flex-column mt-3"
                     v-for="(opt, optIdx) in store.options"
@@ -51,7 +57,9 @@
                   </div>
 
                   <!-- Button row -->
-                  <span class="mt-3"><b>Select option</b></span>
+                  <span class="mt-3">
+                    <b>{{ $t("modal.close.select-option") }}</b>
+                  </span>
                   <button
                     v-for="(opt, optIdx) in store.options"
                     :key="opt.vid"
@@ -68,7 +76,7 @@
                   </button>
                 </div>
               </div>
-              <small class="text-muted">Closed polls can be reopened at any time by their creator.</small>
+              <small class="text-muted">{{ $t("modal.close.note-can-be-reopened") }}</small>
             </div>
 
             <div class="modal-footer">
@@ -78,7 +86,7 @@
                 class="btn btn-warning me-auto"
                 :class="{ disabled: selectedIdx < 0 }"
               >
-                ✗ Clear selection
+                {{ $t("modal.close.clear-selection") }}
               </button>
               <button
                 @click="handleConfirm()"
@@ -86,9 +94,11 @@
                 class="btn"
                 :class="{ 'btn-primary': selectedIdx >= 0, 'btn-warning': selectedIdx < 0 }"
               >
-                🔒 Close the poll
+                {{ $t("modal.close.close-the-poll") }}
               </button>
-              <button @click="show = false" type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+              <button @click="show = false" type="button" class="btn btn-danger" data-dismiss="modal">
+                {{ $t("modal.close.cancel") }}
+              </button>
             </div>
           </div>
         </div>
@@ -126,7 +136,7 @@ export default defineComponent({
 
     gridTemplate(): { "grid-template-columns": string } {
       return {
-        "grid-template-columns": `125px repeat(${this.numOpts}, minmax(50px, min-content))`,
+        "grid-template-columns": `135px repeat(${this.numOpts}, minmax(50px, min-content))`,
       };
     },
 
