@@ -52,106 +52,96 @@
   </Transition>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from "vue";
-import { endpointUrl, markdown } from "@/util";
+<script setup lang="ts">
+import { computed, ref, defineEmits } from "vue";
+import { endpointUrl } from "@/util";
 import { pollStore } from "@/store";
 import debounce from "lodash.debounce";
 import axios from "axios";
 
-export default defineComponent({
-  emits: ["importDone", "importError"],
+const emit = defineEmits(["importDone", "importError"]);
 
-  data() {
-    return {
-      show: false,
-      hasChanges: false,
-      pollInput: "",
-    };
-  },
+const store = pollStore();
 
-  setup() {
-    const store = pollStore();
-    const isChecking = ref(false);
-    const isValidPoll = ref(false);
+const show = ref(false);
+const hasChanges = ref(false);
+const pollInput = ref("");
 
-    function checkPollIdReal(pId: string) {
-      axios({ url: endpointUrl("api/poll/" + pId + "/exists"), method: "get" })
-        .then((x) => {
-          isValidPoll.value = x.data.found;
-          isChecking.value = false;
-        })
-        .catch((_x) => {
-          isChecking.value = false;
-        });
-    }
+// Dynamic poll ID checking / validation
 
-    const checkPollId = debounce((pId: string) => checkPollIdReal(pId), 500);
+const isChecking = ref(false);
+const isValidPoll = ref(false);
 
-    return { store, checkPollId, isValidPoll, isChecking };
-  },
+const checkPollId = debounce((pId: string) => {
+  axios({ url: endpointUrl("api/poll/" + pId + "/exists"), method: "get" })
+    .then((x) => {
+      isValidPoll.value = x.data.found;
+      isChecking.value = false;
+    })
+    .catch((_x) => {
+      isChecking.value = false;
+    });
+}, 500);
 
-  computed: {
-    pollIdFromInput(): string {
-      const idx = this.pollInput.lastIndexOf("/");
-      if (idx < 0) {
-        return this.pollInput;
-      }
-      return this.pollInput.substring(idx + 1);
-    },
+function pollInputChanged() {
+  hasChanges.value = true;
+  isValidPoll.value = false;
 
-    invalidId() {
-      return this.hasChanges && !this.isValidPoll && !this.isChecking;
-    },
-  },
+  const pId = pollIdFromInput.value;
+  if (pId.length < 1) {
+    return;
+  }
 
-  methods: {
-    doShow() {
-      this.show = true;
-      this.hasChanges = false;
-      this.isValidPoll = false;
-      this.isChecking = false;
-      this.pollInput = "";
-    },
+  isChecking.value = true;
+  checkPollId(pId);
+}
 
-    markdown,
+// Actual import
 
-    pollInputChanged() {
-      this.hasChanges = true;
-      this.isValidPoll = false;
+function importPoll() {
+  show.value = false;
 
-      const pId = this.pollIdFromInput;
-      if (pId.length < 1) {
-        return;
-      }
+  axios({ url: endpointUrl("api/poll/" + pollIdFromInput.value), method: "get" })
+    .then((x) => {
+      store.reset();
+      store.name = x.data.name;
+      store.description = x.data.description;
+      store.options = x.data.options;
+      store.allowNotVoted = x.data.allow_not_voted;
 
-      this.isChecking = true;
-      this.checkPollId(pId);
-    },
+      emit("importDone");
+    })
+    .catch((x) => {
+      store.lastError = x.response.data;
+      emit("importError");
+    });
+}
 
-    importPoll() {
-      this.show = false;
+// Computed helpers
 
-      axios({ url: endpointUrl("api/poll/" + this.pollIdFromInput), method: "get" })
-        .then((x) => {
-          this.store.reset();
-          this.store.name = x.data.name;
-          this.store.description = x.data.description;
-          this.store.options = x.data.options;
-          this.store.allowNotVoted = x.data.allow_not_voted;
+const pollIdFromInput = computed(() => {
+  const idx = pollInput.value.lastIndexOf("/");
+  if (idx < 0) {
+    return pollInput.value;
+  }
+  return pollInput.value.substring(idx + 1);
+});
 
-          this.$emit("importDone");
-        })
-        .catch((x) => {
-          this.store.lastError = x.response.data;
-          this.$emit("importError");
-        });
-    },
+const invalidId = computed(() => {
+  return hasChanges.value && !isValidPoll.value && !isChecking.value;
+});
 
-    handleConfirm() {
-      this.$emit("importDone");
-      this.show = false;
-    },
-  },
+// Public functions
+
+function doShow() {
+  show.value = true;
+  hasChanges.value = false;
+  isValidPoll.value = false;
+  isChecking.value = false;
+  pollInput.value = "";
+}
+
+defineExpose({
+  doShow,
 });
 </script>
