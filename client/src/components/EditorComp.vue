@@ -17,11 +17,11 @@
           class="form-control"
           :class="{ 'is-invalid': hasChanges && store.name.length <= 0 }"
           :maxlength="limits.TITLE_LENGTH"
-          placeholder="New poll name..."
+          :placeholder="$t('editor.poll-name-placeholder')"
           @input="hasChanges = true"
         />
         <small class="form-text text-muted user-select-none">
-          {{ $t("editor.poll-name-placeholder") }}
+          {{ $t("editor.poll-name-hint") }}
         </small>
       </div>
       <div class="form-check mb-3">
@@ -144,7 +144,7 @@
                     :class="{ 'is-invalid': element.name.length <= 0 }"
                     :maxlength="limits.NAME_LENGTH"
                     style="z-index: 1000000"
-                    placeholder="Option name..."
+                    :placeholder="$t('editor.option-name-placeholder')"
                     @input="hasChanges = true"
                   />
                 </td>
