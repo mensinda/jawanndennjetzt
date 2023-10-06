@@ -53,7 +53,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 import { endpointUrl, markdown } from "@/util";
 import { pollStore } from "@/store";
 import debounce from "lodash.debounce";
@@ -66,16 +66,29 @@ export default defineComponent({
     return {
       show: false,
       hasChanges: false,
-      isValidPoll: false,
-      isChecking: false,
       pollInput: "",
     };
   },
 
   setup() {
     const store = pollStore();
+    const isChecking = ref(false);
+    const isValidPoll = ref(false);
 
-    return { store };
+    function checkPollIdReal(pId: string) {
+      axios({ url: endpointUrl("api/poll/" + pId + "/exists"), method: "get" })
+        .then((x) => {
+          isValidPoll.value = x.data.found;
+          isChecking.value = false;
+        })
+        .catch((_x) => {
+          isChecking.value = false;
+        });
+    }
+
+    const checkPollId = debounce((pId: string) => checkPollIdReal(pId), 500);
+
+    return { store, checkPollId, isValidPoll, isChecking };
   },
 
   computed: {
@@ -114,21 +127,6 @@ export default defineComponent({
 
       this.isChecking = true;
       this.checkPollId(pId);
-    },
-
-    checkPollId(pId: string) {
-      debounce(() => this.checkPollId(pId));
-    },
-
-    checkPollIdReal(pId: string) {
-      axios({ url: endpointUrl("api/poll/" + pId + "/exists"), method: "get" })
-        .then((x) => {
-          this.isValidPoll = x.data.found;
-          this.isChecking = false;
-        })
-        .catch((_x) => {
-          this.isChecking = false;
-        });
     },
 
     importPoll() {
