@@ -100,7 +100,7 @@ import NotFoundComp from "@/components/NotFoundComp.vue";
 import { pollStore } from "@/store";
 import { defineComponent, ref } from "vue";
 import { endpointUrl, setStoreFromResponse, PollData } from "@/util";
-import axios from "axios";
+import axios from "@/axios";
 
 export default defineComponent({
   components: {

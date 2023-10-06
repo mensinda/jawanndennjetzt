@@ -53,11 +53,11 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, defineEmits } from "vue";
+import { computed, ref } from "vue";
 import { endpointUrl } from "@/util";
 import { pollStore } from "@/store";
 import debounce from "lodash.debounce";
-import axios from "axios";
+import axios from "@/axios";
 
 const emit = defineEmits(["importDone", "importError"]);
 

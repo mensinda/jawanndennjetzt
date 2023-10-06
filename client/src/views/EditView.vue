@@ -50,7 +50,7 @@ import EditorComp from "@/components/EditorComp.vue";
 import ModalErrorMessage from "@/components/ModalErrorMessage.vue";
 import ModalConfirm from "@/components/ModalConfirm.vue";
 import NotFoundComp from "@/components/NotFoundComp.vue";
-import axios from "axios";
+import axios from "@/axios";
 import { defineComponent, ref } from "vue";
 import { pollStore } from "@/store";
 import { endpointUrl, setStoreFromResponse, PollData } from "@/util";

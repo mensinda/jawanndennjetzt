@@ -30,7 +30,7 @@
 </template>
 
 <script lang="ts">
-import axios from "axios";
+import axios from "@/axios";
 import { defineComponent, ref } from "vue";
 import { endpointUrl, markdown } from "@/util";
 import ModalErrorMessage from "@/components/ModalErrorMessage.vue";

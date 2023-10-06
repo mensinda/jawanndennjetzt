@@ -31,7 +31,7 @@ import PollComp from "@/components/PollComp.vue"; // @ is an alias to /src
 import EditorComp from "@/components/EditorComp.vue";
 import ModalErrorMessage from "@/components/ModalErrorMessage.vue";
 import ModalImportPoll from "@/components/ModalImportPoll.vue";
-import axios from "axios";
+import axios from "@/axios";
 import { defineComponent, ref } from "vue";
 import { pollStore } from "@/store";
 import { endpointUrl } from "@/util";

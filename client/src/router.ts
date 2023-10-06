@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import { JWDJ_SUBPATH } from "@/config";
 
-const HomeView = () => import("@/views/HomeView.vue");
+const HomeView = () => import(/* webpackChunkName: "home" */ "@/views/HomeView.vue");
 const NewPollView = () => import(/* webpackChunkName: "new" */ "@/views/NewPollView.vue");
 const MyPollsView = () => import(/* webpackChunkName: "my" */ "@/views/MyPollsView.vue");
 const PollView = () => import(/* webpackChunkName: "poll" */ "@/views/PollView.vue");

@@ -73,10 +73,8 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { pollStore } from "@/store";
-import { endpointUrl } from "@/util";
 import { JWDJ_LOGO, JWDJ_LOGO_WIDTH, JWDJ_LOGO_HEIGHT, JWDJ_LOGO_VERTICAL_MARGIN, DarkModeToggle } from "@/config";
 import { ALL_LOCALES, updateLocale } from "@/locales";
-import axios from "axios";
 
 export default defineComponent({
   components: {
@@ -86,17 +84,6 @@ export default defineComponent({
   setup() {
     const store = pollStore();
     document.title = "JaWannDennJetzt";
-
-    axios({
-      url: endpointUrl("api/session"),
-      method: "get",
-    })
-      .then((_) => {
-        // nothing to do
-      })
-      .catch((_) => {
-        // nothing to do
-      });
 
     return { store };
   },
