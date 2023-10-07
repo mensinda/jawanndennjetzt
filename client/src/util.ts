@@ -4,6 +4,7 @@ import { JWDJ_SUBPATH } from "@/config";
 import { marked } from "marked";
 import { gfmHeadingId } from "marked-gfm-heading-id";
 import { sanitize } from "dompurify";
+import { i18n } from "./locales";
 
 marked.use(gfmHeadingId());
 
@@ -58,7 +59,7 @@ function setStoreFromResponse(data: PollData) {
       null,
     );
   }
-  store.footerInfo = `Poll valid until: ${data.valid_until}`;
+  store.footerInfo = `${i18n.global.t('poll.valid-until')}: ${data.valid_until}`;
 }
 
 function sumVotesData() {

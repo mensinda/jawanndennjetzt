@@ -120,7 +120,8 @@
     "no-user-name": "No user name was entered!",
     "reopen-poll": "🔓 Reopen poll",
     "unable-to-submit": "Unable to submit because:",
-    "update-vote": "↻ Update vote"
+    "update-vote": "↻ Update vote",
+    "valid-until": "Poll valid until"
   },
   "poll-comp": {
     "user": "User",

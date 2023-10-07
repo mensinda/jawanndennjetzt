@@ -120,7 +120,8 @@
     "no-user-name": "Kein Name angegeben wurde!",
     "reopen-poll": "🔓 Wiedereröffnen",
     "unable-to-submit": "Stimmzettel kann nicht abgeschickt werden weil:",
-    "update-vote": "↻ Stimabgabe aktualisieren"
+    "update-vote": "↻ Stimabgabe aktualisieren",
+    "valid-until": "Umfrage gültig bis"
   },
   "poll-comp": {
     "user": "Benutzer",
