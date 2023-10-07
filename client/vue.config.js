@@ -1,5 +1,11 @@
 const { defineConfig } = require("@vue/cli-service");
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
+const webpack = require("webpack");
+const dotenv = require("dotenv");
+const dotenvExpand = require("dotenv-expand");
+
+const dotenvEnv = dotenv.config({ path: "../.env" })
+dotenvExpand.expand(dotenvEnv);
 
 function toBool(raw, def) {
   if (raw == null) {
@@ -21,6 +27,10 @@ module.exports = defineConfig({
         analyzerMode:
           toBool(process.env.DEBUG, true) && !toBool(process.env.DISABLE_ANALYZER, false) ? "static" : "disabled",
         openAnalyzer: false,
+      }),
+      new webpack.DefinePlugin({
+        JWDJ_OPEN_GRAPH_IMAGE: JSON.stringify(process.env.JWDJ_OPEN_GRAPH_IMAGE),
+        JWDJ_FAVICON: JSON.stringify(process.env.JWDJ_FAVICON),
       }),
     ],
     devServer: {

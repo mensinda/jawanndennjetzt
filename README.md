@@ -41,7 +41,9 @@ JaWannDennJetzt supports the following configuration options:
 | `JWDJ_THEME`                  | Which theme from [Bootswatch](https://bootswatch.com) to use                                                                                         |  `B`  |
 | `JWDJ_DARK_DATE_PICKER`       | Enables the dark theme for the date picker.                                                                                                          |  `B`  |
 | `JWDJ_WEB_FONTS`              | Whether to include external fonts or not. If this option is disabled, no external assets and services will be used.                                  |  `B`  |
-| `JWDJ_LOGO`                   | The logo to display in the navbar. Set this variable to an empty string to disable showing the logo                                                  |  `B`  |
+| `JWDJ_FAVICON`                | The favicion of the site relative to `client/public`..                                                                                               |  `B`  |
+| `JWDJ_OPEN_GRAPH_IMAGE`       | The image for the [Open Graph](https://ogp.me/) protocol relative to `client/public`.                                                                |  `B`  |
+| `JWDJ_LOGO`                   | The logo to display in the navbar relative to `client/public`. Set this variable to an empty string to disable showing the logo                      |  `B`  |
 | `JWDJ_LOGO_WIDTH`             | Width of the logo in the navbar                                                                                                                      |  `B`  |
 | `JWDJ_LOGO_HEIGHT`            | Height of the logo in the navbar                                                                                                                     |  `B`  |
 | `JWDJ_LOGO_VERTICAL_MARGIN`   | Advanced option to set the top and bottom margin. The main use-case is to set a negative margin for large logos. Must be a valid CSS margin value.   |  `B`  |

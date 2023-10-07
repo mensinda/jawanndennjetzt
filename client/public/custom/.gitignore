@@ -1,0 +1,4 @@
+# Custom resources (such as icons) should be stored in this directory.
+
+*
+!.gitignore

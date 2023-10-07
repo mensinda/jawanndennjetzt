@@ -59,7 +59,7 @@ function setStoreFromResponse(data: PollData) {
       null,
     );
   }
-  store.footerInfo = `${i18n.global.t('poll.valid-until')}: ${data.valid_until}`;
+  store.footerInfo = `${i18n.global.t("poll.valid-until")}: ${data.valid_until}`;
 }
 
 function sumVotesData() {
