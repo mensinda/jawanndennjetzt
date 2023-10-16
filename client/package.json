@@ -19,7 +19,7 @@
     "lodash.debounce": "^4.0.8",
     "marked": "^9.0.3",
     "marked-gfm-heading-id": "^3.1.0",
-    "pinia": "^2.1.6",
+    "pinia": "^2.1.7",
     "vue": "^3.3.4",
     "vue-i18n": "^9.5.0",
     "vue-router": "^4.2.5",
