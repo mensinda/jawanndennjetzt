@@ -169,7 +169,11 @@ export default defineComponent({
   --bs-bg-opacity: 0.75 !important;
 }
 
-.ballot-box > svg > g > path {
-  fill: var(--bs-body-color);
+.ballot-box {
+  svg {
+    path {
+      fill: var(--bs-body-color);
+    }
+  }
 }
 </style>
