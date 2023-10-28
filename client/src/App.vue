@@ -36,7 +36,7 @@
             </li>
           </ul>
           <ul class="navbar-nav">
-            <li class="nav-item me-3 d-flex align-items-center">
+            <li class="nav-item me-3 d-flex align-items-center dark-mode-container">
               <DarkModeToggle />
             </li>
             <li class="nav-item me-3 d-flex">
@@ -126,6 +126,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
+@use "sass:map";
 @import "theme.scss";
 
 .navbar {
@@ -134,6 +135,13 @@ export default defineComponent({
 
 .nav-link.active {
   font-weight: bold;
+}
+
+.dark-mode-container {
+  @media (max-width: map.get($grid-breakpoints, "lg") - 1px) {
+    margin-top: 5px;
+    margin-bottom: 10px;
+  }
 }
 
 .remove-last-margin p:last-child {
