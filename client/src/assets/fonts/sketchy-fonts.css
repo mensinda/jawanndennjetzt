@@ -1,0 +1,26 @@
+
+/* neucha */
+@font-face {
+    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-family: 'Neucha';
+    font-style: normal;
+    font-weight: 400;
+    src:
+        url('./woff2/neucha-normal-400.woff2') format('woff2'),
+        url('./woff/neucha-normal-400.woff') format('woff'),
+        url('./ttf/neucha-normal-400.ttf') format('ttf'),
+    ;
+}
+
+/* cabin-sketch */
+@font-face {
+    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-family: 'Cabin Sketch';
+    font-style: normal;
+    font-weight: 400;
+    src:
+        url('./woff2/cabin-sketch-normal-400.woff2') format('woff2'),
+        url('./woff/cabin-sketch-normal-400.woff') format('woff'),
+        url('./ttf/cabin-sketch-normal-400.ttf') format('ttf'),
+    ;
+}

@@ -1,0 +1,39 @@
+
+/* nunito */
+@font-face {
+    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-family: 'Nunito';
+    font-style: normal;
+    font-weight: 400;
+    src:
+        url('./woff2/nunito-normal-400.woff2') format('woff2'),
+        url('./woff/nunito-normal-400.woff') format('woff'),
+        url('./ttf/nunito-normal-400.ttf') format('ttf'),
+    ;
+}
+
+/* nunito */
+@font-face {
+    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-family: 'Nunito';
+    font-style: normal;
+    font-weight: 600;
+    src:
+        url('./woff2/nunito-normal-600.woff2') format('woff2'),
+        url('./woff/nunito-normal-600.woff') format('woff'),
+        url('./ttf/nunito-normal-600.ttf') format('ttf'),
+    ;
+}
+
+/* nunito */
+@font-face {
+    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-family: 'Nunito';
+    font-style: normal;
+    font-weight: 700;
+    src:
+        url('./woff2/nunito-normal-700.woff2') format('woff2'),
+        url('./woff/nunito-normal-700.woff') format('woff'),
+        url('./ttf/nunito-normal-700.ttf') format('ttf'),
+    ;
+}

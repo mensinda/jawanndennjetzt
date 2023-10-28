@@ -1,0 +1,39 @@
+
+/* inter */
+@font-face {
+    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    src:
+        url('./woff2/inter-normal-400.woff2') format('woff2'),
+        url('./woff/inter-normal-400.woff') format('woff'),
+        url('./ttf/inter-normal-400.ttf') format('ttf'),
+    ;
+}
+
+/* inter */
+@font-face {
+    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    src:
+        url('./woff2/inter-normal-500.woff2') format('woff2'),
+        url('./woff/inter-normal-500.woff') format('woff'),
+        url('./ttf/inter-normal-500.ttf') format('ttf'),
+    ;
+}
+
+/* inter */
+@font-face {
+    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    src:
+        url('./woff2/inter-normal-700.woff2') format('woff2'),
+        url('./woff/inter-normal-700.woff') format('woff'),
+        url('./ttf/inter-normal-700.ttf') format('ttf'),
+    ;
+}

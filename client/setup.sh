@@ -12,7 +12,14 @@ cd "$(dirname "$(realpath "$0")")"
 
 [ -e src/theme.scss ] && rm src/theme.scss
 
-if [[ "$JWDJ_WEB_FONTS" == "0" || "$JWDJ_WEB_FONTS" == "false" ]]; then
+if [[ "$JWDJ_WEB_FONTS" == "static" ]]; then
+    FONT_CSS="src/assets/fonts/${JWDJ_THEME}-fonts.css"
+    if [ -f "$FONT_CSS" ]; then
+        echo "\$web-font-path: '/$FONT_CSS';" >> src/theme.scss
+    else
+        echo "WARNING: Static font for theme '${JWDJ_THEME}' was not found!\n\n\n"
+    fi
+elif [[ "$JWDJ_WEB_FONTS" == "0" || "$JWDJ_WEB_FONTS" == "false" ]]; then
     echo "\$web-font-path: false;" >> src/theme.scss
 fi
 

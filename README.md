@@ -40,7 +40,7 @@ JaWannDennJetzt supports the following configuration options:
 | `JWDJ_SUBPATH`                | Prefix from which the app should be served (default is "/"). A common use-case for such a setup is serving multiple applications on the same domain. |  `B`  |
 | `JWDJ_THEME`                  | Which theme from [Bootswatch](https://bootswatch.com) to use                                                                                         |  `B`  |
 | `JWDJ_DARK_DATE_PICKER`       | Enables the dark theme for the date picker.                                                                                                          |  `B`  |
-| `JWDJ_WEB_FONTS`              | Whether to include external fonts or not. If this option is disabled, no external assets and services will be used.                                  |  `B`  |
+| `JWDJ_WEB_FONTS`              | How to include external fonts (values: `1` = enable the external Google service, `0` = disable, `static` = self host the fonts).                     |  `B`  |
 | `JWDJ_FAVICON`                | The favicion of the site relative to `client/public`..                                                                                               |  `B`  |
 | `JWDJ_OPEN_GRAPH_IMAGE`       | The image for the [Open Graph](https://ogp.me/) protocol relative to `client/public`.                                                                |  `B`  |
 | `JWDJ_LOGO`                   | The logo to display in the navbar relative to `client/public`. Set this variable to an empty string to disable showing the logo                      |  `B`  |

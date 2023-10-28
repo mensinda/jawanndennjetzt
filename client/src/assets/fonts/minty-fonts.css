@@ -1,0 +1,39 @@
+
+/* montserrat */
+@font-face {
+    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 400;
+    src:
+        url('./woff2/montserrat-normal-400.woff2') format('woff2'),
+        url('./woff/montserrat-normal-400.woff') format('woff'),
+        url('./ttf/montserrat-normal-400.ttf') format('ttf'),
+    ;
+}
+
+/* montserrat */
+@font-face {
+    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 500;
+    src:
+        url('./woff2/montserrat-normal-500.woff2') format('woff2'),
+        url('./woff/montserrat-normal-500.woff') format('woff'),
+        url('./ttf/montserrat-normal-500.ttf') format('ttf'),
+    ;
+}
+
+/* montserrat */
+@font-face {
+    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 700;
+    src:
+        url('./woff2/montserrat-normal-700.woff2') format('woff2'),
+        url('./woff/montserrat-normal-700.woff') format('woff'),
+        url('./ttf/montserrat-normal-700.ttf') format('ttf'),
+    ;
+}
