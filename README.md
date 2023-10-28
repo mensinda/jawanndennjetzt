@@ -128,6 +128,16 @@ yarn serve
 
 The development app should then be availiable at [http://127.0.0.1:8080/](http://127.0.0.1:8080/).
 
+## Upgrading dependencies
+
+### Server
+
+`sed -i 's/[~=]=/>=/' requirements.txt; pip install -U -r requirements.txt; pip freeze > requirements.txt`
+
+### Client
+
+`yarn upgrade-interactive`
+
 # Markdown extension
 
 Currently, all text fields support the Markdown syntax. Additionally, JaWannDennJetzt adds support for colorizing
