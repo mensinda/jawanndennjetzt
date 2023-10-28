@@ -171,6 +171,9 @@ export default defineComponent({
 
 .ballot-box {
   svg {
+    stroke: var(--bs-body-color);
+    fill: var(--bs-body-color);
+
     path {
       fill: var(--bs-body-color);
     }
