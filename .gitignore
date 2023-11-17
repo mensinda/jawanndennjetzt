@@ -182,3 +182,5 @@ docker-compose.yml
 /static
 
 *.sqlite3
+
+/server/settings_auth.py

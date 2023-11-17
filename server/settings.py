@@ -69,6 +69,11 @@ ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['127.0.0.1', 'localhost'])
 
 CSRF_TRUSTED_ORIGINS = [f'{x}://{y}' for x in ('http', 'https') for y in ALLOWED_HOSTS]
 
+# Auth
+JWDJ_LOGIN_MANAGER = env.bool('JWDJ_LOGIN_MANAGER', default=False)
+if JWDJ_LOGIN_MANAGER:
+    from .settings_auth import *
+
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
@@ -100,12 +105,15 @@ else:
 INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
+    "django.contrib.contenttypes",
+    "django.contrib.auth",
     "server",
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",

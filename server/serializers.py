@@ -33,3 +33,7 @@ class UpdatePollSerializer(Serializer):
 
 class ClosePollSerializer(Serializer):
     option_idx = IntegerField()
+
+class AuthLoginSerializer(Serializer):
+    username = CharField(allow_blank=False)
+    password = CharField(allow_blank=False)

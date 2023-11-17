@@ -25,6 +25,9 @@ import re
 _prefix = f'{settings.JWDJ_SUBPATH.strip("/")}/' if settings.JWDJ_SUBPATH else ''
 
 urlpatterns = [
+    path(f'{_prefix}api/auth/is_authorised', views.auth_is_authorised),
+    path(f'{_prefix}api/auth/login', views.auth_login),
+    path(f'{_prefix}api/auth/logout', views.auth_logout),
     path(f'{_prefix}api/session', views.session_setup),
     path(f'{_prefix}api/new', views.new_poll),
     path(f'{_prefix}api/my-polls', views.my_polls),

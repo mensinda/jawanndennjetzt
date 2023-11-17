@@ -55,6 +55,7 @@ JaWannDennJetzt supports the following configuration options:
 | `JWDJ_MAX_OPTIONS_COUNT`      | The maximum number of options / days for each poll (primitive DOS protection)                                                                        |  `R`  |
 | `JWDJ_MAX_BALLOT_COUNT`       | The maximum number of users that can vote on a poll (primitive DOS protection)                                                                       |  `R`  |
 | `JWDJ_SESSION_CLEAN_INTERVAL` | The interval in days for cleaning expired sessions (use values <= 0 to disable)                                                                      |  `R`  |
+| `JWDJ_LOGIN_MANAGER`          | Whether users **must** login for creating new polls. Enabling this option requires a *manual* and *custom* Django authentification setup!            | `B,R` |
 | `SESSION_COOKIE_AGE`          | How long the [Django session cookie](https://docs.djangoproject.com/en/4.1/ref/settings/#session-cookie-age) is valid (defaults to 4 weeks)          |  `R`  |
 | `ALLOWED_HOSTS`               | Comma seperated list of allowed host names (just the hostname without the subpath)                                                                   |  `R`  |
 | `JWDJ_DATABASE_TYPE`          | Which database engine to use. Valid values are `sqlite3` and `postgresql`                                                                            |  `R`  |
@@ -77,6 +78,12 @@ To get started on such a custom theme modification, copy the `example.variables.
 The `variables.scss` file will then be automatically detected by the setup script.
 
 NOTE: The final `variables.scss` **MUST** be in the `client` directory!
+
+### Login protection for creating new polls
+
+JaWannDennJetzt provides the option for requiring that users are signed in bevor they are allowed to create new polls. Instead of providing a built in authentication / authorisation mechanism via custom `JWDJ_` variables, the standard [Django auth framework](https://docs.djangoproject.com/en/4.2/topics/auth/) is used.
+
+To enable authentification, set the `JWDJ_LOGIN_MANAGER` variable to `1`. Then create a `server/settings_auth.py` file, where you *manually* setup the Django auth backend. See [`settings_auth.example.ldap.py`](/server/settings_auth.example.ldap.py) for a sample implementation for a LDAP backend.
 
 # Development setup
 
