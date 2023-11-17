@@ -195,7 +195,6 @@ export default defineComponent({
             const auth = await import(/* webpackChunkName: "auth" */ "@/auth");
             await auth.load_user_info();
           }
-          console.log("DATA LOAD");
           setStoreFromResponse(x.data);
           this.pollstatus = "ready";
           this.hasChanges = false;
