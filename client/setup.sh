@@ -44,6 +44,12 @@ else
     JWDJ_DARK_DATE_PICKER="true"
 fi
 
+if [[ "$JWDJ_LOGIN_MANAGER" == "0" || "$JWDJ_LOGIN_MANAGER" == "false" || "$JWDJ_LOGIN_MANAGER" == "" ]]; then
+    JWDJ_LOGIN_MANAGER="false"
+else
+    JWDJ_LOGIN_MANAGER="true"
+fi
+
 case "$JWDJ_DARK_MODE_TOGGLE" in
     fancy)   DARK_MODE_IMPORT="ToggleFancy.vue"   ;;
     minimal) DARK_MODE_IMPORT="ToggleMinimal.vue" ;;
@@ -61,6 +67,8 @@ const JWDJ_LOGO_WIDTH = "${JWDJ_LOGO_WIDTH}";
 const JWDJ_LOGO_HEIGHT = "${JWDJ_LOGO_HEIGHT}";
 const JWDJ_LOGO_VERTICAL_MARGIN = "${JWDJ_LOGO_VERTICAL_MARGIN}";
 const JWDJ_DARK_DATE_PICKER = $JWDJ_DARK_DATE_PICKER;
+const JWDJ_LOGIN_MANAGER = $JWDJ_LOGIN_MANAGER;
+const JWDJ_LOGIN_SYSTEM_NAME = "$JWDJ_LOGIN_SYSTEM_NAME";
 
 import DarkModeToggle from "@/components/darkmode/$DARK_MODE_IMPORT";
 
@@ -71,6 +79,8 @@ export {
   JWDJ_LOGO_HEIGHT,
   JWDJ_LOGO_VERTICAL_MARGIN,
   JWDJ_DARK_DATE_PICKER,
+  JWDJ_LOGIN_MANAGER,
+  JWDJ_LOGIN_SYSTEM_NAME,
   DarkModeToggle,
 };
 EOF

@@ -63,4 +63,28 @@ class Ballot {
   }
 }
 
-export { Option, Vote, Ballot, votesFromStr, VALID_STATES };
+class UserData {
+  username: string;
+  name: string;
+  email: string;
+
+  constructor(username: string, name: string, email: string) {
+    this.username = username;
+    this.name = name;
+    this.email = email;
+  }
+}
+
+class UserAuth {
+  authorised: boolean;
+  authorisation_enabled: boolean;
+  user: UserData | null;
+
+  constructor(authorised: boolean, authorisation_enabled: boolean, user: UserData) {
+    this.authorised = authorised;
+    this.authorisation_enabled = authorisation_enabled;
+    this.user = user;
+  }
+}
+
+export { Option, Vote, Ballot, votesFromStr, UserAuth, VALID_STATES };

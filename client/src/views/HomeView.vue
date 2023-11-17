@@ -6,7 +6,7 @@
     </div>
     <div class="home-btn-container">
       <div />
-      <button @click="$router.push('/new')" class="btn btn-lg btn-success text-nowrap user-select-none">
+      <button @click="$router.push({ name: 'new' })" class="btn btn-lg btn-success text-nowrap user-select-none">
         {{ $t("main.create-a-new-poll") }}
       </button>
       <div />

@@ -5,7 +5,7 @@
       <h3 class="mb-5">{{ desc }}</h3>
       <div class="home-btn-container mb-5">
         <div />
-        <button @click="$router.push('/')" class="btn btn-lg btn-success text-nowrap user-select-none">
+        <button @click="$router.push({ name: 'home' })" class="btn btn-lg btn-success text-nowrap user-select-none">
           {{ $t("404.back") }}
         </button>
         <div />

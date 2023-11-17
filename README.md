@@ -56,6 +56,7 @@ JaWannDennJetzt supports the following configuration options:
 | `JWDJ_MAX_BALLOT_COUNT`       | The maximum number of users that can vote on a poll (primitive DOS protection)                                                                       |  `R`  |
 | `JWDJ_SESSION_CLEAN_INTERVAL` | The interval in days for cleaning expired sessions (use values <= 0 to disable)                                                                      |  `R`  |
 | `JWDJ_LOGIN_MANAGER`          | Whether users **must** login for creating new polls. Enabling this option requires a *manual* and *custom* Django authentification setup!            | `B,R` |
+| `JWDJ_LOGIN_SYSTEM_NAME`      | The display name of the login system used. Only has an effect if `JWDJ_LOGIN_MANAGER` is enabled.                                                    |  `B`  |
 | `SESSION_COOKIE_AGE`          | How long the [Django session cookie](https://docs.djangoproject.com/en/4.1/ref/settings/#session-cookie-age) is valid (defaults to 4 weeks)          |  `R`  |
 | `ALLOWED_HOSTS`               | Comma seperated list of allowed host names (just the hostname without the subpath)                                                                   |  `R`  |
 | `JWDJ_DATABASE_TYPE`          | Which database engine to use. Valid values are `sqlite3` and `postgresql`                                                                            |  `R`  |

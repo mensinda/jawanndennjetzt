@@ -1,11 +1,12 @@
 import { defineStore } from "pinia";
-import { Ballot, Option } from "@/model";
+import { Ballot, Option, UserAuth } from "@/model";
 
 export const pollStore = defineStore("poll", {
   state() {
     return {
       name: "",
       description: "",
+      user: null as UserAuth | null,
       options: [] as Option[],
       ballots: [] as Ballot[],
       myBallot: null as Ballot | null,

@@ -3,7 +3,24 @@
     "back": "↲ Zurück zur Startseite",
     "page-not-found": "Die angeforderte Seite konnte nicht gefunden werden"
   },
+  "auth": {
+    "current-user": "Aktueller Benutzer",
+    "current-user-info": "Benutzerinformationen zum aktuell eingeloggten Benutzer",
+    "required": "Diese Seite erfordert eine Anmeldung, bevor du eine neue Umfrage erstellen kannst",
+    "login-info": "Melde dich mit deinem {type} Konto an",
+    "username": "Benutzername",
+    "password": "Passwort",
+    "enter-username": "Benutzername eingeben",
+    "enter-password": "Passwort eingeben",
+    "email": "E-Mail Adresse",
+    "name": "Name",
+    "failed": "Anmeldung fehlgeschlagen: Falscher Benutzername oder falsches Passwort.",
+    "logout": "Abmelden",
+    "login": "Anmelden"
+  },
   "common": {
+    "field": "Feld",
+    "value": "Wert",
     "close": "Schließen",
     "total-votes": "Gesamtstimmen"
   },

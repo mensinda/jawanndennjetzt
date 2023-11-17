@@ -1,6 +1,8 @@
 import ldap
 from django_auth_ldap.config import LDAPSearch, GroupOfUniqueNamesType
 
+# See https://django-auth-ldap.readthedocs.io/en/latest/index.html
+
 AUTH_LDAP_SERVER_URI = 'ldap://X.Y.Z.389'
 
 AUTH_LDAP_BIND_DN = 'uid=XXXX,dc=X,dc=Y,dc=Z'

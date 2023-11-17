@@ -1,7 +1,7 @@
 <template>
   <ModalErrorMessage ref="errorModal" />
   <ModalImportPoll ref="importModal" :onImportError="handleImportError" :onImportDone="editorComp?.optionsImported()" />
-  <div class="container">
+  <div class="container" v-if="!JWDJ_LOGIN_MANAGER || store.user?.authorised">
     <div class="new-poll-head-grid-helper">
       <h1 class="text-center">{{ $t("main.create-a-new-poll") }}</h1>
       <button class="btn btn-info" type="button" @click="importModal?.doShow()">{{ $t("new.import-existing") }}</button>
@@ -26,90 +26,82 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import PollComp from "@/components/PollComp.vue"; // @ is an alias to /src
 import EditorComp from "@/components/EditorComp.vue";
 import ModalErrorMessage from "@/components/ModalErrorMessage.vue";
 import ModalImportPoll from "@/components/ModalImportPoll.vue";
 import axios from "@/axios";
-import { defineComponent, ref } from "vue";
+import { ref, onMounted, onBeforeMount } from "vue";
 import { pollStore } from "@/store";
 import { endpointUrl } from "@/util";
+import { useRouter } from "vue-router";
+import { JWDJ_LOGIN_MANAGER } from "@/config";
+import { load_user_info } from "@/auth";
 import PollDescription from "@/components/PollDescription.vue";
 
-export default defineComponent({
-  components: {
-    PollComp,
-    EditorComp,
-    ModalErrorMessage,
-    ModalImportPoll,
-    PollDescription,
-  },
+const router = useRouter();
+const store = pollStore();
+const errorModal = ref<typeof ModalErrorMessage | null>(null);
+const importModal = ref<typeof ModalImportPoll | null>(null);
+const editorComp = ref<typeof EditorComp | null>(null);
 
-  data() {
-    return {
-      hasChanges: false,
-      pollInput: "",
-      isValidPoll: false,
-      isChecking: false,
-    };
-  },
+const hasChanges = ref(false);
+const pollInput = ref("");
+const isChecking = ref(false);
 
-  setup() {
-    const store = pollStore();
-    const errorModal = ref<typeof ModalErrorMessage | null>(null);
-    const importModal = ref<typeof ModalImportPoll | null>(null);
-    const editorComp = ref<typeof EditorComp | null>(null);
+onMounted(() => {
+  store.reset();
 
-    return { store, errorModal, importModal, editorComp };
-  },
+  hasChanges.value = false;
+  pollInput.value = "";
+  isChecking.value = false;
+});
 
-  mounted() {
-    this.store.reset();
+if (JWDJ_LOGIN_MANAGER) {
+  onBeforeMount(async () => {
+    await load_user_info();
+    if (!store.user?.authorised) {
+      router.push({ name: "login" });
+    }
+  });
+}
 
-    this.hasChanges = false;
-    this.pollInput = "";
-    this.isChecking = false;
-  },
-
-  methods: {
-    createPoll() {
-      axios({
-        url: endpointUrl("api/new"),
-        method: "post",
-        data: {
-          name: this.store.name,
-          description: this.store.description,
-          allow_not_voted: this.store.allowNotVoted,
-          options: this.store.options.map((x) => {
-            return {
-              index: x.index,
-              name: x.name,
-            };
-          }),
-        },
-      })
-        .then((x) => {
-          this.$router.push({ name: "poll", params: { id: x.data.id } });
-        })
-        .catch((x) => {
-          if (this.errorModal == null) {
-            return;
-          }
-          this.errorModal.doShow();
-          this.errorModal.data = x.response.data;
-        });
+function createPoll() {
+  axios({
+    url: endpointUrl("api/new"),
+    method: "post",
+    data: {
+      name: store.name,
+      description: store.description,
+      allow_not_voted: store.allowNotVoted,
+      options: store.options.map((x) => {
+        return {
+          index: x.index,
+          name: x.name,
+        };
+      }),
     },
-
-    handleImportError() {
-      if (this.errorModal == null) {
+  })
+    .then((x) => {
+      router.push({ name: "poll", params: { id: x.data.id } });
+    })
+    .catch((x) => {
+      if (errorModal.value == null) {
         return;
       }
-      this.errorModal.doShow();
-      this.errorModal.updateData(this.store.lastError);
-    },
-  },
-});
+      errorModal.value.doShow();
+      errorModal.value.data = x.response.data;
+    });
+}
+
+function handleImportError() {
+  if (errorModal.value == null) {
+    return;
+  }
+  errorModal.value.doShow();
+  errorModal.value.updateData(store.lastError);
+}
 </script>
 
 <style lang="scss">

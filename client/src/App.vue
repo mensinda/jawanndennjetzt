@@ -20,28 +20,33 @@
         <div class="navbar-collapse collapse" id="navbar" style="">
           <ul class="navbar-nav me-auto">
             <li class="nav-item">
-              <router-link class="nav-link" :class="{ active: currRoute == 'home' }" to="/">{{
+              <router-link class="nav-link" :class="{ active: route.name == 'home' }" to="/">{{
                 $t("root.home")
               }}</router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" :class="{ active: currRoute == 'new' }" to="/new">{{
+              <router-link class="nav-link" :class="{ active: route.name == 'new' }" to="/new">{{
                 $t("root.create-poll")
               }}</router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" :class="{ active: currRoute == 'my-polls' }" to="/my-polls">{{
+              <router-link class="nav-link" :class="{ active: route.name == 'my-polls' }" to="/my-polls">{{
                 $t("root.my-polls")
               }}</router-link>
             </li>
           </ul>
           <ul class="navbar-nav">
+            <li v-if="JWDJ_LOGIN_MANAGER && store.user?.authorised">
+              <router-link class="nav-link" :class="{ active: route.name == 'user' }" to="/user">{{
+                store.user?.user?.name
+              }}</router-link>
+            </li>
             <li class="nav-item me-3 d-flex align-items-center dark-mode-container">
               <DarkModeToggle />
             </li>
             <li class="nav-item me-3 d-flex">
               <select class="form-select" :value="$i18n.locale" @change="(ev) => switchLocale(ev.target?.value)">
-                <option v-for="(v, k) in locales" :key="k" :value="k">{{ v.name }}</option>
+                <option v-for="(v, k) in ALL_LOCALES" :key="k" :value="k">{{ v.name }}</option>
               </select>
             </li>
             <li class="nav-item" style="cursor: pointer" @click="openGitHub">
@@ -70,58 +75,59 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
+<script lang="ts" setup>
+import { computed } from "vue";
 import { pollStore } from "@/store";
-import { JWDJ_LOGO, JWDJ_LOGO_WIDTH, JWDJ_LOGO_HEIGHT, JWDJ_LOGO_VERTICAL_MARGIN, DarkModeToggle } from "@/config";
+import {
+  JWDJ_LOGO,
+  JWDJ_LOGO_WIDTH,
+  JWDJ_LOGO_HEIGHT,
+  JWDJ_LOGO_VERTICAL_MARGIN,
+  JWDJ_LOGIN_MANAGER,
+  DarkModeToggle,
+} from "@/config";
 import { ALL_LOCALES, updateLocale } from "@/locales";
+import { useRoute } from "vue-router";
 
-export default defineComponent({
-  components: {
-    DarkModeToggle,
-  },
+const store = pollStore();
+const route = useRoute();
+document.title = "JaWannDennJetzt";
 
-  setup() {
-    const store = pollStore();
-    document.title = "JaWannDennJetzt";
+function openGitHub() {
+  window.open("https://github.com/mensinda/jawanndennjetzt", "_blank", "noreferrer");
+}
 
-    return { store };
-  },
+function switchLocale(locale: string | null) {
+  if (locale != null) {
+    updateLocale(locale);
+  }
+}
 
-  computed: {
-    currRoute() {
-      return this.$route.name;
-    },
-    hasIcon() {
-      return JWDJ_LOGO.trim().length > 0;
-    },
-    logoPath() {
-      return JWDJ_LOGO.startsWith("/") ? JWDJ_LOGO : "/" + JWDJ_LOGO;
-    },
-    logoStyle() {
-      return {
-        width: JWDJ_LOGO_WIDTH,
-        height: JWDJ_LOGO_HEIGHT,
-        "margin-top": JWDJ_LOGO_VERTICAL_MARGIN,
-        "margin-bottom": JWDJ_LOGO_VERTICAL_MARGIN,
-      };
-    },
-    locales() {
-      return ALL_LOCALES;
-    },
-  },
+// User auth management
+async function initialUserLoad() {
+  const auth = await import(/* webpackChunkName: "auth" */ "@/auth");
+  auth.load_user_info();
+}
 
-  methods: {
-    openGitHub() {
-      window.open("https://github.com/mensinda/jawanndennjetzt", "_blank", "noreferrer");
-    },
+if (JWDJ_LOGIN_MANAGER) {
+  initialUserLoad();
+}
 
-    switchLocale(locale: string | null) {
-      if (locale != null) {
-        updateLocale(locale);
-      }
-    },
-  },
+const hasIcon = computed(() => {
+  return JWDJ_LOGO.trim().length > 0;
+});
+
+const logoPath = computed(() => {
+  return JWDJ_LOGO.startsWith("/") ? JWDJ_LOGO : "/" + JWDJ_LOGO;
+});
+
+const logoStyle = computed(() => {
+  return {
+    width: JWDJ_LOGO_WIDTH,
+    height: JWDJ_LOGO_HEIGHT,
+    "margin-top": JWDJ_LOGO_VERTICAL_MARGIN,
+    "margin-bottom": JWDJ_LOGO_VERTICAL_MARGIN,
+  };
 });
 </script>
 
