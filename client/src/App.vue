@@ -76,7 +76,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from "vue";
+import { computed, onBeforeMount } from "vue";
 import { pollStore } from "@/store";
 import {
   JWDJ_LOGO,
@@ -106,13 +106,11 @@ function switchLocale(locale: string | null) {
 }
 
 // User auth management
-async function initialUserLoad() {
-  const auth = await import(/* webpackChunkName: "auth" */ "@/auth");
-  auth.load_user_info();
-}
-
 if (JWDJ_LOGIN_MANAGER) {
-  initialUserLoad();
+  onBeforeMount(async () => {
+    const auth = await import(/* webpackChunkName: "auth" */ "@/auth");
+    await auth.load_user_info();
+  });
 }
 
 const hasIcon = computed(() => {

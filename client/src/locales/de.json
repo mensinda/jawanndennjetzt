@@ -1,7 +1,8 @@
 {
   "404": {
     "back": "↲ Zurück zur Startseite",
-    "page-not-found": "Die angeforderte Seite konnte nicht gefunden werden"
+    "page-not-found": "Die angeforderte Seite konnte nicht gefunden werden",
+    "poll-not-found": "Die angeforderte Umfrage konnte nicht gefunden werden"
   },
   "auth": {
     "current-user": "Aktueller Benutzer",

@@ -1,7 +1,8 @@
 {
   "404": {
     "back": "↲ Back to the homepage",
-    "page-not-found": "The requested page was not found"
+    "page-not-found": "The requested page was not found",
+    "poll-not-found": "The requested poll was not found"
   },
   "auth": {
     "current-user": "Current user",

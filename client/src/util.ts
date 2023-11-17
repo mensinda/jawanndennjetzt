@@ -53,8 +53,9 @@ function setStoreFromResponse(data: PollData) {
     store.myBallot = new Ballot(b.name, votesFromStr(b.votes), b.note);
   } else {
     store.alreadyVoted = false;
+    const initial_name = store.user?.user?.name;
     store.myBallot = new Ballot(
-      "",
+      initial_name === undefined ? "" : initial_name,
       store.options.map((_) => new Vote("-")),
       null,
     );

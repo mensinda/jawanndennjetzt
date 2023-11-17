@@ -9,11 +9,7 @@
       <small class="text-muted">{ ID = {{ $route.params.id }} }</small>
     </div>
   </div>
-  <NotFoundComp
-    v-if="pollstatus == '404'"
-    desc="The requested poll was not found"
-    :info="`{ ID = ${$route.params.id} }`"
-  />
+  <NotFoundComp v-if="pollstatus == '404'" :desc="$t('404.poll-not-found')" :info="`{ ID = ${$route.params.id} }`" />
   <div v-if="pollstatus == 'ready' || pollstatus == 'updating'" class="container">
     <PollComp mode="normal" @user-input-changed="hasChanges = true" />
 
@@ -100,6 +96,7 @@ import NotFoundComp from "@/components/NotFoundComp.vue";
 import { pollStore } from "@/store";
 import { defineComponent, ref } from "vue";
 import { endpointUrl, setStoreFromResponse, PollData } from "@/util";
+import { JWDJ_LOGIN_MANAGER } from "@/config";
 import axios from "@/axios";
 
 export default defineComponent({
@@ -193,7 +190,12 @@ export default defineComponent({
         url: endpointUrl("api/poll/" + this.$route.params.id),
         method: "get",
       })
-        .then((x) => {
+        .then(async (x) => {
+          if (JWDJ_LOGIN_MANAGER && this.store.user === null) {
+            const auth = await import(/* webpackChunkName: "auth" */ "@/auth");
+            await auth.load_user_info();
+          }
+          console.log("DATA LOAD");
           setStoreFromResponse(x.data);
           this.pollstatus = "ready";
           this.hasChanges = false;

@@ -6,16 +6,17 @@ import { pollStore } from "@/store";
 const store = pollStore();
 
 async function load_user_info() {
-  await axios<UserAuth>({
-    url: endpointUrl("api/auth/is_authorised"),
-    method: "get",
-  })
-    .then((x) => {
-      store.user = x.data;
-    })
-    .catch((_) => {
-      return;
+  try {
+    console.log("DATA SET START");
+    const x = await axios<UserAuth>({
+      url: endpointUrl("api/auth/is_authorised"),
+      method: "get",
     });
+    store.user = x.data;
+    console.log("DATA SET");
+  } catch (error) {
+    // Do noting
+  }
 }
 
 export { load_user_info };

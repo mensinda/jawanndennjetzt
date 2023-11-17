@@ -176,7 +176,9 @@ export default defineComponent({
     },
 
     vueMyBallot(): Ballot {
-      return this.store.myBallot == null ? new Ballot("", [], null) : this.store.myBallot;
+      const initial_name_raw = this.store.user?.user?.name;
+      const initial_name = initial_name_raw === undefined ? "" : initial_name_raw;
+      return this.store.myBallot == null ? new Ballot(initial_name, [], null) : this.store.myBallot;
     },
 
     vueDisplayBallots(): Ballot[] {
