@@ -2,7 +2,7 @@
   <Transition>
     <div v-if="show">
       <div @click="show = false" class="modal show" role="dialog" style="display: block">
-        <div @click.stop="stop" class="modal-dialog" role="document">
+        <div @click.stop="() => {}" class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header bg-danger fw-bold text-white">
               <h5 class="modal-title">
@@ -32,40 +32,24 @@
   </Transition>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
+<script lang="ts" setup>
+import { ref, onMounted } from "vue";
 
-export default defineComponent({
-  data(): {
-    show: boolean;
-    data: {
-      msg: string;
-      code: string;
-    };
-  } {
-    return {
-      show: false,
-      data: {
-        msg: "",
-        code: "",
-      },
-    };
-  },
+defineExpose({ doShow, updateData });
 
-  mounted(): void {
-    this.show = false;
-  },
-
-  methods: {
-    doShow(): void {
-      this.show = true;
-    },
-
-    updateData(data: { msg: string; code: string }) {
-      this.data = data;
-    },
-  },
-
-  computed: {},
+const show = ref(false);
+const data = ref({
+  msg: "",
+  code: "",
 });
+
+onMounted(() => (show.value = false));
+
+function doShow() {
+  show.value = true;
+}
+
+function updateData(d: { msg: string; code: string }) {
+  data.value = d;
+}
 </script>

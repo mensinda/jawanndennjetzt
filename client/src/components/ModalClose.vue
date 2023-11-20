@@ -2,7 +2,7 @@
   <Transition>
     <div v-if="show">
       <div @click="show = false" class="modal modal-lg show" role="dialog" style="display: block">
-        <div @click.stop="stop" class="modal-dialog" role="document">
+        <div @click.stop="() => {}" class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header bg-info fw-bold text-white">
               <h5 class="modal-title user-select-none">{{ $t("modal.close.close-poll") }}</h5>
@@ -108,73 +108,53 @@
   </Transition>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
+<script lang="ts" setup>
+import { ref, computed } from "vue";
 import { pollStore } from "@/store";
 import { sumVotesData, markdown } from "@/util";
 
-export default defineComponent({
-  emits: ["optionPicked"],
+const emit = defineEmits(["optionPicked"]);
+defineExpose({ doShow });
 
-  data() {
-    return {
-      show: false,
-      selectedIdx: -1,
-    };
-  },
+const store = pollStore();
 
-  setup() {
-    const store = pollStore();
+const show = ref(false);
+const selectedIdx = ref(-1);
 
-    return { store };
-  },
+const numOpts = computed(() => store.options.length);
+const sumData = computed(() => sumVotesData());
 
-  computed: {
-    numOpts(): number {
-      return this.store.options.length;
-    },
-
-    gridTemplate(): { "grid-template-columns": string } {
-      return {
-        "grid-template-columns": `135px repeat(${this.numOpts}, minmax(50px, min-content))`,
-      };
-    },
-
-    sumData() {
-      return sumVotesData();
-    },
-  },
-
-  methods: {
-    doShow() {
-      this.show = true;
-      this.selectedIdx = -1;
-      if (this.sumData.maxYes > 0) {
-        for (let i = 0; i < this.sumData.yes.length; ++i) {
-          if (this.sumData.maxYes == this.sumData.yes[i]) {
-            this.selectedIdx = i;
-            break;
-          }
-        }
-      }
-    },
-
-    isBestOption(optIdx: number): boolean {
-      return this.sumData.maxYes == this.sumData.yes[optIdx] && this.sumData.yes[optIdx] > 0;
-    },
-
-    isMaybeAnOption(optIdx: number): boolean {
-      return this.sumData.maxMaybe == this.sumData.maybe[optIdx] && this.sumData.maybe[optIdx] > 0;
-    },
-
-    markdown,
-
-    handleConfirm() {
-      this.$emit("optionPicked", this.selectedIdx);
-      this.show = false;
-    },
-  },
+const gridTemplate = computed(() => {
+  return {
+    "grid-template-columns": `135px repeat(${numOpts.value}, minmax(50px, min-content))`,
+  };
 });
+
+function doShow() {
+  show.value = true;
+  selectedIdx.value = -1;
+  if (sumData.value.maxYes > 0) {
+    for (let i = 0; i < sumData.value.yes.length; ++i) {
+      if (sumData.value.maxYes == sumData.value.yes[i]) {
+        selectedIdx.value = i;
+        break;
+      }
+    }
+  }
+}
+
+function isBestOption(optIdx: number): boolean {
+  return sumData.value.maxYes == sumData.value.yes[optIdx] && sumData.value.yes[optIdx] > 0;
+}
+
+function isMaybeAnOption(optIdx: number): boolean {
+  return sumData.value.maxMaybe == sumData.value.maybe[optIdx] && sumData.value.maybe[optIdx] > 0;
+}
+
+function handleConfirm() {
+  emit("optionPicked", selectedIdx.value);
+  show.value = false;
+}
 </script>
 
 <style lang="scss">

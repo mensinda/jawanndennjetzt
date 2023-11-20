@@ -16,7 +16,7 @@
           type="text"
           class="form-control"
           :class="{ 'is-invalid': hasChanges && store.name.length <= 0 }"
-          :maxlength="limits.TITLE_LENGTH"
+          :maxlength="LIMITS.TITLE_LENGTH"
           :placeholder="$t('editor.poll-name-placeholder')"
           @input="hasChanges = true"
         />
@@ -142,7 +142,7 @@
                     type="text"
                     class="form-control"
                     :class="{ 'is-invalid': element.name.length <= 0 }"
-                    :maxlength="limits.NAME_LENGTH"
+                    :maxlength="LIMITS.NAME_LENGTH"
                     style="z-index: 1000000"
                     :placeholder="$t('editor.option-name-placeholder')"
                     @input="hasChanges = true"
@@ -193,9 +193,9 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import draggable from "vuedraggable";
-import { defineComponent, ref } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { pollStore } from "@/store";
 import { Option } from "@/model";
 import { RandomPoll } from "@/randomPoll";
@@ -204,171 +204,140 @@ import { markdown } from "@/util";
 import { JWDJ_PRIMARY_BTN_CLS } from "@/config";
 import ModalDateRange from "./ModalDateRange.vue";
 
-export default defineComponent({
-  components: {
-    draggable,
-    ModalDateRange,
+defineEmits(["submit"]);
+defineExpose({ optionsImported });
+
+defineProps({
+  submitMsg: {
+    type: String,
   },
-
-  props: {
-    submitMsg: {
-      type: String,
-    },
-    canEditOptions: {
-      type: Boolean,
-    },
-  },
-
-  emits: ["submit"],
-
-  setup() {
-    const store = pollStore();
-    const rangeModal = ref<typeof ModalDateRange | null>(null);
-    const randomPoll = new RandomPoll(false);
-
-    return { store, rangeModal, randomPoll };
-  },
-
-  data() {
-    return {
-      drag: false,
-      date: ref(),
-      counter: 1,
-      hasChanges: false,
-    };
-  },
-
-  mounted() {
-    this.counter = 1;
-  },
-
-  methods: {
-    markdown,
-
-    newOptAfter(opt: Option) {
-      this.newOpt(opt.index + 1);
-    },
-
-    newOpt(idx: number) {
-      this.store.options.splice(idx, 0, new Option("#" + this.counter++, -1));
-      this.optionChangeFixup();
-    },
-
-    delOpt(opt: Option) {
-      const idx = opt.index;
-      this.store.options.splice(idx, 1);
-      this.optionChangeFixup();
-      this.counter--;
-    },
-
-    dateRange() {
-      if (this.rangeModal == null) {
-        return;
-      }
-      this.rangeModal.doShow();
-    },
-
-    insertDateRange(r: string[]) {
-      r.forEach((x) => this.store.options.push(new Option(x, -1)));
-      this.optionChangeFixup();
-    },
-
-    moveOptRel(opt: Option, diff: number) {
-      this.moveOptAbs(opt, opt.index + diff);
-    },
-
-    moveOptAbs(opt: Option, to: number) {
-      const from = opt.index;
-      const el = this.store.options[from];
-      this.store.options.splice(from, 1);
-      this.store.options.splice(to, 0, el);
-      this.optionChangeFixup();
-    },
-
-    onDragStart() {
-      this.drag = true;
-    },
-
-    onDragEnd() {
-      this.drag = false;
-      this.optionChangeFixup();
-    },
-
-    clsBtnUp(opt: Option, type = "primary") {
-      return {
-        ...this.clsBtn(type),
-        disabled: this.drag || opt.index <= 0,
-      };
-    },
-
-    clsBtnDown(opt: Option, type = "primary") {
-      return {
-        ...this.clsBtn(type),
-        disabled: this.drag || opt.index >= this.store.options.length - 1,
-      };
-    },
-
-    clsBtn(type = "primary") {
-      return {
-        btn: true,
-        "btn-danger": type == "danger",
-        "btn-success": type == "success",
-        "btn-primary": type == "primary",
-        disabled: this.drag,
-      };
-    },
-
-    optionChangeFixup() {
-      this.store.idx_autofix();
-      this.store.ballots = this.randomPoll.ballots(this.store.options.length);
-      this.hasChanges = true;
-    },
-
-    optionsImported() {
-      this.counter = this.store.options.length + 1;
-
-      if (this.store.options.length > 0) {
-        this.optionChangeFixup();
-      }
-    },
-  },
-
-  computed: {
-    numOpts(): number {
-      return this.store.options.length;
-    },
-
-    submitBtnCls() {
-      return {
-        btn: true,
-        "btn-lg": true,
-        "mb-1": true,
-        [JWDJ_PRIMARY_BTN_CLS]: this.canSubmit,
-        "btn-secondary": !this.canSubmit,
-        disabled: !this.canSubmit || !this.hasChanges,
-        "control-btn": true,
-        col: true,
-      };
-    },
-
-    canSubmit() {
-      return this.store.options.length > 0 && this.store.name.length > 0 && !this.hasEmptyOption;
-    },
-
-    hasEmptyOption() {
-      for (const x of this.store.options) {
-        if (x.name.length <= 0) {
-          return true;
-        }
-      }
-      return false;
-    },
-
-    limits() {
-      return LIMITS;
-    },
+  canEditOptions: {
+    type: Boolean,
   },
 });
+
+const store = pollStore();
+const rangeModal = ref<typeof ModalDateRange | null>(null);
+const randomPoll = new RandomPoll(false);
+
+const drag = ref(false);
+const counter = ref(1);
+const hasChanges = ref(false);
+
+onMounted(() => (counter.value = 1));
+
+const numOpts = computed(() => store.options.length);
+
+const submitBtnCls = computed(() => {
+  return {
+    btn: true,
+    "btn-lg": true,
+    "mb-1": true,
+    [JWDJ_PRIMARY_BTN_CLS]: canSubmit.value,
+    "btn-secondary": !canSubmit.value,
+    disabled: !canSubmit.value || !hasChanges.value,
+    "control-btn": true,
+    col: true,
+  };
+});
+
+const canSubmit = computed(() => store.options.length > 0 && store.name.length > 0 && !hasEmptyOption.value);
+
+const hasEmptyOption = computed(() => {
+  for (const x of store.options) {
+    if (x.name.length <= 0) {
+      return true;
+    }
+  }
+  return false;
+});
+
+function newOptAfter(opt: Option) {
+  newOpt(opt.index + 1);
+}
+
+function newOpt(idx: number) {
+  store.options.splice(idx, 0, new Option("#" + counter.value++, -1));
+  optionChangeFixup();
+}
+
+function delOpt(opt: Option) {
+  const idx = opt.index;
+  store.options.splice(idx, 1);
+  optionChangeFixup();
+  counter.value--;
+}
+
+function dateRange() {
+  if (rangeModal.value == null) {
+    return;
+  }
+  rangeModal.value.doShow();
+}
+
+function insertDateRange(r: string[]) {
+  r.forEach((x) => store.options.push(new Option(x, -1)));
+  optionChangeFixup();
+}
+
+function moveOptRel(opt: Option, diff: number) {
+  moveOptAbs(opt, opt.index + diff);
+}
+
+function moveOptAbs(opt: Option, to: number) {
+  const from = opt.index;
+  const el = store.options[from];
+  store.options.splice(from, 1);
+  store.options.splice(to, 0, el);
+  optionChangeFixup();
+}
+
+function onDragStart() {
+  drag.value = true;
+}
+
+function onDragEnd() {
+  drag.value = false;
+  optionChangeFixup();
+}
+
+function clsBtnUp(opt: Option, type = "primary") {
+  return {
+    ...clsBtn(type),
+    disabled: drag.value || opt.index <= 0,
+  };
+}
+
+function clsBtnDown(opt: Option, type = "primary") {
+  return {
+    ...clsBtn(type),
+    disabled: drag.value || opt.index >= store.options.length - 1,
+  };
+}
+
+function clsBtn(type = "primary") {
+  return {
+    btn: true,
+    "btn-danger": type == "danger",
+    "btn-success": type == "success",
+    "btn-primary": type == "primary",
+    disabled: drag.value,
+  };
+}
+
+function optionChangeFixup() {
+  store.idx_autofix();
+  store.ballots = randomPoll.ballots(store.options.length);
+  hasChanges.value = true;
+}
+
+function optionsImported() {
+  counter.value = store.options.length + 1;
+
+  if (store.options.length > 0) {
+    optionChangeFixup();
+  }
+}
 </script>
 
 <style lang="scss">

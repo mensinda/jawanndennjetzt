@@ -21,7 +21,6 @@
 
 <script lang="ts" setup>
 import { JWDJ_PRIMARY_BTN_CLS } from "@/config";
-import { defineProps } from "vue";
 
 defineProps({
   title: {

@@ -8,20 +8,9 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { pollStore } from "@/store";
-import { defineComponent } from "vue";
 import { markdown } from "@/util";
 
-export default defineComponent({
-  setup() {
-    const store = pollStore();
-
-    return { store };
-  },
-
-  methods: {
-    markdown,
-  },
-});
+const store = pollStore();
 </script>

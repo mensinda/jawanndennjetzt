@@ -29,84 +29,74 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { Vote } from "@/model";
-import { defineComponent } from "vue";
+import { ref, onMounted, computed } from "vue";
 
-export default defineComponent({
-  props: {
-    vote: Vote,
-    highlight: {
-      type: Boolean,
-      default: false,
-    },
-    editable: {
-      type: Boolean,
-      default: false,
-    },
+defineExpose();
+const emit = defineEmits(["onChange"]);
+const prop = defineProps({
+  vote: Vote,
+  highlight: {
+    type: Boolean,
+    default: false,
   },
-
-  emits: ["onChange"],
-
-  data() {
-    return {
-      realVote: null as Vote | null,
-    };
+  editable: {
+    type: Boolean,
+    default: false,
   },
+});
 
-  mounted() {
-    if (this.vote == null) {
-      return;
-    }
-    this.realVote = this.vote;
-  },
+const realVote = ref<Vote | null>(null);
 
-  methods: {
-    handleClick(reverse: boolean) {
-      if (!this.editable || this.realVote == null) {
-        return;
-      }
-      this.realVote.cycle(reverse);
-      this.$emit("onChange");
-    },
-  },
+onMounted(() => {
+  if (prop.vote == null) {
+    return;
+  }
+  realVote.value = prop.vote;
+});
 
-  computed: {
-    bgCls() {
-      if (this.realVote == null) {
-        return {};
-      }
-      switch (this.realVote.status) {
-        case "Y":
-          return { "bg-success": true };
-        case "N":
-          return { "bg-danger": true };
-        case "M":
-          return { "bg-warning": true };
-        case "-":
-          return { "bg-secondary": true };
-        default:
-          throw new Error("Unknown status: " + this.realVote.status);
-      }
-    },
+function handleClick(reverse: boolean) {
+  if (!prop.editable || realVote.value == null) {
+    return;
+  }
+  realVote.value.cycle(reverse);
+  emit("onChange");
+}
 
-    containerCls() {
-      return {
-        ...this.bgCls,
-        "vote-container-active": this.editable && !this.highlight,
-        "vote-container-inactive": !this.editable && !this.highlight,
-        "vote-container-highlight": this.highlight,
-      };
-    },
+const bgCls = computed(() => {
+  if (realVote.value == null) {
+    return {};
+  }
+  switch (realVote.value.status) {
+    case "Y":
+      return { "bg-success": true };
+    case "N":
+      return { "bg-danger": true };
+    case "M":
+      return { "bg-warning": true };
+    case "-":
+      return { "bg-secondary": true };
+    default:
+      throw new Error("Unknown status: " + realVote.value.status);
+  }
+});
 
-    btnBoxCls() {
-      return {
-        ...this.bgCls,
-        "ballot-box-active": this.editable,
-        "ballot-box-inactive": !this.editable,
-      };
-    },
-  },
+const containerCls = computed(() => {
+  return {
+    ...bgCls.value,
+    "vote-container-active": prop.editable && !prop.highlight,
+    "vote-container-inactive": !prop.editable && !prop.highlight,
+    "vote-container-highlight": prop.highlight,
+  };
+});
+
+const btnBoxCls = computed(() => {
+  return {
+    ...bgCls.value,
+    "ballot-box-active": prop.editable,
+    "ballot-box-inactive": !prop.editable,
+  };
 });
 </script>
 

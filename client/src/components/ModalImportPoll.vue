@@ -2,7 +2,7 @@
   <Transition>
     <div v-if="show">
       <div @click="show = false" class="modal show" role="dialog" style="display: block">
-        <div @click.stop="stop" class="modal-dialog" role="document">
+        <div @click.stop="() => {}" class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header bg-info fw-bold text-white">
               <h5 class="modal-title user-select-none">{{ $t("modal.import.title") }}</h5>
@@ -60,6 +60,7 @@ import debounce from "lodash.debounce";
 import axios from "@/axios";
 
 const emit = defineEmits(["importDone", "importError"]);
+defineExpose({ doShow });
 
 const store = pollStore();
 
@@ -140,8 +141,4 @@ function doShow() {
   isChecking.value = false;
   pollInput.value = "";
 }
-
-defineExpose({
-  doShow,
-});
 </script>

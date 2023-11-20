@@ -6,7 +6,7 @@
       v-model="vueMyBallot.note"
       rows="4"
       class="form-control mt-1"
-      :maxlength="limits.DESCRIPTION_LENGTH"
+      :maxlength="LIMITS.DESCRIPTION_LENGTH"
       :placeholder="$t('notes.note-placeholder')"
       @input="$emit('userInputChanged')"
     />
@@ -33,56 +33,39 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { pollStore } from "@/store";
-import { defineComponent } from "vue";
+import { computed } from "vue";
 import { Ballot } from "@/model";
 import { LIMITS } from "@/limits";
 import { markdown } from "@/util";
 
-export default defineComponent({
-  setup() {
-    const store = pollStore();
+defineExpose();
+defineEmits(["userInputChanged"]);
 
-    return { store };
-  },
+const store = pollStore();
 
-  emits: ["userInputChanged"],
-
-  methods: {
-    markdown,
-  },
-
-  computed: {
-    hasNotes(): boolean {
-      for (const ballot of this.store.ballots) {
-        if (ballot.note.trim()) {
-          return true;
-        }
-      }
-      if (this.store.myBallot && this.store.myBallot.note.trim()) {
-        return true;
-      }
-      return false;
-    },
-
-    ballotsWithNote(): Ballot[] {
-      const res = this.store.ballots.filter((x) => x.note.trim());
-      if (this.store.myBallot && this.store.myBallot.note.trim()) {
-        res.unshift(this.store.myBallot);
-      }
-      return res;
-    },
-
-    vueMyBallot(): Ballot {
-      return this.store.myBallot == null ? new Ballot("", [], null) : this.store.myBallot;
-    },
-
-    limits() {
-      return LIMITS;
-    },
-  },
+const hasNotes = computed(() => {
+  for (const ballot of store.ballots) {
+    if (ballot.note.trim()) {
+      return true;
+    }
+  }
+  if (store.myBallot && store.myBallot.note.trim()) {
+    return true;
+  }
+  return false;
 });
+
+const ballotsWithNote = computed(() => {
+  const res = store.ballots.filter((x) => x.note.trim());
+  if (store.myBallot && store.myBallot.note.trim()) {
+    res.unshift(store.myBallot);
+  }
+  return res;
+});
+
+const vueMyBallot = computed(() => (store.myBallot == null ? new Ballot("", [], null) : store.myBallot));
 </script>
 
 <style lang="scss">

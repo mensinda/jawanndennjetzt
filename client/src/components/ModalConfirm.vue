@@ -2,7 +2,7 @@
   <Transition>
     <div v-if="show">
       <div @click="show = false" class="modal modal-lg show" role="dialog" style="display: block">
-        <div @click.stop="stop" class="modal-dialog" role="document">
+        <div @click.stop="() => {}" class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header bg-danger fw-bold text-white">
               <h5 class="modal-title user-select-none">{{ $t("modal.delete.title") }}</h5>
@@ -33,30 +33,20 @@
   </Transition>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
-import { markdown } from "@/util";
+<script lang="ts" setup>
+import { ref } from "vue";
 
-export default defineComponent({
-  emits: ["confirmedDeletion"],
+const emit = defineEmits(["confirmedDeletion"]);
+defineExpose({ doShow });
 
-  data() {
-    return {
-      show: false,
-    };
-  },
+const show = ref(false);
 
-  methods: {
-    doShow() {
-      this.show = true;
-    },
+function doShow() {
+  show.value = true;
+}
 
-    markdown,
-
-    handleConfirm() {
-      this.$emit("confirmedDeletion");
-      this.show = false;
-    },
-  },
-});
+function handleConfirm() {
+  emit("confirmedDeletion");
+  show.value = false;
+}
 </script>

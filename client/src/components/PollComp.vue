@@ -45,7 +45,7 @@
                 v-model="vueMyBallot.name"
                 class="form-control"
                 :class="{ 'is-invalid': hasChanges && vueMyBallot.name.length <= 0 }"
-                :maxlength="limits.NAME_LENGTH"
+                :maxlength="LIMITS.NAME_LENGTH"
                 :placeholder="$t('poll-comp.your-name')"
                 @input="
                   $emit('userInputChanged');
@@ -109,108 +109,75 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { pollStore } from "@/store";
-import { defineComponent } from "vue";
+import { ref, computed } from "vue";
 import VoteComp from "./VoteComp.vue";
 import { Ballot } from "@/model";
 import { LIMITS } from "@/limits";
 import { sumVotesData, markdown } from "@/util";
 
-export default defineComponent({
-  components: {
-    VoteComp,
-  },
+const store = pollStore();
 
-  emits: ["userInputChanged"],
-
-  props: {
-    mode: {
-      type: String,
-      required: true,
-    },
-  },
-
-  data() {
-    return { hasChanges: false };
-  },
-
-  setup() {
-    const store = pollStore();
-
-    return { store };
-  },
-
-  methods: {
-    markdown,
-    isBestOption(optIdx: number): boolean {
-      return this.sumData.maxYes == this.sumData.yes[optIdx] && this.sumData.yes[optIdx] > 0;
-    },
-    isMaybeAnOption(optIdx: number): boolean {
-      return this.sumData.maxMaybe == this.sumData.maybe[optIdx] && this.sumData.maybe[optIdx] > 0;
-    },
-    shouldHaveArrow(optIdx: number): boolean {
-      if (this.store.isClosed) {
-        return optIdx == this.store.closedOptionIndex;
-      }
-      return this.isBestOption(optIdx);
-    },
-    resultOpacity(optIdx: number): { [d: string]: boolean } {
-      return {
-        "bg-opacity-75": this.store.isClosed && optIdx == this.store.closedOptionIndex,
-        "bg-opacity-50": !this.store.isClosed,
-        "bg-opacity-25": this.store.isClosed && optIdx != this.store.closedOptionIndex,
-      };
-    },
-  },
-
-  computed: {
-    gridTemplate(): { "grid-template-columns": string; "grid-template-rows": string } {
-      const repeatCols = this.numOpts > 0 ? `repeat(${this.numOpts}, minmax(50px, min-content))` : "";
-      const repeatRows = this.numBallots > 0 ? `repeat(${this.numBallots}, minmax(50px, min-content))` : "";
-      const inputRow = this.mode == "normal" && !this.store.isClosed ? "min-content" : "";
-      return {
-        "grid-template-columns": `minmax(150px, min-content) ${repeatCols} minmax(150px, min-content)`,
-        "grid-template-rows": `min-content ${repeatRows} ${inputRow} min-content`,
-      };
-    },
-
-    vueMyBallot(): Ballot {
-      const initial_name_raw = this.store.user?.user?.name;
-      const initial_name = initial_name_raw === undefined ? "" : initial_name_raw;
-      return this.store.myBallot == null ? new Ballot(initial_name, [], null) : this.store.myBallot;
-    },
-
-    vueDisplayBallots(): Ballot[] {
-      if (
-        (this.mode == "normal" && !this.store.isClosed) ||
-        (this.store.isClosed && !this.store.alreadyVoted) ||
-        this.store.myBallot == null
-      ) {
-        return this.store.ballots;
-      }
-      const res = [...this.store.ballots];
-      res.push(this.store.myBallot);
-      return res;
-    },
-
-    numOpts(): number {
-      return this.store.options.length;
-    },
-
-    numBallots(): number {
-      return this.vueDisplayBallots.length;
-    },
-
-    sumData() {
-      return sumVotesData();
-    },
-
-    limits() {
-      return LIMITS;
-    },
+defineExpose();
+defineEmits(["userInputChanged"]);
+const prop = defineProps({
+  mode: {
+    type: String,
+    required: true,
   },
 });
+
+const hasChanges = ref(false);
+
+function isBestOption(optIdx: number): boolean {
+  return sumData.value.maxYes == sumData.value.yes[optIdx] && sumData.value.yes[optIdx] > 0;
+}
+function isMaybeAnOption(optIdx: number): boolean {
+  return sumData.value.maxMaybe == sumData.value.maybe[optIdx] && sumData.value.maybe[optIdx] > 0;
+}
+function shouldHaveArrow(optIdx: number): boolean {
+  if (store.isClosed) {
+    return optIdx == store.closedOptionIndex;
+  }
+  return isBestOption(optIdx);
+}
+function resultOpacity(optIdx: number): { [d: string]: boolean } {
+  return {
+    "bg-opacity-75": store.isClosed && optIdx == store.closedOptionIndex,
+    "bg-opacity-50": !store.isClosed,
+    "bg-opacity-25": store.isClosed && optIdx != store.closedOptionIndex,
+  };
+}
+
+const gridTemplate = computed(() => {
+  const repeatCols = numOpts.value > 0 ? `repeat(${numOpts.value}, minmax(50px, min-content))` : "";
+  const repeatRows = numBallots.value > 0 ? `repeat(${numBallots.value}, minmax(50px, min-content))` : "";
+  const inputRow = prop.mode == "normal" && !store.isClosed ? "min-content" : "";
+  return {
+    "grid-template-columns": `minmax(150px, min-content) ${repeatCols} minmax(150px, min-content)`,
+    "grid-template-rows": `min-content ${repeatRows} ${inputRow} min-content`,
+  };
+});
+
+const vueMyBallot = computed(() => {
+  const initial_name_raw = store.user?.user?.name;
+  const initial_name = initial_name_raw === undefined ? "" : initial_name_raw;
+  return store.myBallot == null ? new Ballot(initial_name, [], null) : store.myBallot;
+});
+
+const vueDisplayBallots = computed(() => {
+  if ((prop.mode == "normal" && !store.isClosed) || (store.isClosed && !store.alreadyVoted) || store.myBallot == null) {
+    return store.ballots;
+  }
+  const res = [...store.ballots];
+  res.push(store.myBallot);
+  return res;
+});
+
+const numOpts = computed(() => store.options.length);
+const numBallots = computed(() => vueDisplayBallots.value.length);
+const sumData = computed(() => sumVotesData());
 </script>
 
 <style lang="scss">

@@ -27,35 +27,22 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { pollStore } from "@/store";
-import { defineComponent } from "vue";
+import { computed } from "vue";
 
 import PollDescription from "./PollDescription.vue";
 import PollNotes from "./PollNotes.vue";
 
-export default defineComponent({
-  components: {
-    PollDescription,
-    PollNotes,
-  },
+defineEmits(["userInputChanged"]);
 
-  emits: ["userInputChanged"],
+const store = pollStore();
 
-  setup() {
-    const store = pollStore();
-
-    return { store };
-  },
-
-  computed: {
-    numNotes(): number {
-      let res = this.store.ballots.filter((x) => x.note.trim()).length;
-      if (this.store.myBallot && this.store.myBallot.note.trim()) {
-        res++;
-      }
-      return res;
-    },
-  },
+const numNotes = computed(() => {
+  let res = store.ballots.filter((x) => x.note.trim()).length;
+  if (store.myBallot && store.myBallot.note.trim()) {
+    res++;
+  }
+  return res;
 });
 </script>

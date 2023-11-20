@@ -1,7 +1,7 @@
 <template>
   <div v-if="show">
     <div @click="show = false" class="modal modal-lg show" role="dialog" style="display: block">
-      <div @click.stop="stop" class="modal-dialog" role="document">
+      <div @click.stop="() => {}" class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header bg-info fw-bold text-white">
             <h5 class="modal-title">{{ $t("modal.date.title") }}</h5>
@@ -34,7 +34,7 @@
                     range
                     inline
                     style="width: auto !important"
-                    :dark="darkDatePicker"
+                    :dark="JWDJ_DARK_DATE_PICKER"
                     :partial-range="false"
                     :max-range="64"
                     :hide-navigation="['time']"
@@ -168,156 +168,133 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import draggable from "vuedraggable";
-import { defineComponent, ref } from "vue";
+import { ref, computed } from "vue";
 import Datepicker from "@vuepic/vue-datepicker";
 import { eachDayOfInterval, format } from "date-fns";
 import { Option } from "@/model";
 import { JWDJ_DARK_DATE_PICKER } from "@/config";
 
-export default defineComponent({
-  components: {
-    Datepicker,
-    draggable,
+const emit = defineEmits(["rangeSelected"]);
+defineExpose({ doShow });
+
+const props = defineProps({
+  formatStr: {
+    default: "dd.MM.yyyy",
   },
-
-  emits: ["rangeSelected"],
-
-  props: {
-    formatStr: {
-      default: "dd.MM.yyyy",
-    },
-    formatStrNoYear: {
-      default: "dd.MM",
-    },
-  },
-
-  data() {
-    return {
-      show: false,
-      dateRange: ref(),
-      includeYear: true,
-
-      drag: false,
-      counter: 6,
-      times: [] as Option[],
-    };
-  },
-
-  computed: {
-    realFormatStr() {
-      return this.includeYear ? this.formatStr : this.formatStrNoYear;
-    },
-
-    numOpts() {
-      return this.times.length;
-    },
-
-    darkDatePicker() {
-      return JWDJ_DARK_DATE_PICKER;
-    },
-  },
-
-  methods: {
-    doShow() {
-      this.show = true;
-      this.dateRange = null;
-      this.includeYear = true;
-      this.counter = 6;
-      this.times = [];
-    },
-
-    handleConfirm() {
-      if (this.dateRange == null) {
-        return;
-      }
-      const res = eachDayOfInterval({ start: this.dateRange[0], end: this.dateRange[1] });
-      const resStr: string[] = [];
-      for (const date of res) {
-        const dateStr = format(date, this.realFormatStr);
-        if (this.times.length == 0) {
-          resStr.push(dateStr);
-        }
-
-        // const brOnlyStr = dateStr.replace(/(<br>)|./gs, "$1");
-        const brOnlyStr = "<m>" + dateStr + "</m>";
-        for (let idx = 0; idx < this.times.length; ++idx) {
-          const t = this.times[idx];
-          resStr.push((idx == 0 ? dateStr : brOnlyStr) + "<br>" + t.name);
-        }
-      }
-      this.$emit("rangeSelected", resStr);
-      this.show = false;
-    },
-
-    newOptAfter(opt: Option) {
-      this.newOpt(opt.index + 1);
-    },
-
-    newOpt(idx: number) {
-      this.times.splice(idx, 0, new Option("*" + (this.counter++ % 24) + ":00*", -1));
-      this.optionChangeFixup();
-    },
-
-    delOpt(opt: Option) {
-      const idx = opt.index;
-      this.times.splice(idx, 1);
-      this.optionChangeFixup();
-    },
-
-    moveOptRel(opt: Option, diff: number) {
-      this.moveOptAbs(opt, opt.index + diff);
-    },
-
-    moveOptAbs(opt: Option, to: number) {
-      const from = opt.index;
-      const el = this.times[from];
-      this.times.splice(from, 1);
-      this.times.splice(to, 0, el);
-      this.optionChangeFixup();
-    },
-
-    onDragStart() {
-      this.drag = true;
-    },
-
-    onDragEnd() {
-      this.drag = false;
-      this.optionChangeFixup();
-    },
-
-    clsBtnUp(opt: Option, type = "primary") {
-      return {
-        ...this.clsBtn(type),
-        disabled: this.drag || opt.index <= 0,
-      };
-    },
-
-    clsBtnDown(opt: Option, type = "primary") {
-      return {
-        ...this.clsBtn(type),
-        disabled: this.drag || opt.index >= this.times.length - 1,
-      };
-    },
-
-    clsBtn(type = "primary") {
-      return {
-        btn: true,
-        "btn-danger": type == "danger",
-        "btn-success": type == "success",
-        "btn-primary": type == "primary",
-        disabled: this.drag,
-      };
-    },
-
-    optionChangeFixup() {
-      for (let i = 0; i < this.times.length; ++i) {
-        this.times[i].index = i;
-      }
-    },
+  formatStrNoYear: {
+    default: "dd.MM",
   },
 });
+
+const show = ref(false);
+const dateRange = ref();
+const includeYear = ref(true);
+
+const drag = ref(false);
+const counter = ref(6);
+const times = ref<Option[]>([]);
+
+const realFormatStr = computed(() => (includeYear.value ? props.formatStr : props.formatStrNoYear));
+const numOpts = computed(() => times.value.length);
+
+function doShow() {
+  show.value = true;
+  dateRange.value = null;
+  includeYear.value = true;
+  counter.value = 6;
+  times.value = [];
+}
+
+function handleConfirm() {
+  if (dateRange.value == null) {
+    return;
+  }
+  const res = eachDayOfInterval({ start: dateRange.value[0], end: dateRange.value[1] });
+  const resStr: string[] = [];
+  for (const date of res) {
+    const dateStr = format(date, realFormatStr.value);
+    if (times.value.length == 0) {
+      resStr.push(dateStr);
+    }
+
+    // const brOnlyStr = dateStr.replace(/(<br>)|./gs, "$1");
+    const brOnlyStr = "<m>" + dateStr + "</m>";
+    for (let idx = 0; idx < times.value.length; ++idx) {
+      const t = times.value[idx];
+      resStr.push((idx == 0 ? dateStr : brOnlyStr) + "<br>" + t.name);
+    }
+  }
+  emit("rangeSelected", resStr);
+  show.value = false;
+}
+
+function newOptAfter(opt: Option) {
+  newOpt(opt.index + 1);
+}
+
+function newOpt(idx: number) {
+  times.value.splice(idx, 0, new Option("*" + (counter.value++ % 24) + ":00*", -1));
+  optionChangeFixup();
+}
+
+function delOpt(opt: Option) {
+  const idx = opt.index;
+  times.value.splice(idx, 1);
+  optionChangeFixup();
+}
+
+function moveOptRel(opt: Option, diff: number) {
+  moveOptAbs(opt, opt.index + diff);
+}
+
+function moveOptAbs(opt: Option, to: number) {
+  const from = opt.index;
+  const el = times.value[from];
+  times.value.splice(from, 1);
+  times.value.splice(to, 0, el);
+  optionChangeFixup();
+}
+
+function onDragStart() {
+  drag.value = true;
+}
+
+function onDragEnd() {
+  drag.value = false;
+  optionChangeFixup();
+}
+
+function clsBtnUp(opt: Option, type = "primary") {
+  return {
+    ...clsBtn(type),
+    disabled: drag.value || opt.index <= 0,
+  };
+}
+
+function clsBtnDown(opt: Option, type = "primary") {
+  return {
+    ...clsBtn(type),
+    disabled: drag.value || opt.index >= times.value.length - 1,
+  };
+}
+
+function clsBtn(type = "primary") {
+  return {
+    btn: true,
+    "btn-danger": type == "danger",
+    "btn-success": type == "success",
+    "btn-primary": type == "primary",
+    disabled: drag.value,
+  };
+}
+
+function optionChangeFixup() {
+  for (let i = 0; i < times.value.length; ++i) {
+    times.value[i].index = i;
+  }
+}
 </script>
 
 <style lang="scss">
