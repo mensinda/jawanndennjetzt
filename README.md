@@ -40,6 +40,9 @@ JaWannDennJetzt supports the following configuration options:
 | `JWDJ_SUBPATH`                | Prefix from which the app should be served (default is "/"). A common use-case for such a setup is serving multiple applications on the same domain. |  `B`  |
 | `JWDJ_THEME`                  | Which theme from [Bootswatch](https://bootswatch.com) to use                                                                                         |  `B`  |
 | `JWDJ_DARK_DATE_PICKER`       | Enables the dark theme for the date picker.                                                                                                          |  `B`  |
+| `JWDJ_NAV_BG_CLASS`           | Background CSS class. Recommended: `bg-primary` `bg-dark` `bg-light` `bg-body-tertiary`                                                              |  `B`  |
+| `JWDJ_NAV_BG_TYPE`            | data-bs-theme value: `light` or `dark`                                                                                                               |  `B`  |
+| `JWDJ_PRIMARY_BTN_CLS`        | Allows changing the color / CSS class (`btn-*`) of certain buttons in some views to better fit the theme                                             |  `B`  |
 | `JWDJ_WEB_FONTS`              | How to include external fonts (values: `1` = enable the external Google service, `0` = disable, `static` = self host the fonts).                     |  `B`  |
 | `JWDJ_FAVICON`                | The favicion of the site relative to `client/public`..                                                                                               |  `B`  |
 | `JWDJ_OPEN_GRAPH_IMAGE`       | The image for the [Open Graph](https://ogp.me/) protocol relative to `client/public`.                                                                |  `B`  |

@@ -34,9 +34,10 @@ cat <<EOF >> src/theme.scss
 @import "~bootswatch/dist/${JWDJ_THEME}/bootswatch";
 EOF
 
-[ -z "$JWDJ_SUBPATH"     ] && JWDJ_SUBPATH="/"
-[ -z "$JWDJ_LOGO_WIDTH"  ] && JWDJ_LOGO_WIDTH="30px"
-[ -z "$JWDJ_LOGO_HEIGHT" ] && JWDJ_LOGO_HEIGHT="30px"
+[ -z "$JWDJ_SUBPATH"         ] && JWDJ_SUBPATH="/"
+[ -z "$JWDJ_LOGO_WIDTH"      ] && JWDJ_LOGO_WIDTH="30px"
+[ -z "$JWDJ_LOGO_HEIGHT"     ] && JWDJ_LOGO_HEIGHT="30px"
+[ -z "$JWDJ_PRIMARY_BTN_CLS" ] && JWDJ_PRIMARY_BTN_CLS="btn-success"
 
 if [[ "$JWDJ_DARK_DATE_PICKER" == "0" || "$JWDJ_DARK_DATE_PICKER" == "false" ]]; then
     JWDJ_DARK_DATE_PICKER="false"
@@ -71,6 +72,7 @@ const JWDJ_LOGIN_MANAGER = $JWDJ_LOGIN_MANAGER;
 const JWDJ_LOGIN_SYSTEM_NAME = "$JWDJ_LOGIN_SYSTEM_NAME";
 const JWDJ_NAV_BG_CLASS = "$JWDJ_NAV_BG_CLASS";
 const JWDJ_NAV_BG_TYPE = "$JWDJ_NAV_BG_TYPE";
+const JWDJ_PRIMARY_BTN_CLS = "$JWDJ_PRIMARY_BTN_CLS";
 
 import DarkModeToggle from "@/components/darkmode/$DARK_MODE_IMPORT";
 
@@ -85,6 +87,7 @@ export {
   JWDJ_LOGIN_SYSTEM_NAME,
   JWDJ_NAV_BG_CLASS,
   JWDJ_NAV_BG_TYPE,
+  JWDJ_PRIMARY_BTN_CLS,
   DarkModeToggle,
 };
 EOF

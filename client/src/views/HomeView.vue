@@ -6,10 +6,18 @@
     </div>
     <div class="home-btn-container">
       <div />
-      <button @click="$router.push({ name: 'new' })" class="btn btn-lg btn-success text-nowrap user-select-none">
+      <button
+        @click="$router.push({ name: 'new' })"
+        class="btn btn-lg text-nowrap user-select-none"
+        :class="{ [JWDJ_PRIMARY_BTN_CLS]: true }"
+      >
         {{ $t("main.create-a-new-poll") }}
       </button>
       <div />
     </div>
   </div>
 </template>
+
+<script lang="ts" setup>
+import { JWDJ_PRIMARY_BTN_CLS } from "@/config";
+</script>

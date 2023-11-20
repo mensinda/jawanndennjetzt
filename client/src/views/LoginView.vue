@@ -34,7 +34,8 @@
           <div class="d-flex">
             <button
               type="button"
-              class="btn btn-success mt-3 flex-grow-1"
+              class="btn mt-3 flex-grow-1"
+              :class="{ [JWDJ_PRIMARY_BTN_CLS]: true }"
               @click="doLogin"
               :disabled="loginInProgress || password.length == 0 || username.trim().length == 0"
             >
@@ -55,7 +56,7 @@ import axios from "@/axios";
 import { ref } from "vue";
 import { endpointUrl } from "@/util";
 import { pollStore } from "@/store";
-import { JWDJ_LOGIN_SYSTEM_NAME } from "@/config";
+import { JWDJ_LOGIN_SYSTEM_NAME, JWDJ_PRIMARY_BTN_CLS } from "@/config";
 import { UserAuth } from "@/model";
 import ModalErrorMessage from "@/components/ModalErrorMessage.vue";
 import router from "@/router";
