@@ -7,27 +7,27 @@
   "auth": {
     "current-user": "Aktueller Benutzer",
     "current-user-info": "Benutzerinformationen zum aktuell eingeloggten Benutzer",
-    "required": "Diese Seite erfordert eine Anmeldung, bevor du eine neue Umfrage erstellen kannst",
-    "login-info": "Melde dich mit deinem {type} Konto an",
-    "username": "Benutzername",
-    "password": "Passwort",
-    "enter-username": "Benutzername eingeben",
-    "enter-password": "Passwort eingeben",
     "email": "E-Mail Adresse",
-    "name": "Name",
+    "enter-password": "Passwort eingeben",
+    "enter-username": "Benutzername eingeben",
     "failed": "Anmeldung fehlgeschlagen: Falscher Benutzername oder falsches Passwort.",
+    "login": "Anmelden",
+    "login-info": "Melde dich mit deinem {type} Konto an",
     "logout": "Abmelden",
-    "login": "Anmelden"
+    "name": "Name",
+    "password": "Passwort",
+    "required": "Diese Seite erfordert eine Anmeldung, bevor du eine neue Umfrage erstellen kannst",
+    "username": "Benutzername"
   },
   "common": {
-    "field": "Feld",
-    "value": "Wert",
     "close": "Schließen",
-    "total-votes": "Gesamtstimmen"
+    "field": "Feld",
+    "total-votes": "Gesamtstimmen",
+    "value": "Wert"
   },
   "edit": {
-    "do-update": "↻ Umfrage Aktualisieren ↻",
     "delete-poll": "🔥Umfrage löschen 🔥",
+    "do-update": "↻ Umfrage Aktualisieren ↻",
     "edit-poll": "Umfrage bearbeiten",
     "preview": "Vorschau",
     "return-to-poll": "Zurück zur Umfrage ↲"

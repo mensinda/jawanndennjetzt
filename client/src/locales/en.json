@@ -7,27 +7,27 @@
   "auth": {
     "current-user": "Current user",
     "current-user-info": "User information for the currently logged in user",
-    "required": "This site requires a login before creating new polls",
-    "login-info": "Log in to your {type} account",
-    "username": "Username",
-    "password": "Password",
-    "enter-username": "Enter username",
-    "enter-password": "Enter password",
     "email": "E-Mail address",
-    "name": "Name",
+    "enter-password": "Enter password",
+    "enter-username": "Enter username",
     "failed": "Login failed: Incorrect username or password.",
+    "login": "Login",
+    "login-info": "Log in to your {type} account",
     "logout": "Logout",
-    "login": "Login"
+    "name": "Name",
+    "password": "Password",
+    "required": "This site requires a login before creating new polls",
+    "username": "Username"
   },
   "common": {
-    "field": "Field",
-    "value": "Value",
     "close": "Close",
-    "total-votes": "Total Votes"
+    "field": "Field",
+    "total-votes": "Total Votes",
+    "value": "Value"
   },
   "edit": {
-    "do-update": "↻ Update Poll ↻",
     "delete-poll": "🔥 Delete Poll 🔥",
+    "do-update": "↻ Update Poll ↻",
     "edit-poll": "Edit poll",
     "preview": "Preview",
     "return-to-poll": "Return to poll ↲"
