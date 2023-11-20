@@ -40,126 +40,110 @@
   <div class="mb-5" />
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import PollComp from "@/components/PollComp.vue"; // @ is an alias to /src
 import EditorComp from "@/components/EditorComp.vue";
 import ModalErrorMessage from "@/components/ModalErrorMessage.vue";
 import ModalConfirm from "@/components/ModalConfirm.vue";
 import NotFoundComp from "@/components/NotFoundComp.vue";
-import axios from "@/axios";
-import { defineComponent, ref } from "vue";
+import axios, { AxiosError } from "@/axios";
+import { ref, onMounted, onBeforeUnmount } from "vue";
 import { pollStore } from "@/store";
 import { endpointUrl, setStoreFromResponse, PollData } from "@/util";
+import { useRoute } from "vue-router";
 import PollDescription from "@/components/PollDescription.vue";
 import router from "@/router";
 
-export default defineComponent({
-  components: {
-    ModalErrorMessage,
-    ModalConfirm,
-    EditorComp,
-    PollDescription,
-    PollComp,
-    NotFoundComp,
-  },
+const store = pollStore();
+const route = useRoute();
+const errorModal = ref<typeof ModalErrorMessage | null>(null);
+const confirmModal = ref<typeof ModalConfirm | null>(null);
+const editComp = ref<typeof EditorComp | null>(null);
 
-  data() {
-    return {
-      pollstatus: "loading",
-    };
-  },
+const pollstatus = ref("loading");
 
-  setup() {
-    const store = pollStore();
-    const errorModal = ref<typeof ModalErrorMessage | null>(null);
-    const confirmModal = ref<typeof ModalConfirm | null>(null);
-    const editComp = ref<typeof EditorComp | null>(null);
-
-    return { store, errorModal, confirmModal, editComp };
-  },
-
-  mounted() {
-    this.pollstatus = "loading";
-    this.reload();
-  },
-
-  beforeUnmount() {
-    this.store.footerInfo = "";
-  },
-
-  methods: {
-    reload() {
-      if (this.editComp) {
-        this.editComp.hasChanges = false;
-      }
-      axios<PollData>({
-        url: endpointUrl("api/poll/" + this.$route.params.id),
-        method: "get",
-      })
-        .then((x) => {
-          setStoreFromResponse(x.data);
-          this.pollstatus = "ready";
-        })
-        .catch((x) => {
-          if (x.response.data.code == "POLL_NOT_FOUND") {
-            this.pollstatus = "404";
-            return;
-          }
-          if (this.errorModal == null) {
-            return;
-          }
-          this.errorModal.doShow();
-          this.errorModal.data = x.response.data;
-        });
-    },
-
-    deletePoll() {
-      axios({
-        url: endpointUrl("api/poll/" + this.$route.params.id + "/delete"),
-        method: "post",
-        data: {},
-      })
-        .then((_) => {
-          router.replace("/");
-        })
-        .catch((x) => {
-          if (this.errorModal == null) {
-            return;
-          }
-          this.errorModal.doShow();
-          this.errorModal.data = x.response.data;
-        });
-    },
-
-    updatePoll() {
-      this.pollstatus = "updating";
-
-      axios({
-        url: endpointUrl("api/poll/" + this.$route.params.id + "/update"),
-        method: "post",
-        data: {
-          name: this.store.name,
-          description: this.store.description,
-          allow_not_voted: this.store.allowNotVoted,
-        },
-      })
-        .then((_) => {
-          this.reload();
-          if (this.editComp) {
-            this.editComp.hasChanges = false;
-          }
-        })
-        .catch((x) => {
-          if (this.errorModal == null) {
-            return;
-          }
-          this.errorModal.doShow();
-          this.errorModal.data = x.response.data;
-          this.reload();
-        });
-    },
-  },
+onMounted(() => {
+  pollstatus.value = "loading";
+  reload();
 });
+
+onBeforeUnmount(() => {
+  store.footerInfo = "";
+});
+
+async function reload() {
+  if (editComp.value) {
+    editComp.value.hasChanges = false;
+  }
+  try {
+    const res = await axios<PollData>({
+      url: endpointUrl("api/poll/" + route.params.id),
+      method: "get",
+    });
+
+    setStoreFromResponse(res.data);
+    pollstatus.value = "ready";
+  } catch (x) {
+    if (!(x instanceof AxiosError)) {
+      return;
+    }
+    if (x.response?.data.code == "POLL_NOT_FOUND") {
+      pollstatus.value = "404";
+      return;
+    }
+    if (errorModal.value == null) {
+      return;
+    }
+    errorModal.value.doShow();
+    errorModal.value.data = x.response?.data;
+  }
+}
+
+async function deletePoll() {
+  try {
+    await axios({
+      url: endpointUrl("api/poll/" + route.params.id + "/delete"),
+      method: "post",
+      data: {},
+    });
+
+    router.replace("/");
+  } catch (x) {
+    if (errorModal.value == null || !(x instanceof AxiosError)) {
+      return;
+    }
+    errorModal.value.doShow();
+    errorModal.value.data = x.response?.data;
+  }
+}
+
+async function updatePoll() {
+  pollstatus.value = "updating";
+
+  try {
+    await axios({
+      url: endpointUrl("api/poll/" + route.params.id + "/update"),
+      method: "post",
+      data: {
+        name: store.name,
+        description: store.description,
+        allow_not_voted: store.allowNotVoted,
+      },
+    });
+
+    await reload();
+    if (editComp.value) {
+      editComp.value.hasChanges = false;
+    }
+  } catch (x) {
+    if (errorModal.value == null || !(x instanceof AxiosError)) {
+      return;
+    }
+    errorModal.value.doShow();
+    errorModal.value.data = x.response?.data;
+    await reload();
+  }
+}
 </script>
 
 <style lang="scss">

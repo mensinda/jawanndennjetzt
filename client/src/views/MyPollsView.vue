@@ -29,63 +29,40 @@
   </div>
 </template>
 
-<script lang="ts">
-import axios from "@/axios";
-import { defineComponent, ref } from "vue";
+<script lang="ts" setup>
+import axios, { AxiosError } from "@/axios";
+import { ref, onMounted } from "vue";
 import { endpointUrl, markdown } from "@/util";
 import ModalErrorMessage from "@/components/ModalErrorMessage.vue";
 
-export default defineComponent({
-  components: {
-    ModalErrorMessage,
-  },
+const errorModal = ref<typeof ModalErrorMessage | null>(null);
 
-  data(): {
-    loading: boolean;
-    createdByMe: { id: string; name: string }[];
-    votedIn: { id: string; name: string }[];
-  } {
-    return {
-      loading: true,
-      createdByMe: [],
-      votedIn: [],
-    };
-  },
+const loading = ref(true);
+const createdByMe = ref<{ id: string; name: string }[]>([]);
+const votedIn = ref<{ id: string; name: string }[]>([]);
 
-  setup() {
-    const errorModal = ref<typeof ModalErrorMessage | null>(null);
+onMounted(() => reload());
 
-    return { errorModal };
-  },
+async function reload() {
+  loading.value = true;
+  createdByMe.value = [];
+  votedIn.value = [];
 
-  mounted() {
-    this.reload();
-  },
+  try {
+    const res = await axios({
+      url: endpointUrl("api/my-polls"),
+      method: "get",
+    });
 
-  methods: {
-    markdown,
-
-    reload() {
-      this.loading = true;
-      this.createdByMe = [];
-      this.votedIn = [];
-      axios({
-        url: endpointUrl("api/my-polls"),
-        method: "get",
-      })
-        .then((x) => {
-          this.createdByMe = x.data.created_by_me;
-          this.votedIn = x.data.voted_in;
-          this.loading = false;
-        })
-        .catch((x) => {
-          if (this.errorModal == null) {
-            return;
-          }
-          this.errorModal.doShow();
-          this.errorModal.data = x.response.data;
-        });
-    },
-  },
-});
+    createdByMe.value = res.data.created_by_me;
+    votedIn.value = res.data.voted_in;
+    loading.value = false;
+  } catch (x) {
+    if (errorModal.value == null || !(x instanceof AxiosError)) {
+      return;
+    }
+    errorModal.value.doShow();
+    errorModal.value.data = x.response?.data;
+  }
+}
 </script>

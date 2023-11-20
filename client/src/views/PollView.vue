@@ -31,7 +31,7 @@
       <div class="vote-button-container">
         <div class="submit-container">
           <button @click="doSubmit" class="btn" :class="submitBtnCls" type="button">
-            {{ submitMsg }}
+            {{ $t(submitMsg) }}
           </button>
         </div>
         <div class="control-container">
@@ -86,7 +86,7 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import PollComp from "@/components/PollComp.vue"; // @ is an alias to /src
 import ModalClose from "@/components/ModalClose.vue";
 import ModalErrorMessage from "@/components/ModalErrorMessage.vue";
@@ -94,209 +94,179 @@ import PollDescNote from "@/components/PollDescNote.vue";
 import PollNotes from "@/components/PollNotes.vue";
 import NotFoundComp from "@/components/NotFoundComp.vue";
 import { pollStore } from "@/store";
-import { defineComponent, ref } from "vue";
+import { ref, onMounted, onBeforeUnmount, computed } from "vue";
 import { endpointUrl, setStoreFromResponse, PollData } from "@/util";
 import { JWDJ_LOGIN_MANAGER } from "@/config";
-import axios from "@/axios";
+import { useRoute } from "vue-router";
+import axios, { AxiosError } from "@/axios";
 
-export default defineComponent({
-  components: {
-    PollComp,
-    ModalClose,
-    ModalErrorMessage,
-    PollDescNote,
-    PollNotes,
-    NotFoundComp,
-  },
+const store = pollStore();
+const route = useRoute();
+const errorModal = ref<typeof ModalErrorMessage | null>(null);
+const closeModal = ref<typeof ModalClose | null>(null);
 
-  data() {
-    return {
-      pollstatus: "loading",
-      hasChanges: false,
-      hasJustCopied: false,
-    };
-  },
+const pollstatus = ref("loading");
+const hasChanges = ref(false);
+const hasJustCopied = ref(false);
 
-  mounted() {
-    this.pollstatus = "loading";
-    this.hasJustCopied = false;
-    this.store.reset();
-    this.reload();
-  },
+onMounted(() => reload());
 
-  beforeUnmount() {
-    this.store.footerInfo = "";
-  },
+onBeforeUnmount(() => (store.footerInfo = ""));
 
-  setup() {
-    const store = pollStore();
-    const errorModal = ref<typeof ModalErrorMessage | null>(null);
-    const closeModal = ref<typeof ModalClose | null>(null);
+async function reload() {
+  pollstatus.value = "loading";
+  hasJustCopied.value = false;
+  store.reset();
+  try {
+    const res = await axios<PollData>({
+      url: endpointUrl("api/poll/" + route.params.id),
+      method: "get",
+    });
 
-    return { store, closeModal, errorModal };
-  },
+    if (JWDJ_LOGIN_MANAGER && store.user === null) {
+      const auth = await import(/* webpackChunkName: "auth" */ "@/auth");
+      await auth.load_user_info();
+    }
+    setStoreFromResponse(res.data);
+    pollstatus.value = "ready";
+    hasChanges.value = false;
+  } catch (x) {
+    if (!(x instanceof AxiosError)) {
+      return;
+    }
+    if (x.response?.data.code == "POLL_NOT_FOUND") {
+      pollstatus.value = "404";
+      return;
+    }
+    if (errorModal.value == null) {
+      return;
+    }
+    errorModal.value.doShow();
+    errorModal.value.data = x.response?.data;
+  }
+}
 
-  computed: {
-    submitMsg(): string {
-      if (this.store.isClosed) {
-        return this.$t("poll.closed");
-      }
-      return this.store.alreadyVoted ? this.$t("poll.update-vote") : this.$t("poll.cast-vote");
-    },
+async function doSubmit() {
+  const ballot = store.myBallot;
+  if (ballot == null) {
+    return;
+  }
 
-    submitBtnCls(): { [key: string]: boolean } {
-      return {
-        "btn-success": !this.submitDisabled,
-        "btn-secondary": this.submitDisabled,
-        disabled: this.submitDisabled,
-      };
-    },
+  pollstatus.value = "updating";
 
-    canSubmit(): boolean {
-      return this.hasUserName && this.hasVoted && !this.store.isClosed;
-    },
+  try {
+    await axios({
+      url: endpointUrl("api/poll/" + route.params.id + "/vote"),
+      method: "post",
+      data: {
+        name: ballot.name,
+        votes: ballot.votes.map((x) => x.status).join(""),
+        note: ballot.note,
+      },
+    });
+  } catch (x) {
+    if (errorModal.value == null || !(x instanceof AxiosError)) {
+      return;
+    }
+    errorModal.value.doShow();
+    errorModal.value.data = x.response?.data;
+  }
 
-    submitDisabled() {
-      return !this.canSubmit || this.pollstatus == "updating" || !this.hasChanges;
-    },
+  await reload();
+}
 
-    hasUserName(): boolean {
-      if (this.store.myBallot == null) {
-        return false;
-      }
-      return this.store.myBallot.name.length > 0;
-    },
+async function doPollClose(optionIdx: number) {
+  try {
+    await axios({
+      url: endpointUrl("api/poll/" + route.params.id + "/close"),
+      method: "post",
+      data: {
+        option_idx: optionIdx,
+      },
+    });
+  } catch (x) {
+    if (errorModal.value == null || !(x instanceof AxiosError)) {
+      return;
+    }
+    errorModal.value.doShow();
+    errorModal.value.data = x.response?.data;
+  }
 
-    hasVoted(): boolean {
-      if (this.store.myBallot == null) {
-        return false;
-      }
-      let numVoted = 0;
-      for (const vote of this.store.myBallot.votes) {
-        if (vote.status != "-") {
-          numVoted++;
-        }
-      }
-      if (this.store.allowNotVoted && numVoted > 0) {
-        return true;
-      }
-      return numVoted == this.store.myBallot.votes.length;
-    },
-  },
+  await reload();
+}
 
-  methods: {
-    reload() {
-      axios<PollData>({
-        url: endpointUrl("api/poll/" + this.$route.params.id),
-        method: "get",
-      })
-        .then(async (x) => {
-          if (JWDJ_LOGIN_MANAGER && this.store.user === null) {
-            const auth = await import(/* webpackChunkName: "auth" */ "@/auth");
-            await auth.load_user_info();
-          }
-          setStoreFromResponse(x.data);
-          this.pollstatus = "ready";
-          this.hasChanges = false;
-        })
-        .catch((x) => {
-          if (x.response.data.code == "POLL_NOT_FOUND") {
-            this.pollstatus = "404";
-            return;
-          }
-          if (this.errorModal == null) {
-            return;
-          }
-          this.errorModal.doShow();
-          this.errorModal.data = x.response.data;
-        });
-    },
+async function doPollReopen() {
+  try {
+    await axios({
+      url: endpointUrl("api/poll/" + route.params.id + "/reopen"),
+      method: "post",
+    });
+  } catch (x) {
+    if (errorModal.value == null || !(x instanceof AxiosError)) {
+      return;
+    }
+    errorModal.value.doShow();
+    errorModal.value.data = x.response?.data;
+  }
 
-    doSubmit() {
-      const ballot = this.store.myBallot;
-      if (ballot == null) {
-        return;
-      }
+  await reload();
+}
 
-      this.pollstatus = "updating";
+async function doCopyLink() {
+  if (hasJustCopied.value) {
+    return;
+  }
+  try {
+    await navigator.clipboard.writeText(location.origin + route.fullPath);
+    hasJustCopied.value = true;
+    setTimeout(() => {
+      hasJustCopied.value = false;
+    }, 5000);
+  } catch (_) {
+    hasJustCopied.value = false;
+  }
+}
 
-      axios({
-        url: endpointUrl("api/poll/" + this.$route.params.id + "/vote"),
-        method: "post",
-        data: {
-          name: ballot.name,
-          votes: ballot.votes.map((x) => x.status).join(""),
-          note: ballot.note,
-        },
-      })
-        .then((_) => {
-          this.reload();
-          this.hasChanges = false;
-        })
-        .catch((x) => {
-          if (this.errorModal == null) {
-            return;
-          }
-          this.errorModal.doShow();
-          this.errorModal.data = x.response.data;
-          this.reload();
-        });
-    },
+const canSubmit = computed(() => hasUserName.value && hasVoted.value && !store.isClosed);
 
-    doPollClose(optionIdx: number) {
-      axios({
-        url: endpointUrl("api/poll/" + this.$route.params.id + "/close"),
-        method: "post",
-        data: {
-          option_idx: optionIdx,
-        },
-      })
-        .then((_) => {
-          this.reload();
-        })
-        .catch((x) => {
-          if (this.errorModal == null) {
-            return;
-          }
-          this.errorModal.doShow();
-          this.errorModal.data = x.response.data;
-          this.reload();
-        });
-    },
+const submitDisabled = computed(() => !canSubmit.value || pollstatus.value == "updating" || !hasChanges.value);
 
-    doPollReopen() {
-      axios({
-        url: endpointUrl("api/poll/" + this.$route.params.id + "/reopen"),
-        method: "post",
-      })
-        .then((_) => {
-          this.reload();
-        })
-        .catch((x) => {
-          if (this.errorModal == null) {
-            return;
-          }
-          this.errorModal.doShow();
-          this.errorModal.data = x.response.data;
-          this.reload();
-        });
-    },
+const submitMsg = computed(() => {
+  if (store.isClosed) {
+    return "poll.closed";
+  }
+  return store.alreadyVoted ? "poll.update-vote" : "poll.cast-vote";
+});
 
-    async doCopyLink() {
-      if (this.hasJustCopied) {
-        return;
-      }
-      try {
-        await navigator.clipboard.writeText(location.origin + this.$route.fullPath);
-        this.hasJustCopied = true;
-        setTimeout(() => {
-          this.hasJustCopied = false;
-        }, 5000);
-      } catch (_) {
-        this.hasJustCopied = false;
-      }
-    },
-  },
+const submitBtnCls = computed(() => {
+  return {
+    "btn-success": !submitDisabled.value,
+    "btn-secondary": submitDisabled.value,
+    disabled: submitDisabled.value,
+  };
+});
+
+const hasUserName = computed(() => {
+  if (store.myBallot == null) {
+    return false;
+  }
+  return store.myBallot.name.length > 0;
+});
+
+const hasVoted = computed(() => {
+  if (store.myBallot == null) {
+    return false;
+  }
+  let numVoted = 0;
+  for (const vote of store.myBallot.votes) {
+    if (vote.status != "-") {
+      numVoted++;
+    }
+  }
+  if (store.allowNotVoted && numVoted > 0) {
+    return true;
+  }
+  return numVoted == store.myBallot.votes.length;
 });
 </script>
 
