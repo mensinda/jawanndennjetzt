@@ -26,6 +26,7 @@
     "total-votes": "Gesamtstimmen"
   },
   "edit": {
+    "do-update": "↻ Umfrage Aktualisieren ↻",
     "delete-poll": "🔥Umfrage löschen 🔥",
     "edit-poll": "Umfrage bearbeiten",
     "preview": "Vorschau",

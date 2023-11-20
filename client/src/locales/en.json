@@ -26,6 +26,7 @@
     "total-votes": "Total Votes"
   },
   "edit": {
+    "do-update": "↻ Update Poll ↻",
     "delete-poll": "🔥 Delete Poll 🔥",
     "edit-poll": "Edit poll",
     "preview": "Preview",
