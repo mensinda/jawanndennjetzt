@@ -35,9 +35,13 @@
             <button
               type="button"
               class="btn mt-3 flex-grow-1"
-              :class="{ [JWDJ_PRIMARY_BTN_CLS]: true }"
+              :class="{
+                [JWDJ_PRIMARY_BTN_CLS]: !submitDisabled,
+                'btn-secondary': submitDisabled,
+                disabled: submitDisabled,
+              }"
               @click="doLogin"
-              :disabled="loginInProgress || password.length == 0 || username.trim().length == 0"
+              :disabled="submitDisabled"
             >
               {{ $t("auth.login") }}
             </button>
@@ -53,7 +57,7 @@
 
 <script lang="ts" setup>
 import axios from "@/axios";
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { endpointUrl } from "@/util";
 import { pollStore } from "@/store";
 import { JWDJ_LOGIN_SYSTEM_NAME, JWDJ_PRIMARY_BTN_CLS } from "@/config";
@@ -69,6 +73,10 @@ const password = ref("");
 
 const loginInProgress = ref(false);
 const failedOnce = ref(false);
+
+const submitDisabled = computed(() => {
+  return loginInProgress.value || password.value.length == 0 || username.value.trim().length == 0;
+});
 
 function handleKeydown(e: KeyboardEvent) {
   if (e.key === "Enter") {
