@@ -201,6 +201,7 @@ import { Option } from "@/model";
 import { RandomPoll } from "@/randomPoll";
 import { LIMITS } from "@/limits";
 import { markdown } from "@/util";
+import { JWDJ_PRIMARY_BTN_CLS } from "@/config";
 import ModalDateRange from "./ModalDateRange.vue";
 
 export default defineComponent({
@@ -342,7 +343,7 @@ export default defineComponent({
         btn: true,
         "btn-lg": true,
         "mb-1": true,
-        "btn-success": this.canSubmit,
+        [JWDJ_PRIMARY_BTN_CLS]: this.canSubmit,
         "btn-secondary": !this.canSubmit,
         disabled: !this.canSubmit || !this.hasChanges,
         "control-btn": true,
