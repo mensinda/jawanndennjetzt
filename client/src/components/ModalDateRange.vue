@@ -173,6 +173,7 @@ import draggable from "vuedraggable";
 import { ref, computed } from "vue";
 import Datepicker from "@vuepic/vue-datepicker";
 import { eachDayOfInterval, format } from "date-fns";
+import { getDateFnLocale } from "@/locales";
 import { Option } from "@/model";
 import { JWDJ_DARK_DATE_PICKER } from "@/config";
 
@@ -214,7 +215,7 @@ function handleConfirm() {
   const res = eachDayOfInterval({ start: dateRange.value[0], end: dateRange.value[1] });
   const resStr: string[] = [];
   for (const date of res) {
-    const dateStr = format(date, realFormatStr.value);
+    const dateStr = format(date, realFormatStr.value, { locale: getDateFnLocale() });
     if (times.value.length == 0) {
       resStr.push(dateStr);
     }
