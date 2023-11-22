@@ -64,6 +64,7 @@ if JWDJ_MAX_OPTIONS_COUNT >= limits.MAX_VOTES:
     raise RuntimeError(f'Only a maximum of {limits.MAX_VOTES} options are supported per poll ({JWDJ_MAX_OPTIONS_COUNT} where requestd)')
 
 SESSION_COOKIE_AGE = env.int('SESSION_COOKIE_AGE', default=4 * 7 * 24 * 60 * 60)
+SESSION_ENGINE = 'server.session_backend'
 
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['127.0.0.1', 'localhost'])
 

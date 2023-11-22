@@ -17,6 +17,7 @@ import traceback
 import io
 
 from importlib import import_module
+
 SessionStore = import_module(settings.SESSION_ENGINE).SessionStore
 
 from .models import Poll, PollOption, Ballot
@@ -24,6 +25,8 @@ from .limits import *
 from .serializers import NewPollSerializer, SubmitVoteSerializer, UpdatePollSerializer, ClosePollSerializer, AuthLoginSerializer
 from .errors import *
 from .cleanup import do_poll_cleanup
+from .session_backend import no_flushing_section
+
 
 def handle_exception(f):
     @wraps(f)
@@ -112,7 +115,10 @@ def auth_login(request) -> dict[str]:
 @refresh_session
 @handle_exception
 def auth_logout(request) -> dict[str]:
-    logout(request)
+    # Custom / patched logout to keep the session alive
+    with no_flushing_section(request.session):
+        logout(request)
+        request.session.clear()
 
     return _user_data(request)
 
