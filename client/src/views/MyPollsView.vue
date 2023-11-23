@@ -5,7 +5,7 @@
     <div class="card mb-4">
       <label class="card-header">{{ $t("my.polls-created-by-me") }}</label>
       <div class="card-body">
-        <div v-if="createdByMe.length == 0" class="text-muted">{{ $t("my.no-created-polls") }}</div>
+        <div v-if="createdByMe.length == 0 && !loading" class="text-muted">{{ $t("my.no-created-polls") }}</div>
         <ul class="mb-0">
           <li v-if="loading" class="text-muted">{{ $t("my.loading") }}</li>
           <li v-for="x in createdByMe" :key="x.id">
@@ -17,7 +17,7 @@
     <div class="card">
       <label class="card-header">{{ $t("my.polls-voted-in") }}</label>
       <div class="card-body">
-        <div v-if="votedIn.length == 0" class="text-muted">{{ $t("my.no-polls-voted") }}</div>
+        <div v-if="votedIn.length == 0 && !loading" class="text-muted">{{ $t("my.no-polls-voted") }}</div>
         <ul class="mb-0">
           <li v-if="loading" class="text-muted">{{ $t("my.loading") }}</li>
           <li v-for="x in votedIn" :key="x.id">
