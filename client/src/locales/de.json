@@ -101,6 +101,8 @@
       "title": "Ein Fehler ist aufgetreten!"
     },
     "import": {
+      "import-btn": "Umfrage Einstellungen importieren",
+      "import-checking": "Überprüfung läuft...",
       "input-placeholder": "Vorhandene Umfrage-ID oder URL...",
       "not-found": "Die Umfrage mit der ID konnte nicht gefunden werden",
       "title": "Vorhandene Umfrage importieren",

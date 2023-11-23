@@ -38,7 +38,7 @@
                 type="button"
                 :class="{ btn: true, 'btn-success': isValidPoll, 'btn-secondary': !isValidPoll }"
               >
-                {{ isChecking ? "Checking..." : "Import poll settings" }}
+                {{ isChecking ? $t("modal.import.import-checking") : $t("modal.import.import-btn") }}
               </button>
               <button @click="show = false" type="button" class="btn btn-primary" data-dismiss="modal">
                 {{ $t("common.close") }}

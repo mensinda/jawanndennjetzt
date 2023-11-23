@@ -101,6 +101,8 @@
       "title": "An error occurred!"
     },
     "import": {
+      "import-btn": "Import poll settings",
+      "import-checking": "Checking...",
       "input-placeholder": "Existing Poll ID or URL...",
       "not-found": "Unable to find the poll with the ID",
       "title": "Import existing poll",
