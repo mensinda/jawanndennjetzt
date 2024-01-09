@@ -203,6 +203,7 @@ import { LIMITS } from "@/limits";
 import { markdown } from "@/util";
 import { JWDJ_PRIMARY_BTN_CLS } from "@/config";
 import ModalDateRange from "./ModalDateRange.vue";
+import "@vuepic/vue-datepicker/dist/main.css";
 
 defineEmits(["submit"]);
 defineExpose({ optionsImported });
@@ -342,7 +343,6 @@ function optionsImported() {
 
 <style lang="scss">
 @import "@/theme.scss";
-@import "node_modules/@vuepic/vue-datepicker/src/VueDatePicker/style/main.scss";
 
 .control-btn {
   margin: 0 ($spacer * 0.25);

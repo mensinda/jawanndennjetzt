@@ -105,7 +105,7 @@ function markdown(raw: string): string {
   raw = raw.replaceAll("</d>", "</span>");
   raw = raw.replaceAll("</s>", "</span>");
   raw = raw.replaceAll("</i>", "</span>");
-  return sanitize(marked.parse(raw, { gfm: true }), { USE_PROFILES: { html: true } });
+  return sanitize(marked.parse(raw, { gfm: true, async: false }) as string, { USE_PROFILES: { html: true } });
 }
 
 export { PollData, endpointUrl, sumVotesData, setStoreFromResponse, markdown };
