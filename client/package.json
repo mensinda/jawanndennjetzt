@@ -49,7 +49,7 @@
     "eslint-plugin-vue": "^9.19.2",
     "prettier": "^3.1.1",
     "sass": "^1.69.7",
-    "sass-loader": "^13.3.3",
+    "sass-loader": "^14.1.0",
     "typescript": "^5.3.3",
     "webpack": "^5.89.0",
     "webpack-bundle-analyzer": "^4.10.1"
