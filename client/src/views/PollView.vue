@@ -95,10 +95,9 @@ import PollNotes from "@/components/PollNotes.vue";
 import NotFoundComp from "@/components/NotFoundComp.vue";
 import { pollStore } from "@/store";
 import { ref, onMounted, onBeforeUnmount, computed } from "vue";
-import { endpointUrl, setStoreFromResponse, PollData } from "@/util";
+import { endpointUrl, setStoreFromResponse, fetchHeaders } from "@/util";
 import { JWDJ_LOGIN_MANAGER } from "@/config";
 import { useRoute } from "vue-router";
-import axios, { AxiosError } from "@/axios";
 
 const store = pollStore();
 const route = useRoute();
@@ -117,24 +116,16 @@ async function reload() {
   pollstatus.value = "loading";
   hasJustCopied.value = false;
   store.reset();
-  try {
-    const res = await axios<PollData>({
-      url: endpointUrl("api/poll/" + route.params.id),
-      method: "get",
-    });
 
-    if (JWDJ_LOGIN_MANAGER && store.user === null) {
-      const auth = await import(/* webpackChunkName: "auth" */ "@/auth");
-      await auth.load_user_info();
-    }
-    setStoreFromResponse(res.data);
-    pollstatus.value = "ready";
-    hasChanges.value = false;
-  } catch (x) {
-    if (!(x instanceof AxiosError)) {
-      return;
-    }
-    if (x.response?.data.code == "POLL_NOT_FOUND") {
+  const response = await window.fetch(endpointUrl("api/poll/" + route.params.id), {
+    method: "get",
+    headers: fetchHeaders(),
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    if (data.code == "POLL_NOT_FOUND") {
       pollstatus.value = "404";
       return;
     }
@@ -142,8 +133,17 @@ async function reload() {
       return;
     }
     errorModal.value.doShow();
-    errorModal.value.data = x.response?.data;
+    errorModal.value.data = data;
   }
+
+  if (JWDJ_LOGIN_MANAGER && store.user === null) {
+    const auth = await import(/* webpackChunkName: "auth" */ "@/auth");
+    await auth.load_user_info();
+  }
+
+  setStoreFromResponse(data);
+  pollstatus.value = "ready";
+  hasChanges.value = false;
 }
 
 async function doSubmit() {
@@ -154,59 +154,50 @@ async function doSubmit() {
 
   pollstatus.value = "updating";
 
-  try {
-    await axios({
-      url: endpointUrl("api/poll/" + route.params.id + "/vote"),
-      method: "post",
-      data: {
-        name: ballot.name,
-        votes: ballot.votes.map((x) => x.status).join(""),
-        note: ballot.note,
-      },
-    });
-  } catch (x) {
-    if (errorModal.value == null || !(x instanceof AxiosError)) {
-      return;
-    }
+  const response = await window.fetch(endpointUrl("api/poll/" + route.params.id + "/vote"), {
+    method: "post",
+    headers: fetchHeaders(),
+    body: JSON.stringify({
+      name: ballot.name,
+      votes: ballot.votes.map((x) => x.status).join(""),
+      note: ballot.note,
+    }),
+  });
+
+  if (!response.ok && errorModal.value != null) {
     errorModal.value.doShow();
-    errorModal.value.data = x.response?.data;
+    errorModal.value.data = await response.json();
   }
 
   await reload();
 }
 
 async function doPollClose(optionIdx: number) {
-  try {
-    await axios({
-      url: endpointUrl("api/poll/" + route.params.id + "/close"),
-      method: "post",
-      data: {
-        option_idx: optionIdx,
-      },
-    });
-  } catch (x) {
-    if (errorModal.value == null || !(x instanceof AxiosError)) {
-      return;
-    }
+  const response = await window.fetch(endpointUrl("api/poll/" + route.params.id + "/close"), {
+    method: "post",
+    headers: fetchHeaders(),
+    body: JSON.stringify({
+      option_idx: optionIdx,
+    }),
+  });
+
+  if (!response.ok && errorModal.value != null) {
     errorModal.value.doShow();
-    errorModal.value.data = x.response?.data;
+    errorModal.value.data = await response.json();
   }
 
   await reload();
 }
 
 async function doPollReopen() {
-  try {
-    await axios({
-      url: endpointUrl("api/poll/" + route.params.id + "/reopen"),
-      method: "post",
-    });
-  } catch (x) {
-    if (errorModal.value == null || !(x instanceof AxiosError)) {
-      return;
-    }
+  const response = await window.fetch(endpointUrl("api/poll/" + route.params.id + "/reopen"), {
+    method: "post",
+    headers: fetchHeaders(),
+  });
+
+  if (!response.ok && errorModal.value != null) {
     errorModal.value.doShow();
-    errorModal.value.data = x.response?.data;
+    errorModal.value.data = await response.json();
   }
 
   await reload();

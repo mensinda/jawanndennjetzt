@@ -38,13 +38,11 @@
 </template>
 
 <script lang="ts" setup>
-import axios from "@/axios";
 import { onBeforeMount, ref } from "vue";
-import { endpointUrl } from "@/util";
+import { endpointUrl, fetchHeaders } from "@/util";
 import { useRouter } from "vue-router";
 import { pollStore } from "@/store";
 import { load_user_info } from "@/auth";
-import { UserAuth } from "@/model";
 import ModalErrorMessage from "@/components/ModalErrorMessage.vue";
 
 const store = pollStore();
@@ -62,22 +60,21 @@ onBeforeMount(async () => {
 });
 
 async function doLogout() {
-  axios<UserAuth>({
-    url: endpointUrl("api/auth/logout"),
+  const response = await window.fetch(endpointUrl("api/auth/logout"), {
     method: "post",
-  })
-    .then((x) => {
-      logoutInProgres.value = false;
-      store.user = x.data;
-      router.push({ name: "home" });
-    })
-    .catch((x) => {
-      logoutInProgres.value = false;
-      if (errorModal.value == null) {
-        return;
-      }
-      errorModal.value.doShow();
-      errorModal.value.data = x.response.data;
-    });
+    headers: fetchHeaders(),
+  });
+
+  logoutInProgres.value = false;
+  if (response.ok) {
+    store.user = await response.json();
+    router.push({ name: "home" });
+  } else {
+    if (errorModal.value == null) {
+      return;
+    }
+    errorModal.value.doShow();
+    errorModal.value.data = await response.json();
+  }
 }
 </script>

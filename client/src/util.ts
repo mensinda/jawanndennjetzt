@@ -108,4 +108,15 @@ function markdown(raw: string): string {
   return sanitize(marked.parse(raw, { gfm: true, async: false }) as string, { USE_PROFILES: { html: true } });
 }
 
-export { PollData, endpointUrl, sumVotesData, setStoreFromResponse, markdown };
+function fetchHeaders(): { [id: string]: string } {
+  if (!document.cookie.includes("csrftoken")) {
+    return {};
+  }
+
+  const csrftoken = document.cookie.replace(/.*csrftoken\s*=\s*([^;]+).*/, "$1");
+  return {
+    "X-CSRFTOKEN": csrftoken,
+  };
+}
+
+export { PollData, endpointUrl, sumVotesData, setStoreFromResponse, markdown, fetchHeaders };
