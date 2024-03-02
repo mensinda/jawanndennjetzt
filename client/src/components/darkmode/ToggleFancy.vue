@@ -25,17 +25,16 @@
 </template>
 
 <script lang="ts">
-import Cookies from "js-cookie";
 import { defineComponent, ref, watch } from "vue";
 
 export default defineComponent({
   setup() {
-    const storedDarkMode = Cookies.get("dark-mode");
+    const storedDarkMode = window.localStorage.getItem("dark-mode");
     const lightMode = ref(!(storedDarkMode != null ? storedDarkMode === "true" : false));
 
     watch(lightMode, (newValue) => {
       document.querySelector("html")?.setAttribute("data-bs-theme", newValue ? "light" : "dark");
-      Cookies.set("dark-mode", "" + !newValue, { sameSite: "Lax" });
+      window.localStorage.setItem("dark-mode", "" + !newValue);
     });
 
     document.querySelector("html")?.setAttribute("data-bs-theme", lightMode.value ? "light" : "dark");

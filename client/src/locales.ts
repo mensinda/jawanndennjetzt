@@ -1,4 +1,3 @@
-import Cookies from "js-cookie";
 import { createI18n } from "vue-i18n";
 
 interface LocaleData {
@@ -38,7 +37,7 @@ function getSystemLocale() {
 }
 
 function initialLocale() {
-  const storedLocale = Cookies.get("client-locale");
+  const storedLocale = window.localStorage.getItem("client-locale");
   if (storedLocale != null && storedLocale in ALL_LOCALES) {
     return storedLocale;
   }
@@ -73,7 +72,7 @@ async function updateLocale(locale: string) {
   await ensureLocaleLoaded(locale);
   i18n.global.locale = locale;
 
-  Cookies.set("client-locale", locale, { sameSite: "lax" });
+  window.localStorage.setItem("client-locale", locale);
 }
 
 export { updateLocale, getLocaleTag, i18n, ALL_LOCALES };
