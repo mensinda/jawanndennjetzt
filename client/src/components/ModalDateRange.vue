@@ -173,7 +173,8 @@ import draggable from "vuedraggable";
 import { ref, computed } from "vue";
 import Datepicker from "@vuepic/vue-datepicker";
 import { eachDayOfInterval, format } from "date-fns";
-import { getDateFnLocale } from "@/locales";
+import { de, enGB } from "date-fns/locale";
+import { getLocaleTag } from "@/locales";
 import { Option } from "@/model";
 import { JWDJ_DARK_DATE_PICKER } from "@/config";
 
@@ -208,14 +209,24 @@ function doShow() {
   times.value = [];
 }
 
-function handleConfirm() {
+function localeTagToLocale() {
+  switch (getLocaleTag()) {
+    case "de":
+    case "de-DE":
+      return de;
+    default:
+      return enGB;
+  }
+}
+
+async function handleConfirm() {
   if (dateRange.value == null) {
     return;
   }
   const res = eachDayOfInterval({ start: dateRange.value[0], end: dateRange.value[1] });
   const resStr: string[] = [];
   for (const date of res) {
-    const dateStr = format(date, realFormatStr.value, { locale: getDateFnLocale() });
+    const dateStr = format(date, realFormatStr.value, { locale: localeTagToLocale() });
     if (times.value.length == 0) {
       resStr.push(dateStr);
     }

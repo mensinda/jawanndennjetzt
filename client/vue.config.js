@@ -4,7 +4,7 @@ const webpack = require("webpack");
 const dotenv = require("dotenv");
 const dotenvExpand = require("dotenv-expand");
 
-const dotenvEnv = dotenv.config({ path: "../.env" });
+const dotenvEnv = dotenv.config({ path: "../.env", override: true });
 dotenvExpand.expand(dotenvEnv);
 
 function toBool(raw, def) {

@@ -1,6 +1,5 @@
 import Cookies from "js-cookie";
 import { createI18n } from "vue-i18n";
-import { de, enGB } from "date-fns/locale";
 
 interface LocaleData {
   name: string;
@@ -19,13 +18,8 @@ const ALL_LOCALES: { [id: string]: LocaleData } = {
   },
 };
 
-function getDateFnLocale() {
-  switch (i18n.global.locale) {
-    case "de":
-      return de;
-    default:
-      return enGB;
-  }
+function getLocaleTag() {
+  return i18n.global.locale;
 }
 
 function getSystemLocale() {
@@ -82,4 +76,4 @@ async function updateLocale(locale: string) {
   Cookies.set("client-locale", locale, { sameSite: "lax" });
 }
 
-export { updateLocale, getDateFnLocale, i18n, ALL_LOCALES };
+export { updateLocale, getLocaleTag, i18n, ALL_LOCALES };

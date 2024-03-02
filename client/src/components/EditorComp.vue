@@ -195,15 +195,16 @@
 
 <script lang="ts" setup>
 import draggable from "vuedraggable";
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, defineAsyncComponent } from "vue";
 import { pollStore } from "@/store";
 import { Option } from "@/model";
 import { RandomPoll } from "@/randomPoll";
 import { LIMITS } from "@/limits";
 import { markdown } from "@/util";
 import { JWDJ_PRIMARY_BTN_CLS } from "@/config";
-import ModalDateRange from "./ModalDateRange.vue";
 import "@vuepic/vue-datepicker/dist/main.css";
+
+const ModalDateRange = defineAsyncComponent(() => import("./ModalDateRange.vue"));
 
 defineEmits(["submit"]);
 defineExpose({ optionsImported });
