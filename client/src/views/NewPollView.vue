@@ -31,10 +31,9 @@ import PollComp from "@/components/PollComp.vue"; // @ is an alias to /src
 import EditorComp from "@/components/EditorComp.vue";
 import ModalErrorMessage from "@/components/ModalErrorMessage.vue";
 import ModalImportPoll from "@/components/ModalImportPoll.vue";
-import axios from "@/axios";
 import { ref, onMounted, onBeforeMount } from "vue";
 import { pollStore } from "@/store";
-import { endpointUrl } from "@/util";
+import { endpointUrl, fetchHeaders } from "@/util";
 import { useRouter } from "vue-router";
 import { JWDJ_LOGIN_MANAGER } from "@/config";
 import { load_user_info } from "@/auth";
@@ -67,11 +66,11 @@ if (JWDJ_LOGIN_MANAGER) {
   });
 }
 
-function createPoll() {
-  axios({
-    url: endpointUrl("api/new"),
+async function createPoll() {
+  const response = await window.fetch(endpointUrl("api/new"), {
     method: "post",
-    data: {
+    headers: fetchHeaders(),
+    body: JSON.stringify({
       name: store.name,
       description: store.description,
       allow_not_voted: store.allowNotVoted,
@@ -81,18 +80,15 @@ function createPoll() {
           name: x.name,
         };
       }),
-    },
-  })
-    .then((x) => {
-      router.push({ name: "poll", params: { id: x.data.id } });
-    })
-    .catch((x) => {
-      if (errorModal.value == null) {
-        return;
-      }
-      errorModal.value.doShow();
-      errorModal.value.data = x.response.data;
-    });
+    }),
+  });
+
+  if (response.ok) {
+    const data = await response.json();
+    router.push({ name: "poll", params: { id: data.id } });
+  } else {
+    await errorModal.value?.showError(response);
+  }
 }
 
 function handleImportError() {

@@ -35,7 +35,7 @@
 <script lang="ts" setup>
 import { ref, onMounted } from "vue";
 
-defineExpose({ doShow, updateData });
+defineExpose({ doShow, updateData, showError });
 
 const show = ref(false);
 const data = ref({
@@ -47,6 +47,18 @@ onMounted(() => (show.value = false));
 
 function doShow() {
   show.value = true;
+}
+
+async function showError(response: Response) {
+  show.value = true;
+  try {
+    data.value = await response.json();
+  } catch (e) {
+    data.value = {
+      msg: "Failed to extract error message",
+      code: "INTERNAL_CLIENT_ERROR",
+    };
+  }
 }
 
 function updateData(d: { msg: string; code: string }) {

@@ -46,10 +46,9 @@ import EditorComp from "@/components/EditorComp.vue";
 import ModalErrorMessage from "@/components/ModalErrorMessage.vue";
 import ModalConfirm from "@/components/ModalConfirm.vue";
 import NotFoundComp from "@/components/NotFoundComp.vue";
-import axios, { AxiosError } from "@/axios";
 import { ref, onMounted, onBeforeUnmount } from "vue";
 import { pollStore } from "@/store";
-import { endpointUrl, setStoreFromResponse, PollData } from "@/util";
+import { endpointUrl, setStoreFromResponse, fetchHeaders } from "@/util";
 import { useRoute } from "vue-router";
 import PollDescription from "@/components/PollDescription.vue";
 import router from "@/router";
@@ -75,74 +74,63 @@ async function reload() {
   if (editComp.value) {
     editComp.value.hasChanges = false;
   }
-  try {
-    const res = await axios<PollData>({
-      url: endpointUrl("api/poll/" + route.params.id),
-      method: "get",
-    });
 
-    setStoreFromResponse(res.data);
-    pollstatus.value = "ready";
-  } catch (x) {
-    if (!(x instanceof AxiosError)) {
-      return;
+  const response = await window.fetch(endpointUrl("api/poll/" + route.params.id));
+
+  if (!response.ok) {
+    try {
+      const data = await response.json();
+      if (data.code == "POLL_NOT_FOUND") {
+        pollstatus.value = "404";
+        return;
+      }
+    } catch (r) {
+      // Do nothing I guess...
     }
-    if (x.response?.data.code == "POLL_NOT_FOUND") {
-      pollstatus.value = "404";
-      return;
-    }
-    if (errorModal.value == null) {
-      return;
-    }
-    errorModal.value.doShow();
-    errorModal.value.data = x.response?.data;
+    await errorModal.value?.showError(response);
+    return;
   }
+
+  setStoreFromResponse(await response.json());
+  pollstatus.value = "ready";
 }
 
 async function deletePoll() {
-  try {
-    await axios({
-      url: endpointUrl("api/poll/" + route.params.id + "/delete"),
-      method: "post",
-      data: {},
-    });
+  const response = await window.fetch(endpointUrl("api/poll/" + route.params.id + "/delete"), {
+    method: "post",
+    headers: fetchHeaders(),
+  });
 
-    router.replace("/");
-  } catch (x) {
-    if (errorModal.value == null || !(x instanceof AxiosError)) {
-      return;
-    }
-    errorModal.value.doShow();
-    errorModal.value.data = x.response?.data;
+  if (!response.ok) {
+    await errorModal.value?.showError(response);
+    return;
   }
+
+  router.replace("/");
 }
 
 async function updatePoll() {
   pollstatus.value = "updating";
 
-  try {
-    await axios({
-      url: endpointUrl("api/poll/" + route.params.id + "/update"),
-      method: "post",
-      data: {
-        name: store.name,
-        description: store.description,
-        allow_not_voted: store.allowNotVoted,
-      },
-    });
+  const response = await window.fetch(endpointUrl("api/poll/" + route.params.id + "/update"), {
+    method: "post",
+    headers: fetchHeaders(),
+    body: JSON.stringify({
+      name: store.name,
+      description: store.description,
+      allow_not_voted: store.allowNotVoted,
+    }),
+  });
 
-    await reload();
+  if (response.ok) {
     if (editComp.value) {
       editComp.value.hasChanges = false;
     }
-  } catch (x) {
-    if (errorModal.value == null || !(x instanceof AxiosError)) {
-      return;
-    }
-    errorModal.value.doShow();
-    errorModal.value.data = x.response?.data;
-    await reload();
+  } else {
+    await errorModal.value?.showError(response);
   }
+
+  await reload();
 }
 </script>
 

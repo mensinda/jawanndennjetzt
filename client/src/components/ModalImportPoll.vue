@@ -57,7 +57,6 @@ import { computed, ref } from "vue";
 import { endpointUrl } from "@/util";
 import { pollStore } from "@/store";
 import debounce from "lodash.debounce";
-import axios from "@/axios";
 
 const emit = defineEmits(["importDone", "importError"]);
 defineExpose({ doShow });
@@ -73,15 +72,12 @@ const pollInput = ref("");
 const isChecking = ref(false);
 const isValidPoll = ref(false);
 
-const checkPollId = debounce((pId: string) => {
-  axios({ url: endpointUrl("api/poll/" + pId + "/exists"), method: "get" })
-    .then((x) => {
-      isValidPoll.value = x.data.found;
-      isChecking.value = false;
-    })
-    .catch((_x) => {
-      isChecking.value = false;
-    });
+const checkPollId = debounce(async (pId: string) => {
+  const response = await window.fetch(endpointUrl("api/poll/" + pId + "/exists"));
+  isChecking.value = false;
+  if (response.ok) {
+    isValidPoll.value = (await response.json()).found;
+  }
 }, 500);
 
 function pollInputChanged() {
@@ -99,23 +95,32 @@ function pollInputChanged() {
 
 // Actual import
 
-function importPoll() {
+async function importPoll() {
   show.value = false;
 
-  axios({ url: endpointUrl("api/poll/" + pollIdFromInput.value), method: "get" })
-    .then((x) => {
-      store.reset();
-      store.name = x.data.name;
-      store.description = x.data.description;
-      store.options = x.data.options;
-      store.allowNotVoted = x.data.allow_not_voted;
+  const response = await window.fetch(endpointUrl("api/poll/" + pollIdFromInput.value));
+  if (!response.ok) {
+    // May throw --> exception
+    try {
+      store.lastError = await response.json();
+    } catch (e) {
+      store.lastError = {
+        msg: "Import failed!",
+        code: "INTERNAL_CLIENT_ERROR",
+      };
+    }
+    emit("importError");
+  }
 
-      emit("importDone");
-    })
-    .catch((x) => {
-      store.lastError = x.response.data;
-      emit("importError");
-    });
+  const data = await response.json();
+
+  store.reset();
+  store.name = data.name;
+  store.description = data.description;
+  store.options = data.options;
+  store.allowNotVoted = data.allow_not_voted;
+
+  emit("importDone");
 }
 
 // Computed helpers

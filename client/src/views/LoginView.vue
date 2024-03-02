@@ -56,12 +56,10 @@
 </template>
 
 <script lang="ts" setup>
-import axios from "@/axios";
 import { ref, computed } from "vue";
-import { endpointUrl } from "@/util";
+import { endpointUrl, fetchHeaders } from "@/util";
 import { pollStore } from "@/store";
 import { JWDJ_LOGIN_SYSTEM_NAME, JWDJ_PRIMARY_BTN_CLS } from "@/config";
-import { UserAuth } from "@/model";
 import ModalErrorMessage from "@/components/ModalErrorMessage.vue";
 import router from "@/router";
 
@@ -78,41 +76,38 @@ const submitDisabled = computed(() => {
   return loginInProgress.value || password.value.length == 0 || username.value.trim().length == 0;
 });
 
-function handleKeydown(e: KeyboardEvent) {
+async function handleKeydown(e: KeyboardEvent) {
   if (e.key === "Enter") {
-    doLogin();
+    await doLogin();
   }
 }
 
-function doLogin() {
+async function doLogin() {
   if (username.value.trim().length == 0 || password.value.length == 0) {
     return;
   }
   loginInProgress.value = true;
-  axios<UserAuth>({
-    url: endpointUrl("api/auth/login"),
+
+  const response = await window.fetch(endpointUrl("api/auth/login"), {
     method: "post",
-    data: {
+    headers: fetchHeaders(),
+    body: JSON.stringify({
       username: username.value,
       password: password.value,
-    },
-  })
-    .then((x) => {
-      loginInProgress.value = false;
-      store.user = x.data;
-      if (store.user.authorised) {
-        router.push({ name: "new" });
-      } else {
-        failedOnce.value = true;
-      }
-    })
-    .catch((x) => {
-      loginInProgress.value = false;
-      if (errorModal.value == null) {
-        return;
-      }
-      errorModal.value.doShow();
-      errorModal.value.data = x.response.data;
-    });
+    }),
+  });
+
+  loginInProgress.value = false;
+  if (!response.ok) {
+    await errorModal.value?.showError(response);
+    return;
+  }
+
+  store.user = await response.json();
+  if (store.user?.authorised) {
+    router.push({ name: "new" });
+  } else {
+    failedOnce.value = true;
+  }
 }
 </script>

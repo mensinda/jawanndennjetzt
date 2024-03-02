@@ -122,18 +122,18 @@ async function reload() {
     headers: fetchHeaders(),
   });
 
-  const data = await response.json();
-
   if (!response.ok) {
-    if (data.code == "POLL_NOT_FOUND") {
-      pollstatus.value = "404";
-      return;
+    try {
+      const data = await response.json();
+      if (data.code == "POLL_NOT_FOUND") {
+        pollstatus.value = "404";
+        return;
+      }
+    } catch (e) {
+      // Do nothing I guess...
     }
-    if (errorModal.value == null) {
-      return;
-    }
-    errorModal.value.doShow();
-    errorModal.value.data = data;
+    await errorModal.value?.showError(response);
+    return;
   }
 
   if (JWDJ_LOGIN_MANAGER && store.user === null) {
@@ -141,7 +141,7 @@ async function reload() {
     await auth.load_user_info();
   }
 
-  setStoreFromResponse(data);
+  setStoreFromResponse(await response.json());
   pollstatus.value = "ready";
   hasChanges.value = false;
 }
@@ -164,9 +164,8 @@ async function doSubmit() {
     }),
   });
 
-  if (!response.ok && errorModal.value != null) {
-    errorModal.value.doShow();
-    errorModal.value.data = await response.json();
+  if (!response.ok) {
+    await errorModal.value?.showError(response);
   }
 
   await reload();
@@ -181,9 +180,8 @@ async function doPollClose(optionIdx: number) {
     }),
   });
 
-  if (!response.ok && errorModal.value != null) {
-    errorModal.value.doShow();
-    errorModal.value.data = await response.json();
+  if (!response.ok) {
+    await errorModal.value?.showError(response);
   }
 
   await reload();
@@ -195,9 +193,8 @@ async function doPollReopen() {
     headers: fetchHeaders(),
   });
 
-  if (!response.ok && errorModal.value != null) {
-    errorModal.value.doShow();
-    errorModal.value.data = await response.json();
+  if (!response.ok) {
+    await errorModal.value?.showError(response);
   }
 
   await reload();

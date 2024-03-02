@@ -30,7 +30,6 @@
 </template>
 
 <script lang="ts" setup>
-import axios, { AxiosError } from "@/axios";
 import { ref, onMounted } from "vue";
 import { endpointUrl, markdown } from "@/util";
 import ModalErrorMessage from "@/components/ModalErrorMessage.vue";
@@ -48,21 +47,16 @@ async function reload() {
   createdByMe.value = [];
   votedIn.value = [];
 
-  try {
-    const res = await axios({
-      url: endpointUrl("api/my-polls"),
-      method: "get",
-    });
+  const response = await window.fetch(endpointUrl("api/my-polls"));
 
-    createdByMe.value = res.data.created_by_me;
-    votedIn.value = res.data.voted_in;
-    loading.value = false;
-  } catch (x) {
-    if (errorModal.value == null || !(x instanceof AxiosError)) {
-      return;
-    }
-    errorModal.value.doShow();
-    errorModal.value.data = x.response?.data;
+  if (!response.ok) {
+    await errorModal.value?.showError(response);
+    return;
   }
+
+  const data = await response.json();
+  createdByMe.value = data.created_by_me;
+  votedIn.value = data.voted_in;
+  loading.value = false;
 }
 </script>
