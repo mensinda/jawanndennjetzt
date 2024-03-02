@@ -204,7 +204,9 @@ import { markdown } from "@/util";
 import { JWDJ_PRIMARY_BTN_CLS } from "@/config";
 import "@vuepic/vue-datepicker/dist/main.css";
 
-const ModalDateRange = defineAsyncComponent(() => import("./ModalDateRange.vue"));
+import "bootstrap/js/dist/tab";
+
+const ModalDateRange = defineAsyncComponent(() => import(/* webpackChunkName: "date-range" */ "./ModalDateRange.vue"));
 
 defineEmits(["submit"]);
 defineExpose({ optionsImported });

@@ -34,6 +34,8 @@ import { computed } from "vue";
 import PollDescription from "./PollDescription.vue";
 import PollNotes from "./PollNotes.vue";
 
+import "bootstrap/js/dist/tab";
+
 defineEmits(["userInputChanged"]);
 
 const store = pollStore();

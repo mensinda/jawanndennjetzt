@@ -6,7 +6,6 @@ import { createPinia } from "pinia";
 
 // Load only the required bootstrap JS code
 import "bootstrap/js/dist/collapse";
-import "bootstrap/js/dist/tab";
 
 // Load the current locale as soon as possible
 const updateLocalePromise = updateLocale(i18n.global.locale);
