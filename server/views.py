@@ -199,6 +199,10 @@ def get_poll(request, poll_id: str) -> dict[str]:
         except Poll.DoesNotExist:
             raise PollNotFound(poll_id, f'Unable to find poll "{poll_id}"')
 
+        if poll.valid_until < datetime.now():
+            do_poll_cleanup()
+            raise PollNotFound(poll_id, f'Unable to find poll "{poll_id}"')
+
         options = PollOption.objects.filter(poll=poll).order_by('index')
         ballots = Ballot.objects.filter(poll=poll).order_by('created')
 
@@ -382,8 +386,8 @@ def do_delete(request, poll_id: str) -> dict[str]:
 @handle_exception
 def my_polls(request) -> dict[str]:
     with transaction.atomic():
-        created_by_me = Poll.objects.filter(owner=request.session.session_key).order_by('created')
-        voted_in = Ballot.objects.filter(owner=request.session.session_key).order_by('created')
+        created_by_me = Poll.objects.filter(owner=request.session.session_key, valid_until__gt=datetime.now()).order_by('created')
+        voted_in = Ballot.objects.filter(owner=request.session.session_key, poll__valid_until__gt=datetime.now()).order_by('created')
 
         created_ids = set(x.id for x in created_by_me)
 
