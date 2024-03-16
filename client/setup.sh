@@ -106,6 +106,12 @@ else
     JWDJ_LOGIN_MANAGER="true"
 fi
 
+if [[ "$JWDJ_ENABLE_PARTICLES" == "0" || "$JWDJ_ENABLE_PARTICLES" == "false" || "$JWDJ_ENABLE_PARTICLES" == "" ]]; then
+    JWDJ_ENABLE_PARTICLES="false"
+else
+    JWDJ_ENABLE_PARTICLES="true"
+fi
+
 case "$JWDJ_DARK_MODE_TOGGLE" in
     fancy)   DARK_MODE_IMPORT="ToggleFancy.vue"   ;;
     minimal) DARK_MODE_IMPORT="ToggleMinimal.vue" ;;
@@ -128,6 +134,7 @@ const JWDJ_LOGIN_SYSTEM_NAME = "$JWDJ_LOGIN_SYSTEM_NAME";
 const JWDJ_NAV_BG_CLASS = "$JWDJ_NAV_BG_CLASS";
 const JWDJ_NAV_BG_TYPE = "$JWDJ_NAV_BG_TYPE";
 const JWDJ_PRIMARY_BTN_CLS = "$JWDJ_PRIMARY_BTN_CLS";
+const JWDJ_ENABLE_PARTICLES = ${JWDJ_ENABLE_PARTICLES};
 
 import DarkModeToggle from "@/components/darkmode/$DARK_MODE_IMPORT";
 
@@ -143,6 +150,33 @@ export {
   JWDJ_NAV_BG_CLASS,
   JWDJ_NAV_BG_TYPE,
   JWDJ_PRIMARY_BTN_CLS,
+  JWDJ_ENABLE_PARTICLES,
   DarkModeToggle,
 };
 EOF
+
+if [[ "$JWDJ_ENABLE_PARTICLES" == "true" ]]; then
+
+cat <<EOF > src/particles.ts
+import Particles from "@tsparticles/vue3";
+import { loadSlim } from "@tsparticles/slim";
+import { App as Application } from "vue";
+
+function doInitParticles(app: Application) {
+  app.use(Particles, { init: async (engine) => await loadSlim(engine) });
+}
+
+export default doInitParticles;
+EOF
+
+else
+
+cat <<EOF > src/particles.ts
+function doInitParticles(_: any) {
+  // Particles are disabled via JWDJ_ENABLE_PARTICLES --> do nothing
+}
+
+export default doInitParticles;
+EOF
+
+fi

@@ -43,6 +43,7 @@ JaWannDennJetzt supports the following configuration options:
 | `JWDJ_NAV_BG_CLASS`           | Background CSS class. Recommended: `bg-primary` `bg-dark` `bg-light` `bg-body-tertiary`                                                              |  `B`  |
 | `JWDJ_NAV_BG_TYPE`            | data-bs-theme value: `light` or `dark`                                                                                                               |  `B`  |
 | `JWDJ_PRIMARY_BTN_CLS`        | Allows changing the color / CSS class (`btn-*`) of certain buttons in some views to better fit the theme                                             |  `B`  |
+| `JWDJ_ENABLE_PARTICLES`       | Whether or not to enable the particle effect in the page background.                                                                                 |  `B`  |
 | `JWDJ_WEB_FONTS`              | How to include external fonts (values: `1` = enable the external Google service, `0` = disable, `static` = self host the fonts).                     |  `B`  |
 | `JWDJ_FAVICON`                | The favicion of the site relative to `client/public`..                                                                                               |  `B`  |
 | `JWDJ_OPEN_GRAPH_IMAGE`       | The image for the [Open Graph](https://ogp.me/) protocol relative to `client/public`.                                                                |  `B`  |

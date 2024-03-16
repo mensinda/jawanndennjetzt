@@ -73,12 +73,16 @@
       <div class="container text-muted mb-1">{{ store.footerInfo }}</div>
     </footer>
   </div>
+  <div v-if="JWDJ_ENABLE_PARTICLES" class="particles-root">
+    <vue-particles id="particles" class="particles" :options="particle_opts" />
+  </div>
 </template>
 
 <script lang="ts" setup>
 import { computed, onBeforeMount } from "vue";
 import { pollStore } from "@/store";
 import {
+  JWDJ_PRIMARY_BTN_CLS,
   JWDJ_LOGO,
   JWDJ_LOGO_WIDTH,
   JWDJ_LOGO_HEIGHT,
@@ -86,6 +90,7 @@ import {
   JWDJ_LOGIN_MANAGER,
   JWDJ_NAV_BG_CLASS,
   JWDJ_NAV_BG_TYPE,
+  JWDJ_ENABLE_PARTICLES,
   DarkModeToggle,
 } from "@/config";
 import { ALL_LOCALES, updateLocale } from "@/locales";
@@ -129,6 +134,67 @@ const logoStyle = computed(() => {
     "margin-bottom": JWDJ_LOGO_VERTICAL_MARGIN,
   };
 });
+
+const primary_var_name = JWDJ_PRIMARY_BTN_CLS.replace("btn-", "--bs-");
+const primary_color = getComputedStyle(document.documentElement).getPropertyValue(primary_var_name);
+
+const particle_opts = {
+  background: {
+    opacity: 0,
+  },
+  fpsLimit: 60,
+  fullScreen: false,
+  interactivity: {
+    events: {
+      onHover: {
+        enable: true,
+        mode: "attract",
+      },
+    },
+    modes: {
+      attract: {
+        distance: 64,
+      },
+    },
+  },
+  particles: {
+    color: {
+      value: primary_color,
+    },
+    links: {
+      color: primary_color,
+      distance: 96,
+      enable: true,
+      opacity: 0.5,
+      width: 0.5,
+    },
+    move: {
+      direction: "none",
+      enable: true,
+      outModes: "out",
+      random: true,
+      speed: 2.75,
+      straight: false,
+      warp: true,
+    },
+    number: {
+      density: {
+        enable: true,
+      },
+      value: 96,
+    },
+    opacity: {
+      value: 0.75,
+    },
+    shape: {
+      type: "circle",
+    },
+    size: {
+      value: { min: 0.5, max: 1.5 },
+    },
+  },
+  detectRetina: true,
+};
 </script>
 
 <style lang="scss">
@@ -181,5 +247,24 @@ const logoStyle = computed(() => {
 .card-header {
   user-select: none;
   font-weight: bold;
+}
+
+.particles-root {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  height: 100vh;
+
+  overflow: hidden;
+
+  z-index: -1;
+}
+
+.particles {
+  width: 120vw;
+  height: 120vh;
+  margin-left: -10vw;
+  margin-top: -10vh;
 }
 </style>

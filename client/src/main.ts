@@ -3,6 +3,7 @@ import App from "./App.vue";
 import router from "./router";
 import { i18n, updateLocale } from "./locales";
 import { createPinia } from "pinia";
+import doInitParticles from "./particles";
 
 // Load only the required bootstrap JS code
 import "bootstrap/js/dist/collapse";
@@ -16,6 +17,9 @@ const pinia = createPinia();
 const app = createApp(App);
 app.use(pinia);
 app.use(router);
+
+// Use seperate file, so we can disable particles at build time
+doInitParticles(app);
 
 // Finish setup after locale has loaded
 updateLocalePromise.then(() => {
