@@ -73,8 +73,11 @@
       <div class="container text-muted mb-1">{{ store.footerInfo }}</div>
     </footer>
   </div>
-  <div v-if="JWDJ_ENABLE_PARTICLES" class="particles-root">
-    <vue-particles id="particles" class="particles" :options="particle_opts" />
+  <div v-if="JWDJ_ENABLE_PARTICLES">
+    <div class="particles-filter"></div>
+    <div class="particles-root">
+      <vue-particles id="particles" class="particles" :options="particle_opts" />
+    </div>
   </div>
 </template>
 
@@ -142,7 +145,7 @@ const particle_opts = {
   background: {
     opacity: 0,
   },
-  fpsLimit: 60,
+  fpsLimit: 30,
   fullScreen: false,
   interactivity: {
     events: {
@@ -173,7 +176,7 @@ const particle_opts = {
       enable: true,
       outModes: "out",
       random: true,
-      speed: 2.75,
+      speed: 1,
       straight: false,
       warp: true,
     },
@@ -249,6 +252,17 @@ const particle_opts = {
   font-weight: bold;
 }
 
+.particles-filter {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  height: 100vh;
+
+  z-index: -1;
+  backdrop-filter: blur(0.75px);
+}
+
 .particles-root {
   position: absolute;
   top: 0px;
@@ -258,7 +272,7 @@ const particle_opts = {
 
   overflow: hidden;
 
-  z-index: -1;
+  z-index: -2;
 }
 
 .particles {
