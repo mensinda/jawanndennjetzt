@@ -261,6 +261,7 @@ const particle_opts = {
 
   z-index: -1;
   backdrop-filter: blur(0.75px);
+  -webkit-backdrop-filter: blur(0.75px);
 }
 
 .particles-root {
