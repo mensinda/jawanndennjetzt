@@ -52,5 +52,5 @@
     "webpack": "^5.90.3",
     "webpack-bundle-analyzer": "^4.10.1"
   },
-  "packageManager": "yarn@3.5.1"
+  "packageManager": "yarn@4.4.1"
 }
