@@ -14,7 +14,7 @@ function toBool(raw, def) {
   return raw == "1" || raw == "true";
 }
 
-subPath = process.env.JWDJ_SUBPATH || "/";
+const subPath = process.env.JWDJ_SUBPATH || "/";
 
 module.exports = defineConfig({
   publicPath: subPath,

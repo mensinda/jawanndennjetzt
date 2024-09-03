@@ -158,7 +158,7 @@ EOF
 if [[ "$JWDJ_ENABLE_PARTICLES" == "true" ]]; then
 
 cat <<EOF > src/particles.ts
-import Particles from "@tsparticles/vue3";
+import Particles from "./particles/particles-index";
 import { loadSlim } from "@tsparticles/slim";
 import { App as Application } from "vue";
 
