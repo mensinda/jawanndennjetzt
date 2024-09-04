@@ -78,65 +78,77 @@
                     </thead>
                     <tr v-if="numOpts == 0">
                       <td class="user-select-none text-invisible fs-4">---</td>
-                      <td>
+                      <td class="pt-1">
                         <span class="user-select-none text-muted">{{ $t("modal.date.no-times-yet") }}</span>
                       </td>
                     </tr>
-                    <draggable
-                      v-model="times"
-                      tag="tbody"
-                      handle=".editor-drag-handle"
-                      item-key="index"
-                      @start="onDragStart()"
-                      @end="onDragEnd()"
-                    >
-                      <template #item="{ element }">
-                        <tr>
-                          <!--<th scope="row">{{ element.index }}</th>-->
-                          <td class="editor-drag-handle">⥮</td>
-                          <td>
-                            <input
-                              v-model="element.name"
-                              type="text"
-                              class="form-control"
-                              :class="{ 'is-invalid': element.name.length <= 0 }"
-                              :maxlength="24"
-                              style="z-index: 1000000"
-                              placeholder="Time..."
-                            />
-                          </td>
+                    <tbody>
+                      <tr
+                        v-for="element in times"
+                        :key="element.index"
+                        :draggable="canDrag || dragIdx === element.index"
+                        :class="{
+                          'table-secondary': dragIdx === element.index,
+                          'table-info': dragOverIdx === element.index,
+                        }"
+                        @dragstart="(ev) => onDragStart(ev, element.index)"
+                        @dragend="
+                          dragIdx = -1;
+                          dragOverIdx = -1;
+                        "
+                        @drop="(ev) => onDrop(ev, element.index)"
+                        @dragover="onDragOver"
+                        @dragenter.prevent="dragOverIdx = element.index"
+                      >
+                        <!--<th scope="row">{{ element.index }}</th>-->
+                        <td
+                          class="editor-drag-handle"
+                          @mousedown="canDrag = true"
+                          @mouseup="canDrag = false"
+                          @mouseleave="canDrag = false"
+                        >
+                          ⥮
+                        </td>
+                        <td>
+                          <input
+                            v-model="element.name"
+                            type="text"
+                            class="form-control"
+                            :class="{ 'is-invalid': element.name.length <= 0 }"
+                            :maxlength="24"
+                            style="z-index: 1000000"
+                            placeholder="Time..."
+                          />
+                        </td>
 
-                          <td>
-                            <div class="btn-group-container">
-                              <div class="btn-group control-btn edit-move-btns" role="group" aria-label="Basic example">
-                                <button @click="moveOptAbs(element, 0)" type="button" :class="clsBtnUp(element)">
-                                  ⇈
-                                </button>
-                                <button @click="moveOptRel(element, -1)" type="button" :class="clsBtnUp(element)">
-                                  ↿
-                                </button>
-                                <button @click="moveOptRel(element, 1)" type="button" :class="clsBtnDown(element)">
-                                  ⇂
-                                </button>
-                                <button
-                                  @click="moveOptAbs(element, numOpts - 1)"
-                                  type="button"
-                                  :class="clsBtnDown(element)"
-                                >
-                                  ⇊
-                                </button>
-                              </div>
-                              <div class="btn-group control-btn" role="group" aria-label="Basic example">
-                                <button @click="newOptAfter(element)" type="button" :class="clsBtn('success')">
-                                  ✚
-                                </button>
-                                <button @click="delOpt(element)" type="button" :class="clsBtn('danger')">🗑</button>
-                              </div>
+                        <td>
+                          <div class="btn-group-container">
+                            <div class="btn-group control-btn edit-move-btns" role="group" aria-label="Basic example">
+                              <button @click="moveOptAbs(element, 0)" type="button" :class="clsBtnUp(element)">
+                                ⇈
+                              </button>
+                              <button @click="moveOptRel(element, -1)" type="button" :class="clsBtnUp(element)">
+                                ↿
+                              </button>
+                              <button @click="moveOptRel(element, 1)" type="button" :class="clsBtnDown(element)">
+                                ⇂
+                              </button>
+                              <button
+                                @click="moveOptAbs(element, numOpts - 1)"
+                                type="button"
+                                :class="clsBtnDown(element)"
+                              >
+                                ⇊
+                              </button>
                             </div>
-                          </td>
-                        </tr>
-                      </template>
-                    </draggable>
+                            <div class="btn-group control-btn" role="group" aria-label="Basic example">
+                              <button @click="newOptAfter(element)" type="button" :class="clsBtn('success')">✚</button>
+                              <button @click="delOpt(element)" type="button" :class="clsBtn('danger')">🗑</button>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
                   </table>
                 </div>
               </div>
@@ -169,7 +181,6 @@
 </template>
 
 <script lang="ts" setup>
-import draggable from "vuedraggable";
 import { ref, computed } from "vue";
 import Datepicker from "@vuepic/vue-datepicker";
 import { eachDayOfInterval, format } from "date-fns";
@@ -194,7 +205,9 @@ const show = ref(false);
 const dateRange = ref();
 const includeYear = ref(true);
 
-const drag = ref(false);
+const dragIdx = ref(-1);
+const dragOverIdx = ref(-1);
+const canDrag = ref(false);
 const counter = ref(6);
 const times = ref<Option[]>([]);
 
@@ -269,26 +282,50 @@ function moveOptAbs(opt: Option, to: number) {
   optionChangeFixup();
 }
 
-function onDragStart() {
-  drag.value = true;
+function onDragStart(ev: DragEvent, index: number) {
+  if (!ev.dataTransfer) {
+    return;
+  }
+
+  ev.dataTransfer.dropEffect = "move";
+  ev.dataTransfer.setData("xxx-jwdj-time", "true");
+  dragIdx.value = index;
 }
 
-function onDragEnd() {
-  drag.value = false;
+function onDrop(ev: DragEvent, index: number) {
+  const srcIdx = dragIdx.value;
+  if (index === srcIdx) {
+    return;
+  }
+
+  // Move the element in the list
+  const el = times.value[srcIdx];
+  times.value.splice(srcIdx, 1);
+  times.value.splice(index, 0, el);
+
   optionChangeFixup();
+}
+
+function onDragOver(ev: DragEvent) {
+  if (!ev.dataTransfer) {
+    return;
+  }
+  if (ev.dataTransfer.types.includes("xxx-jwdj-time")) {
+    ev.preventDefault();
+  }
 }
 
 function clsBtnUp(opt: Option, type = "primary") {
   return {
     ...clsBtn(type),
-    disabled: drag.value || opt.index <= 0,
+    disabled: dragIdx.value >= 0 || opt.index <= 0,
   };
 }
 
 function clsBtnDown(opt: Option, type = "primary") {
   return {
     ...clsBtn(type),
-    disabled: drag.value || opt.index >= times.value.length - 1,
+    disabled: dragIdx.value >= 0 || opt.index >= times.value.length - 1,
   };
 }
 
@@ -298,7 +335,7 @@ function clsBtn(type = "primary") {
     "btn-danger": type == "danger",
     "btn-success": type == "success",
     "btn-primary": type == "primary",
-    disabled: drag.value,
+    disabled: dragIdx.value >= 0,
   };
 }
 
