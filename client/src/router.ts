@@ -60,7 +60,7 @@ if (JWDJ_LOGIN_MANAGER) {
 
 const router = createRouter({
   history: createWebHistory(JWDJ_SUBPATH), // process.env.BASE_URL
-  routes,
+  routes: routes,
 });
 
 export default router;

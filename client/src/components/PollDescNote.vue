@@ -2,13 +2,13 @@
   <div class="mb-3">
     <ul class="nav nav-tabs" role="tablist">
       <li class="nav-item" role="presentation">
-        <a class="nav-link active" data-bs-toggle="tab" href="#poll-description" aria-selected="true" role="tab">
-          {{ $t("poll-desc.description") }}
+        <a class="nav-link active" data-bs-toggle="tab" href="#poll_description" aria-selected="true" role="tab">
+          {{ $t("poll_desc.description") }}
         </a>
       </li>
       <li class="nav-item" role="presentation">
         <a class="nav-link" data-bs-toggle="tab" href="#poll-notes" aria-selected="false" role="tab">
-          {{ $t("poll-desc.notes") }} ({{ numNotes }})
+          {{ $t("poll_desc.notes") }} ({{ numNotes }})
         </a>
       </li>
     </ul>
@@ -16,7 +16,7 @@
 
   <!--  - Description -->
   <div class="tab-content mb-3">
-    <div id="poll-description" class="tab-pane fade active show">
+    <div id="poll_description" class="tab-pane fade active show">
       <PollDescription />
     </div>
 

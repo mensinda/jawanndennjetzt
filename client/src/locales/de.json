@@ -47,7 +47,7 @@
     "option-name": "Optionsname",
     "option-name-placeholder": "Optionsname...",
     "options": "Optionen",
-    "poll-description": "Beschreibung der Umfrage",
+    "poll_description": "Beschreibung der Umfrage",
     "poll-empty-option": "Mindestens eine Option hat keinen Namen!",
     "poll-name": "Umfragename",
     "poll-name-hint": "Der Name der zu erstellenden Umfrage. Markdown-Syntax wird unterstützt.",
@@ -144,12 +144,12 @@
     "update-vote": "↻ Stimabgabe aktualisieren",
     "valid-until": "Umfrage gültig bis"
   },
-  "poll-comp": {
+  "poll_comp": {
     "user": "Benutzer",
     "voting-overview": "Abstimmungsübersicht",
     "your-name": "Ihr Name..."
   },
-  "poll-desc": {
+  "poll_desc": {
     "description": "Beschreibung",
     "notes": "Anmerkungen"
   },

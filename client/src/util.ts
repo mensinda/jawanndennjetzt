@@ -3,7 +3,7 @@ import { pollStore } from "./store";
 import { JWDJ_SUBPATH } from "@/config";
 import { marked } from "marked";
 import { gfmHeadingId } from "marked-gfm-heading-id";
-import { sanitize } from "dompurify";
+import DOMPurify from "dompurify";
 import { i18n } from "./locales";
 
 marked.use(gfmHeadingId());
@@ -56,7 +56,7 @@ function setStoreFromResponse(data: PollData) {
     const initial_name = store.user?.user?.name;
     store.myBallot = new Ballot(
       initial_name === undefined ? "" : initial_name,
-      store.options.map((_) => new Vote("-")),
+      store.options.map(() => new Vote("-")),
       null,
     );
   }
@@ -105,7 +105,7 @@ function markdown(raw: string): string {
   raw = raw.replaceAll("</d>", "</span>");
   raw = raw.replaceAll("</s>", "</span>");
   raw = raw.replaceAll("</i>", "</span>");
-  return sanitize(marked.parse(raw, { gfm: true, async: false }) as string, { USE_PROFILES: { html: true } });
+  return DOMPurify.sanitize(marked.parse(raw, { gfm: true, async: false }) as string, { USE_PROFILES: { html: true } });
 }
 
 function fetchHeaders(): { [id: string]: string } {

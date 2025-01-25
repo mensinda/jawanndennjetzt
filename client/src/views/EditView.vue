@@ -84,7 +84,7 @@ async function reload() {
         pollstatus.value = "404";
         return;
       }
-    } catch (r) {
+    } catch {
       // Do nothing I guess...
     }
     await errorModal.value?.showError(response);

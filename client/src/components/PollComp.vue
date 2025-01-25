@@ -1,13 +1,13 @@
 <template>
   <h1 class="display-3 text-center mb-5" v-html="markdown(store.name)" />
   <div class="card mb-2">
-    <div class="card-header remove-last-margin">{{ $t("poll-comp.voting-overview") }}</div>
+    <div class="card-header remove-last-margin">{{ $t("poll_comp.voting-overview") }}</div>
     <div class="card-body">
       <div class="poll-root mb-2">
         <div class="poll-container mt-3" :style="gridTemplate">
           <!-- Header -->
           <span class="user-select-none">
-            <b>{{ $t("poll-comp.user") }}</b>
+            <b>{{ $t("poll_comp.user") }}</b>
           </span>
           <span
             v-for="opt in store.options"
@@ -46,7 +46,7 @@
                 class="form-control"
                 :class="{ 'is-invalid': hasChanges && vueMyBallot.name.length <= 0 }"
                 :maxlength="LIMITS.NAME_LENGTH"
-                :placeholder="$t('poll-comp.your-name')"
+                :placeholder="$t('poll_comp.your-name')"
                 @input="
                   $emit('userInputChanged');
                   hasChanges = true;

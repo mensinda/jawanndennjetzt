@@ -103,7 +103,7 @@ async function importPoll() {
     // May throw --> exception
     try {
       store.lastError = await response.json();
-    } catch (e) {
+    } catch {
       store.lastError = {
         msg: "Import failed!",
         code: "INTERNAL_CLIENT_ERROR",

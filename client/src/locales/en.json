@@ -47,7 +47,7 @@
     "option-name": "Option name",
     "option-name-placeholder": "Option name...",
     "options": "Options",
-    "poll-description": "Poll description",
+    "poll_description": "Poll description",
     "poll-empty-option": "At least one option has no name!",
     "poll-name": "Poll name",
     "poll-name-hint": "The name of the poll to create. Markdown syntax is supported.",
@@ -144,12 +144,12 @@
     "update-vote": "↻ Update vote",
     "valid-until": "Poll valid until"
   },
-  "poll-comp": {
+  "poll_comp": {
     "user": "User",
     "voting-overview": "Voting overview",
     "your-name": "Your name..."
   },
-  "poll-desc": {
+  "poll_desc": {
     "description": "Description",
     "notes": "Notes"
   },

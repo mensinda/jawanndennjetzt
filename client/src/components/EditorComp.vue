@@ -37,7 +37,7 @@
 
       <hr />
 
-      <label class="fw-bold mb-2 user-select-none">{{ $t("editor.poll-description") }}</label>
+      <label class="fw-bold mb-2 user-select-none">{{ $t("editor.poll_description") }}</label>
       <ul class="nav nav-tabs" role="tablist">
         <li class="nav-item" role="presentation">
           <a class="nav-link active" data-bs-toggle="tab" href="#note-edit" aria-selected="true" role="tab">

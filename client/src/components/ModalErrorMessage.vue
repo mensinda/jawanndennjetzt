@@ -53,7 +53,7 @@ async function showError(response: Response) {
   show.value = true;
   try {
     data.value = await response.json();
-  } catch (e) {
+  } catch {
     data.value = {
       msg: "Failed to extract error message",
       code: "INTERNAL_CLIENT_ERROR",

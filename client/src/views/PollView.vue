@@ -129,7 +129,7 @@ async function reload() {
         pollstatus.value = "404";
         return;
       }
-    } catch (e) {
+    } catch {
       // Do nothing I guess...
     }
     await errorModal.value?.showError(response);
@@ -210,7 +210,7 @@ async function doCopyLink() {
     setTimeout(() => {
       hasJustCopied.value = false;
     }, 5000);
-  } catch (_) {
+  } catch {
     hasJustCopied.value = false;
   }
 }
