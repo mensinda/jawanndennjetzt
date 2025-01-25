@@ -1,8 +1,6 @@
-version: '3.8'
-
 services:
   postgres:
-    image: postgres:15-alpine
+    image: postgres:17-alpine
     environment:
       POSTGRES_USER: ${JWDJ_POSTGRES_USER:?}
       POSTGRES_PASSWORD: ${JWDJ_POSTGRES_PASSWORD:?}

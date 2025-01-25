@@ -1,14 +1,15 @@
 # Client
-FROM node:20.2.0 AS builder
+FROM docker.io/node:23.6.1 AS builder
 
 WORKDIR /app
-ADD client .env /app/
+ADD client /app/
+ADD .env /
 
 RUN ./dockerBuild.sh
 
 
 # NGINX
-FROM nginx:alpine as nginx
+FROM docker.io/nginx:alpine as nginx
 
 COPY nginx.conf /etc/nginx/conf.d
 COPY --from=builder /app/dist /static/
@@ -17,7 +18,7 @@ RUN ./patchNginxConf.sh
 
 
 # JaWannDennJetzt
-FROM python:3.11-slim as backend
+FROM docker.io/python:3.13-alpine as backend
 WORKDIR /app
 
 ADD manage.py entrypoint.sh requirements.txt dockerBuild.sh .env external/wait-for-it.sh /app/

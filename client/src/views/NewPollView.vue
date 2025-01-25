@@ -4,17 +4,17 @@
   <div class="container" v-if="!JWDJ_LOGIN_MANAGER || store.user?.authorised">
     <div class="new-poll-head-grid-helper">
       <h1 class="text-center">{{ $t("main.create-a-new-poll") }}</h1>
-      <button class="btn btn-info" type="button" @click="importModal?.doShow()">{{ $t("new.import-existing") }}</button>
+      <button class="btn btn-info" type="button" @click="importModal?.doShow()">{{ $t("neww.import-existing") }}</button>
     </div>
 
     <!-- Main editor -->
-    <EditorComp ref="editorComp" :submitMsg="$t('new.publish-poll')" :canEditOptions="true" @submit="createPoll" />
+    <EditorComp ref="editorComp" :submitMsg="$t('neww.publish-poll')" :canEditOptions="true" @submit="createPoll" />
     <hr class="mt-4 mb-4" />
     <div class="card mb-5">
-      <div class="card-header">{{ $t("new.preview") }}</div>
+      <div class="card-header">{{ $t("neww.preview") }}</div>
       <div class="card-body">
         <span v-if="store.options.length == 0" class="text-muted user-select-none">
-          {{ $t("new.add-option-for-preview") }}
+          {{ $t("neww.add-option-for-preview") }}
         </span>
         <div v-if="store.options.length > 0">
           <PollComp mode="preview" />
