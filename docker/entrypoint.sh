@@ -3,7 +3,8 @@
 set -e
 set -u
 
-source .env
+[ -e .env                  ] && source .env
+[ -e /run/secrets/jwdj.env ] && source /run/secrets/jwdj.env
 
 [[ ! -d /static ]] && mkdir /static
 rm -rf /static/*
