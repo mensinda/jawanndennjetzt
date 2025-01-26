@@ -1,5 +1,6 @@
 #!/bin/bash
 
+set -a # Auto export variables
 set -e
 set -u
 
