@@ -90,3 +90,4 @@ $DRIVER secret create --replace $PREFIX-db-secret      .env.db.tmp
 
 # Cleanup
 rm .env.db.tmp
+rm .env.client.tmp
