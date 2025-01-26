@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vite",
-    "build": "vite build",
+    "serve": "./setup.sh && vite",
+    "build": "./setup.sh && vite build",
     "preview": "vite preview",
     "type-check": "vue-tsc --build",
     "lint": "eslint . --fix",

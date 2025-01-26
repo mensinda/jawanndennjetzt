@@ -97,7 +97,7 @@ To run JaWannDennJetzt locally for development the following `.env` file is reco
 ```ini
 SECRET_KEY=django-insecure-XXXX
 DEBUG=1
-NODE_ENV=debug
+NODE_ENV=development
 JWDJ_SERVE_STATIC_FILES=1
 
 # Theme name from https://bootswatch.com
