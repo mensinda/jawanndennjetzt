@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -ex
+
 apk add bash
 
 pip install --upgrade pip

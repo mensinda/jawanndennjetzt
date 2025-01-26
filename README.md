@@ -37,6 +37,7 @@ JaWannDennJetzt supports the following configuration options:
 | `SECRET_KEY`                  | The [Django secret key](https://docs.djangoproject.com/en/4.1/ref/settings/#secret-key). This value **MUST** be changed!                             |  `R`  |
 | `DEBUG`                       | Whether to run in debug mode. **DO NOT ENABLE THIS FOR PRODUCTION**                                                                                  | `B,R` |
 | `NODE_ENV`                    | Should be set to `production` when running in a production environment                                                                               |  `B`  |
+| `JWDJ_HOST`                   | The JWDJ backend hostname (in production). The hostname of the docker / podman container when deployed                                               |  `B`  |
 | `JWDJ_SUBPATH`                | Prefix from which the app should be served (default is "/"). A common use-case for such a setup is serving multiple applications on the same domain. |  `B`  |
 | `JWDJ_THEME`                  | Which theme from [Bootswatch](https://bootswatch.com) to use                                                                                         |  `B`  |
 | `JWDJ_DARK_DATE_PICKER`       | Enables the dark theme for the date picker.                                                                                                          |  `B`  |

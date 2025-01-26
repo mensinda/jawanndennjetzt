@@ -1,5 +1,5 @@
 services:
-  backend:
+  jwdj-backend:
     build:
       context: .
       target: backend
@@ -11,7 +11,7 @@ services:
     env_file:
       - .env
 
-  nginx:
+  jwdj-nginx:
     build:
       context: .
       target: nginx

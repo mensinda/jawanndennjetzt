@@ -1,5 +1,5 @@
 services:
-  postgres:
+  jwdj-db:
     image: postgres:17-alpine
     environment:
       POSTGRES_USER: ${JWDJ_POSTGRES_USER:?}
@@ -19,7 +19,7 @@ services:
       - SETUID
     restart: unless-stopped
 
-  backend:
+  jwdj-backend:
     build:
       context: .
       target: backend
@@ -29,9 +29,9 @@ services:
       - .env
     restart: unless-stopped
     depends_on:
-      - postgres
+      - jwdj-db
 
-  nginx:
+  jwdj-nginx:
     build:
       context: .
       target: nginx
