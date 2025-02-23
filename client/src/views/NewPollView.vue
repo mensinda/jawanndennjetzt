@@ -4,7 +4,9 @@
   <div class="container" v-if="!JWDJ_LOGIN_MANAGER || store.user?.authorised">
     <div class="new-poll-head-grid-helper">
       <h1 class="text-center">{{ $t("main.create-a-new-poll") }}</h1>
-      <button class="btn btn-info" type="button" @click="importModal?.doShow()">{{ $t("neww.import-existing") }}</button>
+      <button class="btn btn-info" type="button" @click="importModal?.doShow()">
+        {{ $t("neww.import-existing") }}
+      </button>
     </div>
 
     <!-- Main editor -->
