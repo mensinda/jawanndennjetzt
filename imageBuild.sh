@@ -8,6 +8,7 @@ source .env
 
 PREFIX=jwdj
 DRIVER=podman
+COMPOSE=0
 
 help() {
   cat <<EOF
@@ -15,8 +16,9 @@ Usage: $0 [-p|--prefix <PREFIX>] [-h|--help]
 
 Options:
   -h | --help             Show this help message and exit
-  -p | --prefix   PREFIX  Use the PREFIX for the image and secret names   [default: jwdj]
+  -p | --prefix   PREFIX  Use the PREFIX for the image names              [default: jwdj]
   -d | --driver   DRIVER  The driver (podman / docker) to use             [default: podman]
+  -c | --compose          Build the images with docker-compose instead
 EOF
 }
 
@@ -31,6 +33,10 @@ while [[ $# -gt 0 ]]; do
       DRIVER="$2"
       shift # past argument
       shift # past value
+      ;;
+    -c|--compose)
+      COMPOSE=1
+      shift
       ;;
     -h|--help)
       help
@@ -75,8 +81,12 @@ JWDJ_LOGIN_SYSTEM_NAME=$JWDJ_LOGIN_SYSTEM_NAME
 EOF
 
 # Build the immages
-$DRIVER build -t $PREFIX-nginx   --target nginx   .
-$DRIVER build -t $PREFIX-backend --target backend .
+if (( COMPOSE == 1 )); then
+  docker-compose build
+else
+  $DRIVER build -t $PREFIX-nginx   --target nginx   .
+  $DRIVER build -t $PREFIX-backend --target backend .
+fi
 
 # create the secretes
 cat <<EOF > .env.db.tmp
@@ -84,9 +94,6 @@ POSTGRES_NAME=$JWDJ_POSTGRES_NAME
 POSTGRES_USER=$JWDJ_POSTGRES_USER
 POSTGRES_PASSWORD=$JWDJ_POSTGRES_PASSWORD
 EOF
-
-$DRIVER secret create --replace $PREFIX-backend-secret .env
-$DRIVER secret create --replace $PREFIX-db-secret      .env.db.tmp
 
 # Cleanup
 rm .env.db.tmp

@@ -25,8 +25,11 @@ JaWannDennJetzt currently supports two database engines: SQLite3 and PostgreSQL.
 Now, you can use this command to build and run JaWannDennJetzt:
 
 ```bash
-docker compose up --build
+./imageBuild.sh -c
+docker compose up
 ```
+
+**Note:** Building the image directly with `docker compose build` (or `docker build .`) will not work, since the `imageBuild` generates temporary files that are used in the `Dockerfile`. This is done to ensure that no secrets (DB password / Django secret key) are baked into the images.
 
 ## Configuration
 

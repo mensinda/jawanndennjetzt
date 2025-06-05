@@ -3,7 +3,8 @@ services:
     build:
       context: .
       target: backend
-    command: sh -c "./manage.py migrate && gunicorn server.wsgi:application --bind 0.0.0.0:8000"
+    environment:
+      JWDJ_DATABASE_TYPE: sqlite3
     volumes:
       - ./db:/db
     expose:
@@ -18,4 +19,4 @@ services:
     ports:
       - 1337:80
     depends_on:
-      - backend
+      - jwdj-backend
