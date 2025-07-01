@@ -46,7 +46,7 @@
     "sass": "1.89.0",
     "typescript": "^5.8.3",
     "vite": "^6.3.5",
-    "vite-plugin-vue-devtools": "^7.7.6",
+    "vite-plugin-vue-devtools": "^7.7.7",
     "vue-tsc": "^2.2.10"
   },
   "packageManager": "yarn@4.4.1"
