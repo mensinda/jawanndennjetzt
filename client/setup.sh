@@ -172,8 +172,12 @@ EOF
 else
 
 cat <<EOF > src/particles.ts
-function doInitParticles(_: any) {
-  // Particles are disabled via JWDJ_ENABLE_PARTICLES --> do nothing
+import { App as Application } from "vue";
+import particles from "./particles/vue-particles-dummy.vue";
+
+function doInitParticles(app: Application) {
+  // Particles are disabled via JWDJ_ENABLE_PARTICLES --> load a dummy component
+  app.component("vue-particles", particles);
 }
 
 export default doInitParticles;
