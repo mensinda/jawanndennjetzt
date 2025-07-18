@@ -9,7 +9,7 @@ import doInitParticles from "./particles";
 import "bootstrap/js/dist/collapse";
 
 // Load the current locale as soon as possible
-const updateLocalePromise = updateLocale(i18n.global.locale);
+const updateLocalePromise = updateLocale(i18n.global.locale.value);
 
 // Pinia
 const pinia = createPinia();

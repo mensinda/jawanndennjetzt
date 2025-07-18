@@ -18,7 +18,7 @@ const ALL_LOCALES: { [id: string]: LocaleData } = {
 };
 
 function getLocaleTag() {
-  return i18n.global.locale;
+  return i18n.global.locale.value;
 }
 
 function getSystemLocale() {
@@ -51,6 +51,7 @@ function initialLocale() {
 }
 
 const i18n = createI18n({
+  legacy: false,
   locale: initialLocale(),
 });
 
@@ -67,10 +68,10 @@ async function updateLocale(locale: string) {
   const localeData = ALL_LOCALES[locale];
   if (localeData.fallback != null) {
     await ensureLocaleLoaded(localeData.fallback);
-    i18n.global.fallbackLocale = localeData.fallback;
+    i18n.global.fallbackLocale.value = localeData.fallback;
   }
   await ensureLocaleLoaded(locale);
-  i18n.global.locale = locale;
+  i18n.global.locale.value = locale;
 
   window.localStorage.setItem("client-locale", locale);
 }
