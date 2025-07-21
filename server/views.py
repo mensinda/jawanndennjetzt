@@ -16,6 +16,8 @@ import uuid
 import traceback
 import io
 
+import typing as T
+
 from importlib import import_module
 
 SessionStore = import_module(settings.SESSION_ENGINE).SessionStore
@@ -155,12 +157,28 @@ def new_poll(request) -> dict[str]:
             description = data['description'],
         )
 
+        index_set: set[int] = set()
         for i in data['options']:
+            idx: int = i['index']
+            if idx in index_set:
+                raise InvalidDataError(f'Duplicate option index: {idx}')
+            index_set.add(idx)
             PollOption.objects.create(
                 poll = poll,
-                index = i['index'],
+                index = idx,
                 name = i['name'],
             )
+
+        # Validate that the indexes are continous
+        sorted_indexes = list(sorted(index_set))
+        if sorted_indexes[0] != 0:
+            raise InvalidDataError(f'The first option MUST have index 0!')
+
+        last = 0
+        for idx in sorted_indexes[1:]:
+            if last + 1 != idx:
+                raise InvalidDataError(f'Index list not continous!')
+            last = idx
 
     return {'id': poll.id}
 
@@ -302,6 +320,88 @@ def do_update(request, poll_id: str) -> dict[str]:
         poll.description = data['description']
         poll.allow_not_voted = data['allow_not_voted']
         poll.save()
+
+        existing_options = PollOption.objects.filter(poll=poll)
+        opt_map = {x.index: x for x in existing_options}
+        to_delete_options = set(opt_map.keys())
+
+        ballot_update_plan: list[
+            T.Tuple[
+                int,
+                T.Callable[[str], str]
+            ]
+        ] = []
+
+        # Update / create the options themselfs
+        # Als create the update plan
+        index_set: set[int] = set()
+        for option in data['options']:
+            idx: int = option['index']
+            old_index: int = option['old_index']
+            if idx in index_set:
+                raise InvalidDataError(f'Duplicate option index: {idx}')
+            index_set.add(idx)
+
+            # New option if the old index is < 0
+            if old_index < 0:
+                PollOption.objects.create(
+                    poll = poll,
+                    index = idx,
+                    name = option['name'],
+                )
+
+                # Insert a '-' for new options
+                ballot_update_plan += [
+                    (idx, lambda x: '-')
+                ]
+            # Else, update the existing option
+            elif old_index in opt_map:
+                opt = opt_map[old_index]
+                opt.index = idx
+                opt.name = option['name']
+                opt.save()
+
+                # Extract the old value
+                ballot_update_plan += [
+                    (
+                        idx,
+                        # Ensure that the *value* of old_index is captured in the lambda
+                        # and not the *name* / stack reference of old_index
+                        (lambda i: lambda x: x[i])(old_index)
+                    )
+                ]
+
+                # Keep the option around
+                to_delete_options.remove(old_index)
+
+        # Validate that the indexes are continous
+        sorted_indexes = list(sorted(index_set))
+        if sorted_indexes[0] != 0:
+            raise InvalidDataError(f'The first option MUST have index 0!')
+
+        last = 0
+        for idx in sorted_indexes[1:]:
+            if last + 1 != idx:
+                raise InvalidDataError(f'Index list not continous!')
+            last = idx
+
+        # Remove deleted options
+        for delete in to_delete_options:
+            opt_map[delete].delete()
+
+        # Update all ballots
+        ballot_update_plan = sorted(ballot_update_plan)
+        ballots = Ballot.objects.filter(poll=poll)
+
+        for ballot in ballots:
+            old_votes = ballot.votes
+            new_votes = ''
+
+            for up in ballot_update_plan:
+                new_votes += up[1](old_votes)
+
+            ballot.votes = new_votes
+            ballot.save()
 
     return {'id': poll.id}
 

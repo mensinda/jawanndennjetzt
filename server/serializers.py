@@ -26,10 +26,16 @@ class SubmitVoteSerializer(Serializer):
 
         return raw
 
+class UpdatedOptionSerializer(Serializer):
+    old_index = IntegerField() # Negative values --> new option
+    index = IntegerField(min_value=0)
+    name = CharField(max_length=NAME_LENGTH)
+
 class UpdatePollSerializer(Serializer):
     name = CharField(max_length=TITLE_LENGTH, allow_blank=False)
     description = CharField(max_length=DESCRIPTION_LENGTH, allow_blank=True)
     allow_not_voted = BooleanField()
+    options = UpdatedOptionSerializer(many=True, min_length=1, max_length=settings.JWDJ_MAX_OPTIONS_COUNT)
 
 class ClosePollSerializer(Serializer):
     option_idx = IntegerField()

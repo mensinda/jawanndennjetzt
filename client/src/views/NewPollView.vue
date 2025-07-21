@@ -10,7 +10,7 @@
     </div>
 
     <!-- Main editor -->
-    <EditorComp ref="editorComp" :submitMsg="$t('neww.publish-poll')" :canEditOptions="true" @submit="createPoll" />
+    <EditorComp ref="editorComp" :submitMsg="$t('neww.publish-poll')" :isNewPoll="true" @submit="createPoll" />
     <hr class="mt-4 mb-4" />
     <div class="card mb-5">
       <div class="card-header">{{ $t("neww.preview") }}</div>

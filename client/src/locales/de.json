@@ -36,6 +36,7 @@
     "allow-unansered": "Zulassen dass Optionen unbeantwortet bleiben",
     "clear-all-options": "🗑 Alle Optionen löschen",
     "controls": "Steuerung",
+    "delete-option-warning": "⚠️ Gelöschte Optionen können nur wiederhergestellt werden wenn die Seite neugeladen wird UND die Umfrage NOCH NICHT aktualisiert wurde! ⚠️",
     "desc-placeholder": "Optionale Beschreibung. Markdown-Syntax wird unterstützt.",
     "desc-placeholder-2": "Ein optionaler beschreibender Text...",
     "edit": "Bearbeiten",

@@ -36,6 +36,7 @@
     "allow-unansered": "Allow leaving options unanswered",
     "clear-all-options": "🗑 Clear all options",
     "controls": "Controls",
+    "delete-option-warning": "⚠️ Deleted options can only be restored by refreshing the page BEFORE updating the poll! ⚠️",
     "desc-placeholder": "Optional description. Markdown syntax is supported.",
     "desc-placeholder-2": "An optional descriptive text...",
     "edit": "Edit",

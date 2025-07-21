@@ -43,7 +43,7 @@ function setStoreFromResponse(data: PollData) {
   store.description = data.description;
   store.allowNotVoted = data.allow_not_voted;
   store.isOwner = data.is_owner;
-  store.options = data.options.map((x) => new Option(x.name, x.index, x.id));
+  store.options = data.options.map((x) => new Option(x.name, x.index, x.index, x.id));
   store.ballots = data.ballots.map((y) => new Ballot(y.name, votesFromStr(y.votes), y.note));
   store.isClosed = data.closed != null;
   store.closedOptionIndex = data.closed_option_idx;

@@ -2,12 +2,14 @@ class Option {
   name: string;
   id: string;
   index: number;
+  orig_index: number;
   vid: number; // Make vue happy
 
-  constructor(name: string, index: number, id = "") {
+  constructor(name: string, index: number, orig_index: number = -1, id = "") {
     this.name = name;
     this.id = id;
     this.index = index;
+    this.orig_index = orig_index;
     this.vid = Math.random();
   }
 }
@@ -52,12 +54,14 @@ class Vote {
 class Ballot {
   name: string;
   votes: Vote[];
+  orig_votes: Vote[];
   note: string;
   vid: number; // Make vue happy
 
   constructor(name: string, votes: Vote[], note: string | null) {
     this.name = name;
     this.votes = votes;
+    this.orig_votes = Object.assign([], votes);
     this.note = note == null ? "" : note;
     this.vid = Math.random();
   }

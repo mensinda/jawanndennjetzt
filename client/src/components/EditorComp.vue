@@ -79,7 +79,7 @@
   </div>
 
   <!-- Options card -->
-  <div class="card mb-3" v-if="canEditOptions">
+  <div class="card mb-3">
     <label class="card-header">{{ $t("editor.options") }}</label>
 
     <!--  - Options buttons -->
@@ -101,10 +101,15 @@
             "
             type="button"
             class="control-btn btn btn-danger"
+            :disabled="!isNewPoll"
           >
             {{ $t("editor.clear-all-options") }}
           </button>
         </div>
+      </div>
+
+      <div class="mb-3" v-if="!isNewPoll">
+        <h5 class="text-center">{{ $t("editor.delete-option-warning") }}</h5>
       </div>
 
       <!--  - Option list -->
@@ -221,11 +226,11 @@ const ModalDateRange = defineAsyncComponent(() => import(/* webpackChunkName: "d
 defineEmits(["submit"]);
 defineExpose({ optionsImported });
 
-defineProps({
+const props = defineProps({
   submitMsg: {
     type: String,
   },
-  canEditOptions: {
+  isNewPoll: {
     type: Boolean,
   },
 });
@@ -273,7 +278,7 @@ function newOptAfter(opt: Option) {
 }
 
 function newOpt(idx: number) {
-  store.options.splice(idx, 0, new Option("#" + counter.value++, -1));
+  store.options.splice(idx, 0, new Option("#" + counter.value++, -1, -1));
   optionChangeFixup();
 }
 
@@ -367,7 +372,11 @@ function clsBtn(type = "primary") {
 
 function optionChangeFixup() {
   store.idx_autofix();
-  store.ballots = randomPoll.ballots(store.options.length);
+  if (props.isNewPoll) {
+    store.ballots = randomPoll.ballots(store.options.length);
+  } else {
+    store.ballot_autofix();
+  }
   hasChanges.value = true;
 }
 

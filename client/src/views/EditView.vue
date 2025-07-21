@@ -21,7 +21,7 @@
         <h4 style="margin: 0">{{ $t("edit.return-to-poll") }}</h4>
       </button>
     </div>
-    <EditorComp :submitMsg="$t('edit.do-update')" ref="editComp" :canEditOptions="false" @submit="updatePoll" />
+    <EditorComp :submitMsg="$t('edit.do-update')" ref="editComp" :isNewPoll="false" @submit="updatePoll" />
     <div class="d-flex flex-row">
       <button @click="confirmModal?.doShow()" class="btn btn-lg btn-danger col" type="button">
         {{ $t("edit.delete-poll") }}
@@ -119,6 +119,13 @@ async function updatePoll() {
       name: store.name,
       description: store.description,
       allow_not_voted: store.allowNotVoted,
+      options: store.options.map((x) => {
+        return {
+          old_index: x.orig_index,
+          index: x.index,
+          name: x.name,
+        };
+      }),
     }),
   });
 
