@@ -1,26 +1,23 @@
-
 /* ubuntu */
 @font-face {
-    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-    font-family: 'Ubuntu';
-    font-style: normal;
-    font-weight: 400;
-    src:
-        url('./woff2/ubuntu-normal-400.woff2') format('woff2'),
-        url('./woff/ubuntu-normal-400.woff') format('woff'),
-        url('./ttf/ubuntu-normal-400.ttf') format('ttf'),
-    ;
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Ubuntu";
+  font-style: normal;
+  font-weight: 400;
+  src:
+    url("./woff2/ubuntu-normal-400.woff2") format("woff2"),
+    url("./woff/ubuntu-normal-400.woff") format("woff"),
+    url("./ttf/ubuntu-normal-400.ttf") format("ttf");
 }
 
 /* ubuntu */
 @font-face {
-    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-    font-family: 'Ubuntu';
-    font-style: normal;
-    font-weight: 700;
-    src:
-        url('./woff2/ubuntu-normal-700.woff2') format('woff2'),
-        url('./woff/ubuntu-normal-700.woff') format('woff'),
-        url('./ttf/ubuntu-normal-700.ttf') format('ttf'),
-    ;
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Ubuntu";
+  font-style: normal;
+  font-weight: 700;
+  src:
+    url("./woff2/ubuntu-normal-700.woff2") format("woff2"),
+    url("./woff/ubuntu-normal-700.woff") format("woff"),
+    url("./ttf/ubuntu-normal-700.ttf") format("ttf");
 }

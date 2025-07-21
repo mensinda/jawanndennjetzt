@@ -1,39 +1,35 @@
-
 /* lato */
 @font-face {
-    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-    font-family: 'Lato';
-    font-style: normal;
-    font-weight: 300;
-    src:
-        url('./woff2/lato-normal-300.woff2') format('woff2'),
-        url('./woff/lato-normal-300.woff') format('woff'),
-        url('./ttf/lato-normal-300.ttf') format('ttf'),
-    ;
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Lato";
+  font-style: normal;
+  font-weight: 300;
+  src:
+    url("./woff2/lato-normal-300.woff2") format("woff2"),
+    url("./woff/lato-normal-300.woff") format("woff"),
+    url("./ttf/lato-normal-300.ttf") format("ttf");
 }
 
 /* lato */
 @font-face {
-    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-    font-family: 'Lato';
-    font-style: normal;
-    font-weight: 400;
-    src:
-        url('./woff2/lato-normal-400.woff2') format('woff2'),
-        url('./woff/lato-normal-400.woff') format('woff'),
-        url('./ttf/lato-normal-400.ttf') format('ttf'),
-    ;
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Lato";
+  font-style: normal;
+  font-weight: 400;
+  src:
+    url("./woff2/lato-normal-400.woff2") format("woff2"),
+    url("./woff/lato-normal-400.woff") format("woff"),
+    url("./ttf/lato-normal-400.ttf") format("ttf");
 }
 
 /* lato */
 @font-face {
-    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-    font-family: 'Lato';
-    font-style: normal;
-    font-weight: 700;
-    src:
-        url('./woff2/lato-normal-700.woff2') format('woff2'),
-        url('./woff/lato-normal-700.woff') format('woff'),
-        url('./ttf/lato-normal-700.ttf') format('ttf'),
-    ;
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Lato";
+  font-style: normal;
+  font-weight: 700;
+  src:
+    url("./woff2/lato-normal-700.woff2") format("woff2"),
+    url("./woff/lato-normal-700.woff") format("woff"),
+    url("./ttf/lato-normal-700.ttf") format("ttf");
 }

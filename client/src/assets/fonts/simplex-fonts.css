@@ -1,26 +1,23 @@
-
 /* open-sans */
 @font-face {
-    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: 400;
-    src:
-        url('./woff2/open-sans-normal-400.woff2') format('woff2'),
-        url('./woff/open-sans-normal-400.woff') format('woff'),
-        url('./ttf/open-sans-normal-400.ttf') format('ttf'),
-    ;
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+  src:
+    url("./woff2/open-sans-normal-400.woff2") format("woff2"),
+    url("./woff/open-sans-normal-400.woff") format("woff"),
+    url("./ttf/open-sans-normal-400.ttf") format("ttf");
 }
 
 /* open-sans */
 @font-face {
-    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: 700;
-    src:
-        url('./woff2/open-sans-normal-700.woff2') format('woff2'),
-        url('./woff/open-sans-normal-700.woff') format('woff'),
-        url('./ttf/open-sans-normal-700.ttf') format('ttf'),
-    ;
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 700;
+  src:
+    url("./woff2/open-sans-normal-700.woff2") format("woff2"),
+    url("./woff/open-sans-normal-700.woff") format("woff"),
+    url("./ttf/open-sans-normal-700.ttf") format("ttf");
 }
