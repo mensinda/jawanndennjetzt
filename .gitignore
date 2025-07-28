@@ -183,3 +183,5 @@ docker-compose.yml
 *.sqlite3
 
 /server/settings_auth.py
+
+.venv*/
