@@ -10,24 +10,29 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import AbstractUser
 from rest_framework.parsers import JSONParser
 from django.views.decorators.csrf import ensure_csrf_cookie
+from datetime import timezone
 import json
 import base64
 import uuid
 import traceback
 import io
+import random
 
 import typing as T
 
 from importlib import import_module
 
-SessionStore = import_module(settings.SESSION_ENGINE).SessionStore
-
-from .models import Poll, PollOption, Ballot
+from .models import Poll, PollOption, Ballot, SessionMerge
 from .limits import *
-from .serializers import NewPollSerializer, SubmitVoteSerializer, UpdatePollSerializer, ClosePollSerializer, AuthLoginSerializer
+from .serializers import NewPollSerializer, SubmitVoteSerializer, UpdatePollSerializer, ClosePollSerializer, AuthLoginSerializer, SessionMergeSerializer
 from .errors import *
 from .cleanup import do_poll_cleanup
 from .session_backend import no_flushing_section
+
+if T.TYPE_CHECKING:
+    from .session_backend import SessionStore
+else:
+    SessionStore = import_module(settings.SESSION_ENGINE).SessionStore
 
 
 def handle_exception(f):
@@ -130,6 +135,96 @@ def auth_logout(request) -> dict[str]:
 @handle_exception
 def session_setup(request) -> dict[str]:
     return {}
+
+@require_POST
+@refresh_session
+@ensure_csrf_cookie
+@handle_exception
+def session_merge_new_otp(request) -> dict[str]:
+    do_poll_cleanup()
+
+    session_key: str = request.session.session_key
+
+    with transaction.atomic():
+        try:
+            existing = SessionMerge.objects.get(owner = session_key)
+            existing.delete()
+        except SessionMerge.DoesNotExist:
+            pass
+
+        chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+        otp = ''.join(random.choice(chars) for i in range(8))
+
+        new = SessionMerge.objects.create(
+            otp = otp,
+            owner = session_key,
+        )
+
+        return {
+            'otp': new.otp,
+            'valid_until': new.valid_until.astimezone(timezone.utc).isoformat()
+        }
+
+@require_POST
+@refresh_session
+@ensure_csrf_cookie
+@handle_exception
+def session_merge_submit_otp(request) -> dict[str]:
+    do_poll_cleanup()
+
+    session: SessionStore = request.session
+    session_key: str = session.session_key
+
+    ser = SessionMergeSerializer(data=JSONParser().parse(io.BytesIO(request.body)))
+    if not ser.is_valid():
+        raise InvalidDataError(json.dumps(ser.errors, indent=2))
+    data = ser.validated_data
+    otp: str = data['otp']
+
+    with transaction.atomic():
+        sm: SessionMerge
+        try:
+            sm = SessionMerge.objects.get(otp = otp)
+        except SessionMerge.DoesNotExist:
+            raise InvalidDataError(f'OTP not found or expired')
+
+        if sm.owner == session_key:
+            raise InvalidDataError(f'Unable to merge into the same session!')
+
+        # Migrate polls
+        for poll in Poll.objects.filter(owner=session_key):
+            poll.owner = sm.owner
+            poll.save()
+
+        # Migrate votes
+        #  - first search for primary ballots
+        primary_session_polls = set(x.poll.id for x in Ballot.objects.filter(owner=sm.owner))
+
+        #  - migrate ballots now
+        for ballot in Ballot.objects.filter(owner=session_key):
+            # Delete ballots that would be duplicate
+            if ballot.poll.id in primary_session_polls:
+                ballot.delete()
+                continue
+
+            # Migrate the rest
+            ballot.owner = sm.owner
+            ballot.save()
+
+        # Session merge tokens are one time use only
+        sm.delete()
+
+        # Switch the session
+        session.delete()
+        session = SessionStore(sm.owner)
+        session.load()
+        session.modified = True
+        session.save()
+        request.session = session
+
+    return {
+        'status': 'OK'
+    }
 
 @require_POST
 @refresh_session

@@ -41,6 +41,11 @@
                 store.user?.user?.name
               }}</router-link>
             </li>
+            <li class="nav-item">
+              <router-link class="nav-link" :class="{ active: route.name == 'session' }" to="/session">{{
+                $t("root.session")
+              }}</router-link>
+            </li>
             <li class="nav-item me-3 d-flex align-items-center dark-mode-container">
               <DarkModeToggle />
             </li>

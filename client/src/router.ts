@@ -9,6 +9,7 @@ const MyPollsView = () => import(/* webpackChunkName: "my" */ "@/views/MyPollsVi
 const PollView = () => import(/* webpackChunkName: "poll" */ "@/views/PollView.vue");
 const NotFoundComp = () => import(/* webpackChunkName: "404" */ "@/components/NotFoundComp.vue");
 const EditView = () => import(/* webpackChunkName: "edit" */ "@/views/EditView.vue");
+const SessionManagerView = () => import(/* webpackChunkName: "session" */ "@/views/SessionManagerView.vue");
 
 let routes: Array<RouteRecordRaw> = [
   {
@@ -35,6 +36,11 @@ let routes: Array<RouteRecordRaw> = [
     path: "/edit/:id",
     name: "edit",
     component: EditView,
+  },
+  {
+    path: "/session",
+    name: "session",
+    component: SessionManagerView,
   },
   {
     path: "/:pathMatch(.*)*",

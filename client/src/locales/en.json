@@ -1,5 +1,5 @@
 {
-  "404": {
+  "a404": {
     "back": "↲ Back to the homepage",
     "page-not-found": "The requested page was not found",
     "poll-not-found": "The requested poll was not found"
@@ -99,7 +99,8 @@
     "error": {
       "contact-admin": "Please contact the site administrator",
       "error-code": "Error code:",
-      "title": "An error occurred!"
+      "title": "An error occurred!",
+      "invalid-otp": "The provided OTP does not exist / was already used / is expired"
     },
     "import": {
       "import-btn": "Import poll settings",
@@ -158,6 +159,26 @@
     "create-poll": "Create Poll",
     "home": "Home",
     "my-polls": "My Polls",
-    "toggle-navigation": "Toggle navigation"
+    "toggle-navigation": "Toggle navigation",
+    "session": "Session management"
+  },
+  "session": {
+    "help-title": "Session management help",
+    "merge-title": "Session merge",
+    "stepp-1": "Generate an OTP for your primary device",
+    "stepps": "Step by step instructions",
+    "stepp-2": "Enter the OTP on your secondary device",
+    "stepp-3": "Confirm the session merge on your secondary device",
+    "help-body": "The polls and votes you create on this site are bound to the session of the device they are created on.\nThis can be a problem if you want to use JaWannDennJetzt on multiple devices.\nFor instance, if you create a poll on one device (let's call it the primary device), you wont' be able to edit / close / delete it on any other device (let's call these devices secondary devices).",
+    "help-body-2": "To solve this problem, this page offers you the option to merge sessions of multiple devices into one shared session.\nBy merging the sessions, a secondary device will automatically have access to the polls / votes of the primary device (and vice versa).",
+    "btn-generate-otp": "Generate OTP",
+    "btn-enter-otp": "Enter OTP",
+    "btn-back": "↲ Back",
+    "btn-regenerate": "↻ Regenerate OTP",
+    "do-not-share": "⚠️ Never share this token with anyone else ⚠️",
+    "token-valid-until": "The token is valid until <b>{ valid_until }</b> and can<br>only be used <b>ONCE</b>!",
+    "submit": "Submit",
+    "submit-help": "Please enter the OTP form your primary device",
+    "btn-success": "Merge successful!"
   }
 }

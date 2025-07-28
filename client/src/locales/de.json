@@ -99,7 +99,8 @@
     "error": {
       "contact-admin": "Bitte wenden Sie sich an den Webseiten-Administrator",
       "error-code": "Fehlercode:",
-      "title": "Ein Fehler ist aufgetreten!"
+      "title": "Ein Fehler ist aufgetreten!",
+      "invalid-otp": "Das angegebene OTP existiert nicht / wurde schon einmal verwendet / ist abgelaufen"
     },
     "import": {
       "import-btn": "Umfrage Einstellungen importieren",
@@ -158,6 +159,26 @@
     "create-poll": "Neue Umfrage",
     "home": "Start",
     "my-polls": "Meine Umfragen",
-    "toggle-navigation": "Navigation umschalten"
+    "toggle-navigation": "Navigation umschalten",
+    "session": "Sitzungsverwaltung"
+  },
+  "session": {
+    "help-title": "Sitzungsverwaltung Hilfe",
+    "merge-title": "Sitzungen zusammenführen",
+    "stepp-1": "Erstelle ein OTP für auf dem Primärgerät",
+    "stepps": "Schrit für Schrit Anleitung",
+    "stepp-3": "Bestätige die Sitzungsverschmelzung auf dem Zweitgerät",
+    "stepp-2": "Eingeben des OTP auf dem Zweitgerät",
+    "help-body-2": "Um dieses Problem zu lösen, bietet diese Seite die Option an die Sitzungen mehrere Geräte zu vereinen.\nDadurch hat dann ein Zweitgerät Zugriff auf Umfragen / Stimmen des Primärgerätes und umgekehrt.",
+    "help-body": "Umfragen und Stimmabgaben auf dieser Seite sind immer an die Sitzung des Gerätes gebunden.\nDies kann zu Problemen führen, wenn man JaWannDennJetzt auf mehrehen Geräten gleichzeitig verwenden will.\nBeispielsweise kann man eine Umfrage die man auf dem einen Gerät (nennen wir es das Primärgerät) erstellt hat nicht auf anderen Geräten (nennen wir sie Zweitgeräte) bearbeiten / schliessen / löschen.",
+    "btn-generate-otp": "OTP Generieren",
+    "btn-enter-otp": "OTP Eingeben",
+    "btn-back": "↲ Zurück",
+    "btn-regenerate": "↻ OTP neu Generieren",
+    "do-not-share": "⚠️ Diese Token niemals mit jemand anderem teilen ⚠️",
+    "token-valid-until": "Das Token ist gültig bis <b>{ valid_until }</b> und kann<br>nur <b>EINMAL</b> verwendet werden!",
+    "submit": "Bestätigen",
+    "submit-help": "Bitte das OTP von dem Primärgerät eingeben",
+    "btn-success": "Sitzungsmigration erfolgreich!"
   }
 }

@@ -43,3 +43,6 @@ class ClosePollSerializer(Serializer):
 class AuthLoginSerializer(Serializer):
     username = CharField(allow_blank=False)
     password = CharField(allow_blank=False)
+
+class SessionMergeSerializer(Serializer):
+    otp = CharField(allow_blank=False)

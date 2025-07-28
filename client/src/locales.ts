@@ -53,6 +53,7 @@ function initialLocale() {
 const i18n = createI18n({
   legacy: false,
   locale: initialLocale(),
+  warnHtmlMessage: false,
 });
 
 async function ensureLocaleLoaded(locale: string) {

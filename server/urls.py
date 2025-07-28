@@ -29,6 +29,8 @@ urlpatterns = [
     path(f'{_prefix}api/auth/login', views.auth_login),
     path(f'{_prefix}api/auth/logout', views.auth_logout),
     path(f'{_prefix}api/session', views.session_setup),
+    path(f'{_prefix}api/session/gen_otp', views.session_merge_new_otp),
+    path(f'{_prefix}api/session/submit', views.session_merge_submit_otp),
     path(f'{_prefix}api/new', views.new_poll),
     path(f'{_prefix}api/my-polls', views.my_polls),
     path(f'{_prefix}api/poll/<str:poll_id>', views.get_poll),

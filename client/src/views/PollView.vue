@@ -9,7 +9,7 @@
       <small class="text-muted">{ ID = {{ $route.params.id }} }</small>
     </div>
   </div>
-  <NotFoundComp v-if="pollstatus == '404'" :desc="$t('404.poll-not-found')" :info="`{ ID = ${$route.params.id} }`" />
+  <NotFoundComp v-if="pollstatus == '404'" :desc="$t('a404.poll-not-found')" :info="`{ ID = ${$route.params.id} }`" />
   <div v-if="pollstatus == 'ready' || pollstatus == 'updating'" class="container">
     <PollComp mode="normal" @user-input-changed="hasChanges = true" />
 

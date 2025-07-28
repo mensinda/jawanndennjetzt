@@ -44,3 +44,17 @@ class Ballot(models.Model):
         indexes = [
             models.Index(fields=['owner']),
         ]
+
+def _default_sesssion_merge_valid_until():
+    return datetime.datetime.now() + datetime.timedelta(minutes=5)
+
+class SessionMerge(models.Model):
+    otp = models.CharField(max_length=8, primary_key=True)
+    owner = models.CharField(max_length=SESSION_KEY_LENGTH, unique=True) # Session key
+    valid_until = models.DateTimeField(default=_default_sesssion_merge_valid_until)
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['valid_until']),
+            models.Index(fields=['owner']),
+        ]
