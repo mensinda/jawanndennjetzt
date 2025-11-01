@@ -2617,7 +2617,7 @@ __metadata:
     eslint-plugin-vue: "npm:^10.3.0"
     jiti: "npm:^2.5.1"
     lodash.debounce: "npm:^4.0.8"
-    marked: "npm:^16.1.1"
+    marked: "npm:^16.3.0"
     marked-gfm-heading-id: "npm:^4.1.2"
     pinia: "npm:^3.0.3"
     prettier: "npm:^3.6.2"
@@ -3961,12 +3961,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"marked@npm:^16.1.1":
-  version: 16.1.1
-  resolution: "marked@npm:16.1.1"
+"marked@npm:^16.3.0":
+  version: 16.3.0
+  resolution: "marked@npm:16.3.0"
   bin:
     marked: bin/marked.js
-  checksum: 10/9f4d2d8f862e1d874f03f1b8614fbf859ae788b4a1b4174be83a65c8ea5ecabf0c991c455dcb6b650e7106fb5b65a94865b9de45667bb2471ca2272e1798971d
+  checksum: 10/60497834b9acfb3b3994222509d359ecb9a197c885dfeb77e2050a287cd2f4ab19f00d5597172b47f9e0c54d9e1e13d8b2dd73322b7838599e1f16d1d6283f5b
   languageName: node
   linkType: hard
 
